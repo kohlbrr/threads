@@ -1,5 +1,7 @@
-'use strict';
-const Sequelize = require('sequelize'); 
-const db = new Sequelize("postgres://postgres:postgres@localhost:5432/threads", { force: true, logging: false });
+const Sequelize = require('sequelize');
+
+const db = new Sequelize('postgres://localhost:5432/threads', { logging: false, typeValidation: true });
 
 module.exports = db;
+
+require('./models');
