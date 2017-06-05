@@ -1,57 +1,69 @@
 var expect = require('chai').expect;
-var Page = require('../models').User;
+var User = require('../../db/models/User');
 
 
-describe('Page Model', function(){
+describe('User Model', function(){
   beforeEach(function() {
-   return Page.sync({force: true});
-  })
+   return User.sync({force: true});
+  });
 
   describe('Virtuals', function(){
 
     beforeEach(function() {
-      return Page.create({
-        title: 'Hello World',
-        content: 'content is here'
-      })
-    })
+      return User.create({
+        name: 'John Doe',
+        email: 'john@doe.com',
+        address: '5 hannover Sq., NY',
+        isAdmin: true,
+        googleId: 'supersecretGoogleId',
+        facebookId: 'supersecretFacebookId',
+        password: 'plainTextPassword',
+        salt: 'saltySalt'
+      });
+    });
 
-  describe('route', function(){
-    it('Should create the proper route',function(){
-        return Page.findOne({
+  describe('User details', function(){
+    it('Should create the user with proper details',function(){
+        return User.findOne({
           where: {
-            title: 'Hello World'
+            email: 'john@doe.com'
           }
         })
-        .then(function(page) {
-          expect(page.route).to.equal('/wiki/Hello_World');
-        })
-      })
-    })
+        .then(function(user) {
+          expect(user.name).to.equal('John Doe');
+          expect(user.address).to.equal('5 hannover Sq., NY');
+          expect(user.isAdmin).to.equal(true);
+          expect(user.googleId).to.equal('supersecretGoogleId');
+          expect(user.facebookId).to.equal('supersecretFacebookId');
+          expect(user.password).to.not.equal('plainTextPassword');
+          expect(user.salt).to.not.equal('saltySalt');
+        });
+      });
+    });
 
     describe('renderedContent', function(){
-      it('should render the content into HTML', function(){
-        return Page.findOne({
+      xit('should render the content into HTML', function(){
+        return User.findOne({
           where: {
             title: 'Hello World'
             }
           })
           .then(function(page){
             expect(page.renderedContent).to.equal('<p>content is here</p>\n');
-          })
-      })
-    })
-  })
+          });
+      });
+    });
+  });
 
   describe('Static - Class Methods', function() {
     beforeEach(function() {
-      return Page.create({
+      return User.create({
         title: 'Hello World',
         content: 'content is here',
         tags: ['hello', 'YOLO', 'World', 'Academy']
       })
       .then(function(){
-        return Page.create({
+        return User.create({
           title: 'Goodbye World',
           content: 'content is here',
           tags: ['Goodbye', 'LOL', 'Fullstack', 'YOLO']
@@ -59,32 +71,32 @@ describe('Page Model', function(){
       })
     })
     describe('findByTag', function() {
-      it('should find one page for one tag', function(){
-        return Page.findByTag(['Goodbye'])
+      xit('should find one page for one tag', function(){
+        return User.findByTag(['Goodbye'])
         .then(function(pages){
           expect(pages[0].title).to.equal('Goodbye World');
         })
       })
-      it('should find one page for multiple tags', function(){
-        return Page.findByTag(['Goodbye', 'Nothing'])
+      xit('should find one page for multiple tags', function(){
+        return User.findByTag(['Goodbye', 'Nothing'])
         .then(function(pages){
           expect(pages[0].title).to.equal('Goodbye World');
         })
       })
-      it('should find multiple pages for one tag', function(){
-        return Page.findByTag(['YOLO'])
+      xit('should find multiple pages for one tag', function(){
+        return User.findByTag(['YOLO'])
         .then(function(pages){
           expect(pages).to.have.length.of(2);
         })
       })
-      it('should find no pages for no coincidence tag', function(){
-        return Page.findByTag(['Nothing'])
+      xit('should find no pages for no coincidence tag', function(){
+        return User.findByTag(['Nothing'])
         .then(function(pages){
           expect(pages).to.have.length.of(0);
         })
       })
-      it('should find multiple pages for multiple tags', function(){
-        return Page.findByTag(['hello', 'Goodbye'])
+      xit('should find multiple pages for multiple tags', function(){
+        return User.findByTag(['hello', 'Goodbye'])
         .then(function(pages){
           expect(pages).to.have.length.of(2);
         })
@@ -94,7 +106,7 @@ describe('Page Model', function(){
 
   describe('Instance Method', function(){
     beforeEach(function(){
-      return Page.bulkCreate([
+      return User.bulkCreate([
         {
           title: 'Hello',
           content: 'Hello',
@@ -117,8 +129,8 @@ describe('Page Model', function(){
       ])
     })
 
-    it("should not find pages if it doesn't have similar tags", function(){
-      return Page.findOne({
+    xit("should not find pages if it doesn't have similar tags", function(){
+      return User.findOne({
         where: {
           title: 'Bye'
         }
@@ -126,13 +138,13 @@ describe('Page Model', function(){
       .then(function(page){
         return page.findSimilar()
       })
-      .then(function(similarPages){
-        expect(similarPages).to.have.length.of(0);
+      .then(function(similarUsers){
+        expect(similarUsers).to.have.length.of(0);
       })
     })
 
-    it("should find pages if it has similar tags", function(){
-      return Page.findOne({
+    xit("should find pages if it has similar tags", function(){
+      return User.findOne({
         where: {
           title: 'Hello'
         }
@@ -140,9 +152,9 @@ describe('Page Model', function(){
       .then(function(page){
         return page.findSimilar()
       })
-      .then(function(similarPages){
-        expect(similarPages).to.have.length.of(1);
-        expect(similarPages[0].title).to.equal('Hello2')
+      .then(function(similarUsers){
+        expect(similarUsers).to.have.length.of(1);
+        expect(similarUsers[0].title).to.equal('Hello2')
       })
     })
 
@@ -151,8 +163,8 @@ describe('Page Model', function(){
   describe('Validators', function(){
 
     describe('Title', function(){
-      it('Should throw an error if not a String', function(){
-        var page = Page.build({
+      xit('Should throw an error if not a String', function(){
+        var page = User.build({
           title: [],
           content: 'Hello2',
           urlTitle: 'hello'
@@ -162,8 +174,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('string violation: title cannot be an array or an object');
         })
       })
-        it('Should throw an error if no title defined', function(){
-        var page = Page.build({
+        xit('Should throw an error if no title defined', function(){
+        var page = User.build({
           title: null,
           content: 'Hello2',
           urlTitle: 'hello'
@@ -173,8 +185,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('notNull Violation: title cannot be null');
         })
       })
-        it('Shouldn\'t throw an error if it is a String', function(){
-        var page = Page.build({
+       xit('Shouldn\'t throw an error if it is a String', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: 'hello'
@@ -186,8 +198,8 @@ describe('Page Model', function(){
       })
     })
     describe('urlTitle', function(){
-      it('Should throw an error if not a String', function(){
-        var page = Page.build({
+      xit('Should throw an error if not a String', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: []
@@ -197,8 +209,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('string violation: urlTitle cannot be an array or an object');
         })
       })
-        it('Should throw an error if no urlTitle defined', function(){
-        var page = Page.build({
+        xit('Should throw an error if no urlTitle defined', function(){
+        var page = User.build({
           title: 'hello',
           content: 'hello'
         })
@@ -207,8 +219,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('notNull Violation: urlTitle cannot be null');
         })
       })
-        it('Shouldn\'t throw an error if it is a String', function(){
-        var page = Page.build({
+        xit('Shouldn\'t throw an error if it is a String', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: 'hello'
@@ -220,8 +232,8 @@ describe('Page Model', function(){
       })
     })
     describe('content', function(){
-      it('Should throw an error if not a String', function(){
-        var page = Page.build({
+      xit('Should throw an error if not a String', function(){
+        var page = User.build({
           title: 'hello',
           content: [],
           urlTitle: 'hello'
@@ -231,8 +243,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('string violation: content cannot be an array or an object');
         })
       })
-        it('Should throw an error if no content defined', function(){
-        var page = Page.build({
+        xit('Should throw an error if no content defined', function(){
+        var page = User.build({
           title: 'hello',
           urlTitle: 'hello',
         })
@@ -241,8 +253,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('notNull Violation: content cannot be null');
         })
       })
-        it('Shouldn\'t throw an error if it is a String', function(){
-        var page = Page.build({
+        xit('Shouldn\'t throw an error if it is a String', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: 'hello'
@@ -255,8 +267,8 @@ describe('Page Model', function(){
     })
 
      describe('status', function(){
-      it('Should throw an error if not a valid value', function(){
-        var page = Page.build({
+      xit('Should throw an error if not a valid value', function(){
+        var page = User.build({
           title: 'hello',
           content: 'hello',
           urlTitle: 'hello',
@@ -267,8 +279,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('Validation error: Validation isIn failed');
         })
       })
-        it('Shouldn\'t throw an error if it is a valid value', function(){
-        var page = Page.build({
+        xit('Shouldn\'t throw an error if it is a valid value', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: 'hello',
@@ -281,8 +293,8 @@ describe('Page Model', function(){
       })
     })
     describe('tags', function(){
-      it('Should throw an error if not a valid array', function(){
-        var page = Page.build({
+      xit('Should throw an error if not a valid array', function(){
+        var page = User.build({
           title: 'hello',
           content: 'hello',
           urlTitle: 'hello',
@@ -293,8 +305,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('Validation error: arr.forEach is not a function');
         })
       })
-       it('Should throw an error if not a valid array of strings', function(){
-        var page = Page.build({
+       xit('Should throw an error if not a valid array of strings', function(){
+        var page = User.build({
           title: 'hello',
           content: 'hello',
           urlTitle: 'hello',
@@ -305,8 +317,8 @@ describe('Page Model', function(){
           expect(error.message).to.be.equal('Validation error: Should be an Array of Strings');
         })
       })
-        it('Shouldn\'t throw an error if it is a valid array of strings', function(){
-        var page = Page.build({
+        xit('Shouldn\'t throw an error if it is a valid array of strings', function(){
+        var page = User.build({
           title: 'hello',
           content: 'Hello2',
           urlTitle: 'hello',
@@ -321,8 +333,8 @@ describe('Page Model', function(){
   })
   describe('Hooks', function() {
     describe('UrlTitle', function(){
-      it('should create a proper urlTitle after validating the page', function(){
-        return Page.create({
+      xit('should create a proper urlTitle after validating the page', function(){
+        return User.create({
           title: 'Hello World!',
           content: 'blah blah'
         })
