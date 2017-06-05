@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/kohlbrr/threads/issues"
   },
-  "homepage": "https://github.com/kohlbrr/threads#readme"
+  "homepage": "https://github.com/kohlbrr/threads#readme",
+  "dependencies": {
+    "pg": "^6.2.3",
+    "pg-hstore": "^2.3.2",
+    "pg-native": "^1.10.1",
+    "sequelize": "^3.30.4"
+  }
 }
