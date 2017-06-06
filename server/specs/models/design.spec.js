@@ -73,6 +73,6 @@ describe('Design Model', () => {
       });
     });
   });
-    after(() => design.truncate());
+    after(() => Design.truncate());
 
 });

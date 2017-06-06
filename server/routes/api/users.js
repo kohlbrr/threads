@@ -1,6 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const { User } = require('../../db/models');
+const { User, Order } = require('../../db/models');
 module.exports = router;
 
 // Get al users
@@ -48,7 +48,7 @@ router.put('/:id', (req, res, next) => { // ! this route needs validation
 router.get('/:id', (req, res, next) => {
   User.findById(req.params.id)
   .then(user => {
-    res.status(302).send(user); // !Too much info in `user`
+    res.send(user); // !Too much info in `user`
   })
   .catch(next);
 });
@@ -63,5 +63,30 @@ router.delete('/:id', (req, res, next) => {
   .then(() => {
     res.send();
   })
+  .catch(next);
+});
+
+// Get all orders for a user
+router.get(':id/orders', (req, res, next) => {
+  Order.findAll({
+    where: {
+      userId: req.params.id
+    }
+  })
+  .then(orders => {
+    res.send(orders);
+  })
+  .catch(next);
+});
+
+// Get a single order for a user
+router.get(':id/orders/:orderId', (req, res, next) => {
+  Order.findOne({
+    where: {
+      id: req.params.orderId,
+      userId: req.params.id
+    }
+  })
+  .then(req.send)
   .catch(next);
 });
