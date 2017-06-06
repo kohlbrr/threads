@@ -4,7 +4,7 @@
   "description": "One badass clothing website - specializing in tee shirts",
   "main": "app.js",
   "scripts": {
-    "test": "mocha ./server/specs/models/user.spec.js",
+    "test": "mocha ./server/specs/models/cartcontents.spec.js",
     "start": "webpack -w & nodemon server/app.js"
   },
   "repository": {
