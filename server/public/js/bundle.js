@@ -9531,6 +9531,8 @@ var _reactDom = __webpack_require__(80);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* globals document */
+
 var App = function App() {
   return _react2.default.createElement(
     'h1',
