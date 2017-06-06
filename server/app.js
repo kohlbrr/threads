@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+if (process.env.NODE_ENV === 'development') require('./secrets');
+
+
 app.use(morgan('dev'));
 
 app.use(bodyParser.json());
