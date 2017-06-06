@@ -1,6 +1,5 @@
 node_modules
 *.sw?
 .idea
+server/secrets.js
 *bundle.js*
-
-./server/secrets.js
