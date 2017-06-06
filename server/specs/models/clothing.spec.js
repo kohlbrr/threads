@@ -23,7 +23,7 @@ describe('Clothing Model', function(){
           },
         })
         .then(function(clothing) {
-          expect(clothing.status).to.equal('NEW_CLOTH');
+          expect(clothing.name).to.equal('NEW_CLOTH');
         });
     });
   });

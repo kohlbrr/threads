@@ -23,7 +23,7 @@ describe('Category Model', function() {
           },
         })
         .then( function ( category ) {
-          expect(category.status).to.equal('NEW_CATEGORY');
+          expect(category.name).to.equal('NEW_CATEGORY');
         });
     });
   });
