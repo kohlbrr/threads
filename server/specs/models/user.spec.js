@@ -1,5 +1,5 @@
-var expect = require('chai').expect;
-var User = require('../../db/models/User');
+const expect = require('chai').expect;
+const { User } = require('../../db/models');
 
 
 describe('User Model', function(){

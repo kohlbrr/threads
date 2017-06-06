@@ -11,10 +11,10 @@ const Product = db.define('product', {
     allowNull: false
   },
   stock: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
   imageUrl: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   }
 });
 
