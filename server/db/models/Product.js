@@ -4,18 +4,18 @@ const db = require('../index');
 const Product = db.define('product', {
   size: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   color: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   stock: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
   imageUrl: {
-    type: Sequelize.STRING
-  }
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = Product;
