@@ -29,6 +29,7 @@ describe('Order Model', function(){
     });
   });
   });
+  after(() => Order.truncate());
 });
 
 

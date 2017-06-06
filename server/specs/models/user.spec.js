@@ -35,5 +35,7 @@ describe('User Model', () => {
         }));
     });
   });
+    after(() => User.truncate());
+
 });
 

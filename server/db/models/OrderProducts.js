@@ -10,8 +10,7 @@ module.exports = db.define('orderproducts', {
     defaultValue: 0,
   },
   price: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 });
-
