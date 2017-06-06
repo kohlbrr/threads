@@ -51,4 +51,6 @@ describe('Product Model', () => {
       });
     });
   });
+    after(() => Product.truncate());
+
 });
