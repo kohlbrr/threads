@@ -3,4 +3,4 @@ node_modules
 .idea
 *secrets.js
 *bundle.js*
-.vs-code
+.vscode
