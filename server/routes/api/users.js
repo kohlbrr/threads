@@ -38,9 +38,13 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => { // ! this route needs validation
   User.update(
     req.body,
-    { where: { id: req.params.id } }
+    {
+      where: { id: req.params.id },
+      returning: true,
+      plain:true
+    }
   )
-  .then()
+  .then(user => res.send(user[1]))
   .catch(next);
 });
 
@@ -67,7 +71,7 @@ router.delete('/:id', (req, res, next) => {
 });
 
 // Get all orders for a user
-router.get(':id/orders', (req, res, next) => {
+router.get('/:id/orders', (req, res, next) => {
   Order.findAll({
     where: {
       userId: req.params.id
@@ -80,7 +84,7 @@ router.get(':id/orders', (req, res, next) => {
 });
 
 // Get a single order for a user
-router.get(':id/orders/:orderId', (req, res, next) => {
+router.get('/:id/orders/:orderId', (req, res, next) => {
   Order.findOne({
     where: {
       id: req.params.orderId,

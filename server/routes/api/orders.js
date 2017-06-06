@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 // USER
 router.post('/', (req, res, next) => {
   Order.create(req.body)
-  .then(res.send)
+  .then(order => res.send(order))
   .catch(next);
 });
 
@@ -24,9 +24,13 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   Order.update(
     req.body,
-    { where: { id: req.params.id } }
+    {
+      where: { id: req.params.id },
+      returning: true,
+      plain: true
+    }
   )
-  .then(res.send)
+  .then(order => res.send(order[1]))
   .catch(next);
 });
 
@@ -34,7 +38,7 @@ router.put('/:id', (req, res, next) => {
 // USER (gated)
 router.get('/:id', (req, res, next) => {
   Order.findById(req.params.id)
-  .then(res.send)
+  .then(order => res.send(order))
   .catch(next);
 });
 
