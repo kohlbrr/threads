@@ -28,8 +28,6 @@ describe('Clothing Model', function(){
     });
   });
   });
-    after(() => Clothing.truncate());
-
 });
 
 
