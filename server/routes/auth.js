@@ -25,15 +25,28 @@ passport.deserializeUser((id, done) => {
   .catch(done);
 });
 
-router.get('/me', (req, res) => res.json(req.user))
+function loginCallback(req, res, next) {
+  return err => (err ? next(err) : req.session.save(() => res.json(req.user)));
+}
+
+router.get('/me', (req, res) => res.json(req.user));
 
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
   .then((user) => {
-    req.logIn(user, err => err ?  next(err) : req.session.save(() => res.json(user)));
+    req.login(user, loginCallback(req, res, next));
   })
   .catch(() => next(new HttpError(401)));
 });
 
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err && !user) next(new HttpError(401));
+    req.login(user, (loginErr) => {
+      if (err) next(loginErr);
+      res.json(user);
+    });
+  })(req, res, next);
+});
 
 module.exports = router;
