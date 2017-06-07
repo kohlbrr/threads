@@ -28,8 +28,7 @@ router.put('/:id', (req, res, next) => {
       where: { id: req.params.id },
       returning: true,
       plain: true,
-    },
-  )
+    })
   .then(order => res.send(order[1]))
   .catch(next);
 });
