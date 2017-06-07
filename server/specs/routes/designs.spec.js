@@ -73,7 +73,7 @@ describe('Design API routes', () => {
     describe('Admin User', () => {
       let adminUser;
       before(() => {
-        adminUser = agent.post('/login')
+        adminUser = supertest.agent(app).post('/login')
         .send({ email: 'admin@admin.com', password: 'pass123' });
       });
       it('should respond with a 400 if not a valid design', () =>
@@ -121,7 +121,7 @@ describe('Design API routes', () => {
     describe('Admin User', () => {
       let adminUser;
       before(() => {
-        adminUser = agent.post('/login')
+        adminUser = supertest.agent(app).post('/login')
         .send({ email: 'admin@admin.com', password: 'pass123' });
       });
       it('responds with a 404 if product does not exist', () =>
@@ -175,7 +175,7 @@ describe('Design API routes', () => {
     describe('Admin User', () => {
       let adminUser;
       before(() => {
-        adminUser = agent.post('/login')
+        adminUser = supertest.agent(app).post('/login')
         .send({ email: 'admin@admin.com', password: 'pass123' });
       });
       it('responds with a 404 if product does not exist', () =>
