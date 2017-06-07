@@ -30,7 +30,7 @@ router.get('/me', (req, res) => res.json(req.user))
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
   .then((user) => {
-    req.logIn(user, err => err ?  next(err) : req.session.save(() => res.json(user)));
+    req.logIn(user, err => err ?  next(err) : req.session.save(() => res.status(201).json(user)));
   })
   .catch(() => next(new HttpError(401)));
 });

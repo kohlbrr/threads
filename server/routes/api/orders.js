@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 // USER
 router.post('/', (req, res, next) => {
   Order.create(req.body)
-  .then(order => res.send(order))
+  .then(order => res.status(201).send(order))
   .catch(next);
 });
 
@@ -30,7 +30,7 @@ router.put('/:id', (req, res, next) => {
       plain: true
     }
   )
-  .then(order => res.send(order[1]))
+  .then(order => res.status(201).send(order[1]))
   .catch(next);
 });
 

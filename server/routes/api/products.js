@@ -50,14 +50,14 @@ router.put('/:id', (req, res, next) => {      // update one product
   Product.update(req.product)
   .then((product) => {
     console.log('updated successfully');
-    res.send(product);
+    res.status(201).send(product);
   })
   .catch(next);
 });
 
 router.delete('/:id', (req, res, next) => {   // delete one product
   req.product.destroy()
-  .then(() => res.send('deleted successfully'))
+  .then(() => res.status(204).send('deleted successfully'))
   .catch(next);
 });
 
