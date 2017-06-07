@@ -20,7 +20,6 @@ describe('Design API routes', () => {
   beforeEach(() => Design.sync({ force: true })
     .then(() => Product.sync({ force: true })));
 
-
   describe('GET /api/designs', () => {
     beforeEach(() => Design.create({
       name: 'T-Shirt',

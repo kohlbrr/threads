@@ -21,6 +21,14 @@ app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
 });
 
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: err,
+  });
+});
+
 app.listen(8080, () => console.log('Server running in PORT 8080'));
 
 module.exports = app;
