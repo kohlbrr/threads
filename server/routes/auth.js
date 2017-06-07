@@ -25,13 +25,14 @@ passport.deserializeUser((id, done) => {
   .catch(done);
 });
 
+router.get('/me', (req, res) => res.json(req.user))
+
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
   .then((user) => {
-    console.log(user);
-    passport.authenticate('local')(req, res, () => res.redirect('/'));
+    req.logIn(user, err => err ?  next(err) : req.session.save(() => res.json(user)));
   })
-  .catch(() => next(new HttpError(400)));
+  .catch(() => next(new HttpError(401)));
 });
 
 
