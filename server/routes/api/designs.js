@@ -1,19 +1,28 @@
 const router = require('express').Router();
 
-const { Design } = require('../../db/models');
+const { Design, Product } = require('../../db/models');
 
 router.param('id', (req, res, next, id) => {   // dries-up code
-  Design.findById(id)
+  Design.findOne({
+    where: { id: id },
+    include: [{
+      model: Product,
+      where: { id: id },
+    }],
+  })
   .then((design) => {
     if (design) {
-      console.log(design.name);
       req.design = design;
       next();
     } else {
-      next(new Error('failed to load design'));
+      res.sendStatus(404);
     }
   })
-  .catch(next);
+  .catch(() => {
+    const error = new Error();
+    error.status = 404;
+    next(error);
+  });
 });
 
 router.get('/', (req, res, next) => {         // get all designs
@@ -28,6 +37,29 @@ router.get('/', (req, res, next) => {         // get all designs
 router.get('/:id', (req, res, next) => {      // get one design
   res.send(req.design);
   next();
+});
+
+// post, put, delete:
+
+router.post('/', (req, res, next) => {        // post one design
+  Design.create(req.body)
+  .then((design) => {
+    console.log('created successfully');
+    res.status(201).send(design);
+  })
+  .catch(next);
+});
+
+router.put('/:id', (req, res, next) => {      // update one design
+  Design.update(req.design)
+  .then(() => res.send(req.design))
+  .catch(next);
+});
+
+router.delete('/:id', (req, res, next) => {   // delete one design
+  req.design.destroy()
+  .then(() => res.send('deleted successfully'))
+  .catch(next);
 });
 
 
