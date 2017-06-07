@@ -36,7 +36,7 @@ module.exports = db.define('user', {
 },
   {
     instanceMethods: {
-      correctPassword(candidatePwd) {
+      validPassword(candidatePwd) {
         return this.Model.encryptPassword(candidatePwd, this.salt) === this.password;
       },
     },
