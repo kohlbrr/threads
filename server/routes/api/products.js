@@ -56,7 +56,7 @@ router.put('/:id', (req, res, next) => {      // update one product
 });
 
 router.delete('/:id', (req, res, next) => {   // delete one product
-  req.design.destroy()
+  req.product.destroy()
   .then(() => res.send('deleted successfully'))
   .catch(next);
 });

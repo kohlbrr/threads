@@ -7,7 +7,7 @@ router.param('id', (req, res, next, id) => {   // dries-up code
     where: { id: id },
     include: [{
       model: Product,
-      where: { id: id },
+      where: { designId: id },
     }],
   })
   .then((design) => {
