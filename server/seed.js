@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const faker = require('faker');
+let faker = require('faker');
 const {
   User,
   Product,
@@ -147,10 +147,11 @@ function getCollectionOfOrderProducts(n) {
 }
 
 function createData() {
-  Clothing.create({
+  db.sync({ force: true })
+  .then(() => Clothing.create({
     name: 'Shirts',
-  })
-  .then(() => 'Clothing Created')
+  }))
+  .then(() => console.log('Clothing Created'))
   .then(() => Category.bulkCreate(categories))
   .then(() => console.log('Categories created'))
   .then(() => User.bulkCreate(getCollectionOfUsers(amountOfUsers)))
@@ -166,17 +167,16 @@ function createData() {
   .then(() => OrderProducts.bulkCreate(getCollectionOfOrderProducts(100)))
   .then(() => console.log('Created OrderProducts'))
   .then(() => User.create({
-    name: 'Admin',
     email: 'admin@admin.com',
     password: 'pass123',
     isAdmin: true,
   }))
   .then(() => User.create({
-    name: 'Not Admin',
     email: 'notadmin@admin.com',
     password: 'pass123',
     isAdmin: false,
-  }));
+  }))
+  .catch(console.log);
 }
 
 
