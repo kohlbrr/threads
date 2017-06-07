@@ -18,6 +18,6 @@ __
 
 - You'll also need a `secrets.js` file inside of  pointing to the `threads` db with an env variable called `DATABASE_URL` pointing to the `threads` database URL
 
-(You can run `server/seed.js` to populate the DB with some test data)
+(You can run `npm run seed` to populate the DB with some test data)
 
-- Once set, kick off the app with `npm start` (or `npm run start-dev` for testing; this uses the `threads-test` db)
+- Once set, kick off the app with `npm run start-dev` (`npm start` should be used when deploying the app)
