@@ -39,8 +39,6 @@ router.get('/:id', (req, res, next) => {      // get one clothing
   next();
 });
 
-// post, put, delete:
-
 router.post('/', (req, res, next) => {        // post one clothing
   Clothing.create(req.body)
   .then((clothing) => {

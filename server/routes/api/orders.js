@@ -1,6 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const { Order } = require('../../db/models');
+const { Order, OrderProducts } = require('../../db/models');
 module.exports = router;
 
 // Get al orders
@@ -39,6 +39,14 @@ router.put('/:id', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   Order.findById(req.params.id)
   .then(order => res.send(order))
+  .catch(next);
+});
+
+router.get('/:id/items', (req, res, next) => {
+  OrderProducts.findAll({
+    where: { orderId: req.params.id },
+  })
+  .then(orderProducts => res.send(orderProducts))
   .catch(next);
 });
 
