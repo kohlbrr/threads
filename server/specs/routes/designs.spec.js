@@ -9,9 +9,7 @@ describe('Design API routes', () => {
   before(() => Design.sync({ force: true })
     .then(() => Product.sync({ force: true })));
 
-  beforeEach(() => Design.truncate()
-             .then(() => Product.trucate()));
-  beforeEach(() => Design.create({
+  before(() => Design.create({
     name: 'T-Shirt',
     sex: 'M',
     price: 1900,
