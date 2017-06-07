@@ -162,4 +162,65 @@ describe('Design API routes', () => {
       });
     });
   });
+  describe('DELETE /api/designs/:id', () => {
+    let route;
+    let id;
+    beforeEach(() => Design.create({
+      name: 'T-Shirt',
+      sex: 'M',
+      price: 1900,
+    })
+    .then((newDesign) => {
+      id = newDesign.id;
+      route = `/api/designs/${id}`;
+    })
+    .then(() => Product.create({
+      size: 'M',
+      color: 'Red',
+      stock: 4,
+      imageUrl: 'image',
+      designId: id,
+    })));
+    it('should throw a 401 error if it is not login', () =>
+       agent.delete(route).expect(401));
+    it('respond with a 401 if it is login but is not an Admin', () =>
+       agent.post('/login')
+      .send({ email: 'notadmin@admin.com', password: 'pass123' })
+      .then((res) => {
+        const req = agent.delete(route);
+        req.cookies = res.headers['set-cookies'];
+        return req.expect(401);
+      }));
+    describe('Admin User', () => {
+      let cookies;
+      before(() =>
+        agent.post('/login')
+        .send({ email: 'admin@admin.com', password: 'pass123' })
+        .then((res) => {
+          cookies = res.headers['set-cookies'];
+        }));
+      it('responds with a 404 if product does not exist', () => {
+        const req = agent.delete('/api/designs/5');
+        req.cookies = cookies;
+        return req.expect(404);
+      });
+      it('responds with a 404 if not a valid id', () => {
+        const req = agent.delete('/api/designs/lsks');
+        req.cookies = cookies;
+        return req.expect(404);
+      });
+      it('should respond with a 204', () => {
+        const req = agent.delete(route);
+        req.cookies = cookies;
+        return req.expect(204);
+      });
+      it('should delete also all the products associated to the design', () => {
+        const req = agent.delete(route);
+        req.cookies = cookies;
+        return req.expect(() =>
+          Product.findAll({ where: { designId: id } })
+          .then(products => expect(products).to.have.lengthOf(0)));
+      });
+    });
+  });
 });
