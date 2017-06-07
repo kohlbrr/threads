@@ -4,20 +4,20 @@
 ==
 __
 
-What is ***Threads***?
+*What is Threads?*
 
-A: Threads is an e-commerce site specializing in the sale of graphic tees. This is being built as an MVP of an e-commerce site.
+  **A:** Threads is an e-commerce site specializing in the sale of graphic tees. This is being built as an MVP of an e-commerce site.
 
-How can I run this awesome e-commerce eite locally?
+*How can I run this awesome e-commerce site locally?*
 
-A: In order to run our site yourself:
+  **A:** In order to run our site yourself,
 
-Clone this repo and run `npm install` within the root of the dir
+- Clone this repo and run `npm install` within the root of the dir
 
-You'll need to create a postgres database named `threads` and `threads-test`
+- You'll need to create a postgres database named `threads` and `threads-test`
 
-You'll also need a `secrets.js` file inside of  pointing to the `threads` db with an env variable called `DATABASE_URL` pointing to the `threads` database URL
+- You'll also need a `secrets.js` file inside of  pointing to the `threads` db with an env variable called `DATABASE_URL` pointing to the `threads` database URL
 
 (You can run `server/seed.js` to populate the DB with some test data)
 
-Once set, kick off the app with `npm start` (or `npm run start-dev` for testing; this uses the `threads-test` db)
+- Once set, kick off the app with `npm start` (or `npm run start-dev` for testing; this uses the `threads-test` db)
