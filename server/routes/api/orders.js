@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 // USER
 router.post('/', (req, res, next) => {
   Order.create(req.body)
-  .then(order => res.send(order))
+  .then(order => res.status(201).send(order))
   .catch(next);
 });
 
@@ -27,9 +27,10 @@ router.put('/:id', (req, res, next) => {
     {
       where: { id: req.params.id },
       returning: true,
-      plain: true,
-    })
-  .then(order => res.send(order[1]))
+      plain: true
+    }
+  )
+  .then(order => res.status(201).send(order[1]))
   .catch(next);
 });
 

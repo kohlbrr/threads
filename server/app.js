@@ -5,7 +5,12 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const session = require('express-session');
+const passport = require('passport');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const db = require('./db');
 
+const store = new SequelizeStore({ db });
 
 const app = express();
 
@@ -15,6 +20,16 @@ app.use(bodyParser.json());
 
 app.use(express.static(`${__dirname}/public`));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'This is the development secret',
+  store,
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', routes);
 
 app.get('*', (req, res) => {
@@ -23,12 +38,12 @@ app.get('*', (req, res) => {
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: err,
-  });
+  res.send(err.message || 'Server Error');
 });
 
-app.listen(8080, () => console.log('Server running in PORT 8080'));
+db.sync()
+.then(() =>
+  app.listen(8080, () => console.log('Server running in PORT 8080')));
+
 
 module.exports = app;
