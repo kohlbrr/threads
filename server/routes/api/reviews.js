@@ -3,12 +3,16 @@ const router = new express.Router();
 const { Review } = require('../../db/models');
 module.exports = router;
 
+// !Needs to be validated and hardened for sec purposes
+
 // Get all reviews for a design
 router.get('/:designId', (req, res, next) => {
   Review.findAll({
     where: { designId: req.params.designId }
   })
-  .then(reviews => res.send(reviews))
+  .then(reviews => {
+    res.send(reviews)
+  })
   .catch(next);
 });
 
