@@ -42,7 +42,7 @@ router.put('/:id', (req, res, next) => {
       plain: true
     }
   )
-  .then(review => res.send(review[1]))
+  .then(review => res.status(201).send(review[1]))
   .catch(next);
 });
 
