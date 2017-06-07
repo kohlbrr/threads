@@ -44,4 +44,44 @@ describe('Design API routes', () => {
         expect(res.body.products[0].color).to.equal('Red');
       }));
   });
+  describe('Post /api/designs', () => {
+    const design = {
+      name: 'T-Shirt',
+      sex: 'M',
+      price: 1900,
+    };
+    it('should throw a 401 error if it is not login', () =>
+       agent.post('/api/designs').send(design).expect(401));
+    it('respond with a 401 if it is login but is not an Admin', () =>
+       agent.post('/login')
+      .send({ email: 'notadmin@admin.com', password: 'pass123' })
+      .end((err, res) => {
+        const req = agent.post('/api/designs');
+        req.cookies = res.headers['set-cookies'];
+        return req.send(design).expect(401);
+      }));
+    it('Admin User', () =>{
+      let cookies;
+      before(() =>
+        agent.post('/login')
+        .send({ email: 'admin@admin.com', password: 'pass123' })
+        .end((err, res) => {
+          cookies = res.headers['set-cookies'];
+        }));
+      it('should respond with a 201', () => {
+        const req = agent.post('/api/designs', design);
+        req.cookies = cookies;
+        return req.expect(201);
+      });
+      it('should respond with the created product', () => {
+        const req = agent.post('/api/designs', design);
+        req.cookies = cookies;
+        return req.expect((res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body.name).to.equal('T-Shirt');
+          expect(res.body).to.have.a.property('id');
+        });
+      });
+    });
+  });
 });
