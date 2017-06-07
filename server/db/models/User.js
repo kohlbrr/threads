@@ -24,8 +24,11 @@ module.exports = db.define('user', {
       isEmail: true,
     },
   },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   address: Sequelize.STRING,
-  password: Sequelize.STRING,
   salt: Sequelize.STRING,
   googleId: Sequelize.STRING,
   facebookId: Sequelize.STRING,
