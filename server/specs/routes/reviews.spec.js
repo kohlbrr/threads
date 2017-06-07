@@ -15,19 +15,19 @@ describe('Review API routes', () => {
     sex: 'M',
     price: 1900,
   })
-  .then(design => {
-    return [(User.create({
-      name: 'Fakey McFakerson',
-      email: 'i@dont.exist',
-      password: 'fw5initou38w4o'
-    })), design];
-  })
-  .then(designUser => Review.create({
-    content: 'This shirt sucks!',
-    stars: 1,
-    userId: designUser[0].id,
-    designId: designUser[1].id
+  .then(() => User.create({
+    name: 'Fakey McFakerson',
+    email: 'i@dont.exist',
+    password: 'fw5initou38w4o'
   }))
+  .then(user => {
+    return Review.create({
+      content: 'This shirt sucks!',
+      stars: 1,
+      userId: user.id,
+      designId: 1
+    });
+  })
   .catch(console.error)
   );
 
@@ -36,9 +36,19 @@ describe('Review API routes', () => {
     it('responds with an array of reviews', () =>
         agent.get('/api/reviews/1').expect((res) => {
           expect(res.body).to.be.an('array');
-          expect(res.body[0].content).to.be.equal('This shirt sucks!');
+          expect(res.body[0].designId).to.be.equal(1);
         }));
   });
+
+  describe('Get all reviews for a user', () => {
+    it('responds with 200', () => agent.get('/api/reviews/user/1').expect(200));
+    it('responds with an array of reviews', () =>
+        agent.get('/api/reviews/1').expect((res) => {
+          expect(res.body).to.be.an('array');
+          expect(res.body[0].userId).to.be.equal(1);
+        }));
+  });
+
   /*
   describe('Get /api/designs/:id', () => {
     it('responds with 200', () => agent.get('/api/designs/1').expect(200));
