@@ -8,6 +8,8 @@ const {
   Clothing,
   Category,
   Review,
+  Order,
+  OrderProducts,
 } = require('./db/models');
 const db = require('./db');
 
@@ -18,6 +20,7 @@ const amountOfUsers = 20;
 const amountOfDesigns = 40;
 const amountOfProducts = 300;
 const amountOfReviews = 50;
+const amountOfOrders = 20;
 
 function getAddress() {
   return `${faker.address.streetAddress()}, ${faker.address.city()} ${faker.address.zipCode()}`;
@@ -98,7 +101,7 @@ function createReview() {
   };
 }
 
-function getCollectionOfReviews(n){
+function getCollectionOfReviews(n) {
   const reviews = [];
   while (n) {
     reviews.push(createReview());
@@ -106,6 +109,43 @@ function getCollectionOfReviews(n){
   }
   return reviews;
 }
+
+
+function createOrder() {
+  return {
+    status: faker.random.arrayElement(['Shipped', 'Delivered', 'Canceled']),
+    timestamp: faker.date.past(),
+    userId: Math.ceil(Math.random() * amountOfUsers),
+  };
+}
+
+function getCollectionOfOrders(n) {
+  const orders = [];
+  while (n) {
+    orders.push(createOrder());
+    n -= 1;
+  }
+  return orders;
+}
+
+function createOrderProducts() {
+  return {
+    quantity: Math.ceil(Math.random() * 3),
+    price: Math.ceil(Math.random() * 9000) + 1000,
+    productId: Math.ceil(Math.random() * amountOfProducts),
+    orderId: Math.ceil(Math.random() * amountOfOrders),
+  };
+}
+
+function getCollectionOfOrderProducts(n) {
+  const orderProducts = [];
+  while (n) {
+    orderProducts.push(createOrderProducts());
+    n -= 1;
+  }
+  return orderProducts;
+}
+
 function createData() {
   Clothing.create({
     name: 'Shirts',
@@ -121,6 +161,10 @@ function createData() {
   .then(() => console.log('Products created'))
   .then(() => Review.bulkCreate(getCollectionOfReviews(amountOfReviews)))
   .then(() => console.log('Reviews created'))
+  .then(() => Order.bulkCreate(getCollectionOfOrders(amountOfOrders)))
+  .then(() => console.log('Orders created'))
+  .then(() => OrderProducts.bulkCreate(getCollectionOfOrderProducts(100)))
+  .then(() => console.log('Created OrderProducts'))
   .then(() => User.create({
     name: 'Admin',
     email: 'admin@admin.com',
