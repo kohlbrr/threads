@@ -20,12 +20,11 @@ describe('Design API routes', () => {
   beforeEach(() => Design.sync({ force: true })
     .then(() => Product.sync({ force: true })));
 
-
   describe('GET /api/designs', () => {
     beforeEach(() => Design.create({
       name: 'T-Shirt',
       sex: 'M',
-      price: 1900,
+      price: 19.00,
     })
     .then(design => Product.create({
       size: 'M',
@@ -60,45 +59,37 @@ describe('Design API routes', () => {
     const design = {
       name: 'T-Shirt',
       sex: 'M',
-      price: 1900,
+      price: 19.00,
     };
     it('should throw a 401 error if it is not login', () =>
        agent.post('/api/designs').send(design).expect(401));
-    it('respond with a 401 if it is login but is not an Admin', () =>
-       agent.post('/login')
+    it('respond with a 401 if it is login but is not an Admin', () => {
+      const notAdmin = agent.post('/login')
       .send({ email: 'notadmin@admin.com', password: 'pass123' })
-      .then((res) => {
-        const req = agent.post('/api/designs');
-        req.cookies = res.headers['set-cookies'];
-        return req.send(design).expect(401);
-      }));
+      .then(() => {
+        notAdmin.post('/api/designs').send(design).expect(401);
+      });
+    });
     describe('Admin User', () => {
-      let cookies;
-      before(() =>
-        agent.post('/login')
-        .send({ email: 'admin@admin.com', password: 'pass123' })
-        .then((res) => {
-          cookies = res.headers['set-cookies'];
-        }));
-      it('should respond with a 400 if not a valid design', () => {
-        const req = agent.post('/api/designs', { name: 'T-Shirt' });
-        req.cookies = cookies;
-        return req.expect(201);
+      let adminUser;
+      before(() => {
+        adminUser = agent.post('/login')
+        .send({ email: 'admin@admin.com', password: 'pass123' });
       });
-      it('should respond with a 201', () => {
-        const req = agent.post('/api/designs', design);
-        req.cookies = cookies;
-        return req.expect(201);
-      });
-      it('should respond with the created product', () => {
-        const req = agent.post('/api/designs', design);
-        req.cookies = cookies;
-        return req.expect((res) => {
-          expect(res.body).to.be.an('object');
-          expect(res.body.name).to.equal('T-Shirt');
-          expect(res.body).to.have.a.property('id');
-        });
-      });
+      it('should respond with a 400 if not a valid design', () =>
+        adminUser.then(() =>
+          adminUser.post('/api/designs').send({ name: 'T-Shirt' }).expect(400)));
+      it('should respond with a 201', () =>
+        adminUser.then(() =>
+          adminUser.post('/api/designs').send(design).expect(201)));
+      it('should respond with the created product', () =>
+        adminUser.then(() =>
+          adminUser.post('/api/designs').send(design)
+          .expect((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.name).to.equal('T-Shirt');
+            expect(res.body).to.have.a.property('id');
+          })));
     });
   });
   describe('PUT /api/designs/:id', () => {
@@ -107,8 +98,55 @@ describe('Design API routes', () => {
     const design = {
       name: 'T-Shirt',
       sex: 'M',
-      price: 1500,
+      price: 15.00,
     };
+    beforeEach(() => Design.create({
+      name: 'T-Shirt',
+      sex: 'M',
+      price: 19.00,
+    })
+    .then((newDesign) => {
+      id = newDesign.id;
+      route = `/api/designs/${id}`;
+    }));
+    it('should throw a 401 error if it is not login', () =>
+       agent.put(route).send(design).expect(401));
+    it('respond with a 401 if it is login but is not an Admin', () => {
+      const notAdmin = agent.post('/login')
+      .send({ email: 'notadmin@admin.com', password: 'pass123' })
+      .then(() => {
+        notAdmin.put(route).send(design).expect(401);
+      });
+    });
+    describe('Admin User', () => {
+      let adminUser;
+      before(() => {
+        adminUser = agent.post('/login')
+        .send({ email: 'admin@admin.com', password: 'pass123' });
+      });
+      it('responds with a 404 if product does not exist', () =>
+        adminUser.then(() =>
+          adminUser.put('/api/designs/5').send({ name: 'T-Shirt' }).expect(404)));
+      it('responds with a 404 if not a valid id', () =>
+        adminUser.then(() =>
+          adminUser.put('/api/designs/dsk').send(design).expect(404)));
+      it('should respond with a 200', () =>
+        adminUser.then(() =>
+          adminUser.put(route).send(design)
+          .expect(200)));
+      it('should respond with the updated product', () =>
+        adminUser.then(() =>
+          adminUser.put(route).send(design)
+          .expect((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.price).to.equal(15.00);
+            expect(res.body.id).to.equal(id);
+          })));
+    });
+  });
+  describe('DELETE /api/designs/:id', () => {
+    let route;
+    let id;
     beforeEach(() => Design.create({
       name: 'T-Shirt',
       sex: 'M',
@@ -117,16 +155,74 @@ describe('Design API routes', () => {
     .then((newDesign) => {
       id = newDesign.id;
       route = `/api/designs/${id}`;
-    }));
+    })
+    .then(() => Product.create({
+      size: 'M',
+      color: 'Red',
+      stock: 4,
+      imageUrl: 'image',
+      designId: id,
+    })));
     it('should throw a 401 error if it is not login', () =>
-       agent.put(route).send(design).expect(401));
+       agent.delete(route).expect(401));
+    it('respond with a 401 if it is login but is not an Admin', () => {
+      const notAdmin = agent.post('/login')
+      .send({ email: 'notadmin@admin.com', password: 'pass123' })
+      .then(() => {
+        notAdmin.delete(route).expect(401);
+      });
+    });
+    describe('Admin User', () => {
+      let adminUser;
+      before(() => {
+        adminUser = agent.post('/login')
+        .send({ email: 'admin@admin.com', password: 'pass123' });
+      });
+      it('responds with a 404 if product does not exist', () =>
+        adminUser.then(() =>
+          adminUser.delete('/api/designs/5').expect(404)));
+      it('responds with a 404 if not a valid id', () =>
+        adminUser.then(() =>
+          adminUser.delete('/api/designs/dsk').expect(404)));
+      it('should respond with a 204', () =>
+        adminUser.then(() =>
+          adminUser.delete(route).expect(204)));
+      it('should delete also all the products associated to the design', () =>
+        adminUser.then(() =>
+          adminUser.delete(route)
+          .then(() =>
+            Product.findAll({ where: { designId: id } })
+            .then(products => expect(products).to.have.lengthOf(0)))));
+    });
+  });
+  describe('DELETE /api/designs/:id', () => {
+    let route;
+    let id;
+    beforeEach(() => Design.create({
+      name: 'T-Shirt',
+      sex: 'M',
+      price: 1900,
+    })
+    .then((newDesign) => {
+      id = newDesign.id;
+      route = `/api/designs/${id}`;
+    })
+    .then(() => Product.create({
+      size: 'M',
+      color: 'Red',
+      stock: 4,
+      imageUrl: 'image',
+      designId: id,
+    })));
+    it('should throw a 401 error if it is not login', () =>
+       agent.delete(route).expect(401));
     it('respond with a 401 if it is login but is not an Admin', () =>
        agent.post('/login')
       .send({ email: 'notadmin@admin.com', password: 'pass123' })
       .then((res) => {
-        const req = agent.post(route);
+        const req = agent.delete(route);
         req.cookies = res.headers['set-cookies'];
-        return req.send(design).expect(401);
+        return req.expect(401);
       }));
     describe('Admin User', () => {
       let cookies;
@@ -137,28 +233,26 @@ describe('Design API routes', () => {
           cookies = res.headers['set-cookies'];
         }));
       it('responds with a 404 if product does not exist', () => {
-        const req = agent.put('/api/designs/5');
+        const req = agent.delete('/api/designs/5');
         req.cookies = cookies;
         return req.expect(404);
       });
       it('responds with a 404 if not a valid id', () => {
-        const req = agent.put('/api/designs/lsks');
+        const req = agent.delete('/api/designs/lsks');
         req.cookies = cookies;
         return req.expect(404);
       });
-      it('should respond with a 200', () => {
-        const req = agent.post(route, design);
+      it('should respond with a 204', () => {
+        const req = agent.delete(route);
         req.cookies = cookies;
-        return req.expect(200);
+        return req.expect(204);
       });
-      it('should respond with the updated product', () => {
-        const req = agent.post('/api/designs', design);
+      it('should delete also all the products associated to the design', () => {
+        const req = agent.delete(route);
         req.cookies = cookies;
-        return req.expect((res) => {
-          expect(res.body).to.be.an('object');
-          expect(res.body.price).to.equal(1500);
-          expect(res.body.id).to.equal(id);
-        });
+        return req.expect(() =>
+          Product.findAll({ where: { designId: id } })
+          .then(products => expect(products).to.have.lengthOf(0)));
       });
     });
   });
