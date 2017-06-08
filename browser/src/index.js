@@ -1,8 +1,7 @@
-/* globals document */
-
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
+import Root from './react/routes';
 
-const App = () => <h1>Hello World</h1>;
-
-render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <Root />,
+  document.getElementById('app'));
