@@ -40,9 +40,8 @@ router.put('/:id', (req, res, next) => {
       where: { id: req.params.id },
       returning: true,
       plain: true,
-    },
-  )
-  .then(review => res.status(201).send(review[1]))
+    })
+  .then(([, review]) => res.status(201).send(review))
   .catch(next);
 });
 
