@@ -12,16 +12,16 @@ Product.belongsTo(Design);
 Product.belongsToMany(Order, { through: OrderProducts });
 Product.belongsToMany(User, { through: Cartcontents });
 
-Design.hasMany(Product);
+Design.hasMany(Product, { onDelete: 'cascade', hooks: 'true' });
 Design.belongsTo(Clothing);
 Design.belongsTo(Category);
 Design.hasMany(Review);
 
-Clothing.hasMany(Category);
+Clothing.hasMany(Category, { onDelete: 'cascade', hooks: true });
 Clothing.hasMany(Design);
 
 Category.belongsTo(Clothing);
-Category.hasMany(Design);
+Category.hasMany(Design, { onDelete: 'cascade', hooks: true });
 
 User.hasMany(Review);
 User.belongsToMany(Product, { through: Cartcontents });

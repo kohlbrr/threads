@@ -1,6 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const { Order } = require('../../db/models');
+const { Order, OrderProducts } = require('../../db/models');
 module.exports = router;
 
 // Get al orders
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 // USER
 router.post('/', (req, res, next) => {
   Order.create(req.body)
-  .then(order => res.send(order))
+  .then(order => res.status(201).send(order))
   .catch(next);
 });
 
@@ -27,10 +27,11 @@ router.put('/:id', (req, res, next) => {
     {
       where: { id: req.params.id },
       returning: true,
-      plain: true
-    }
-  )
-  .then(order => res.send(order[1]))
+      plain: true,
+    })
+  .then(([, order]) => {
+    res.status(201).send(order);
+  })
   .catch(next);
 });
 
@@ -39,6 +40,14 @@ router.put('/:id', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   Order.findById(req.params.id)
   .then(order => res.send(order))
+  .catch(next);
+});
+
+router.get('/:id/items', (req, res, next) => {
+  OrderProducts.findAll({
+    where: { orderId: req.params.id },
+  })
+  .then(orderProducts => res.send(orderProducts))
   .catch(next);
 });
 

@@ -12,7 +12,7 @@ describe('Design Model', () => {
         const design = Design.build({
           name: [],
           sex: 'M',
-          price: 1000,
+          price: 10.00,
         });
         return design.validate().then((err) => {
           expect(err).to.exist;
@@ -22,7 +22,7 @@ describe('Design Model', () => {
       it('Should throw an error if not defined', () => {
         const design = Design.build({
           sex: 'F',
-          price: 1500,
+          price: 15.00,
         });
         return design.validate().then((err) => {
           expect(err).to.exist;
@@ -35,7 +35,7 @@ describe('Design Model', () => {
         Design.create({
           sex: 'A',
           name: 'Salt in the wind esq.',
-          price: 8000000,
+          price: 80000.00,
         })
         .then(() => (done('I shoud not get here!')))
         .catch(() => done());
@@ -44,7 +44,7 @@ describe('Design Model', () => {
       it('Should throw an error if not defined', () => {
         const design = Design.build({
           name: 'Plain White Shirt',
-          price: 100000000,
+          price: 1000000.00,
         });
         return design.validate().then((err) => {
           expect(err).to.exist;
@@ -53,15 +53,17 @@ describe('Design Model', () => {
     });
 
     describe('Price', () => {
-      it('Should throw an error if not an integer', (done) => {
-        Design.create({
-          name: 'I <3 NY',
-          sex: 'M',
-          price: 22.95,
-        })
-        .then(() => done('I should not get here!'))
-        .catch(() => done());
-      });
+
+      /* we changed price to be Sequelize.DECIMAL(13,2) so following test no longer aplies: */
+      // it('Should throw an error if not an integer', (done) => {
+      //   Design.create({
+      //     name: 'I <3 NY',
+      //     sex: 'M',
+      //     price: 22.95,
+      //   })
+      //   .then(() => done('I should not get here!'))
+      //   .catch(() => done());
+      // });
 
       it('Should throw an error if not defined', (done) => {
         Design.create({
