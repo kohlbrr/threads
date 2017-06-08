@@ -36,8 +36,7 @@ router.post('/', (req, res, next) => {
 // Update a user as if from an update form
 // I fel like there are sec issues here with regards to passwords - Rich
 router.put('/:id', (req, res, next) => { // ! this route needs validation
-  User.update(
-    req.body,
+  User.update(req.body,
     {
       where: { id: req.params.id },
       returning: true,
