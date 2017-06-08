@@ -1,6 +1,7 @@
 /* eslint-disable global-require*/
 if (process.env.NODE_ENV === 'development') require('./secrets');
 /* eslint-enable */
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');

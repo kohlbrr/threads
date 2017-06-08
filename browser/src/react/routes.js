@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, browserHistory, IndexRedirect, IndexRoute } from 'react-router';
+import { BrowserRouter as Router, Route, browserHistory, IndexRedirect, IndexRoute } from 'react-router-dom';
 import { Provider } from 'react-redux';
 // import axios from 'axios';
 
@@ -24,6 +24,8 @@ const onAppEnter = () => {
 //       store.dispatch(receiveClothings(retClothings));
 //     });
 };
+
+
 
 
 export default function Root() {
