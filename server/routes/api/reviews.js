@@ -41,7 +41,7 @@ router.put('/:id', (req, res, next) => {
       returning: true,
       plain: true,
     })
-  .then(review => res.status(201).send(review[1]))
+  .then(([, review]) => res.status(201).send(review))
   .catch(next);
 });
 

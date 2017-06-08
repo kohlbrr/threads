@@ -42,7 +42,7 @@ router.put('/:id', (req, res, next) => { // ! this route needs validation
       returning: true,
       plain: true,
     })
-  .then(user => res.status(201).send(user[1]))
+  .then(([, user]) => res.status(201).send(user))
   .catch(next);
 });
 
