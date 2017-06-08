@@ -10,8 +10,9 @@ router.get('/:designId', (req, res, next) => {
   Review.findAll({
     where: { designId: req.params.designId },
   })
-  .then((reviews) => {
-    res.send(reviews);
+  .then(reviews => {
+    if(reviews.length === 0) res.sendStatus(404);
+    else res.send(reviews);
   })
   .catch(next);
 });
@@ -21,15 +22,24 @@ router.get('/user/:userId', (req, res, next) => {
   Review.findAll({
     where: { userId: req.params.userId },
   })
-  .then(reviews => res.send(reviews))
+  .then(reviews => {
+    if(reviews.length === 0) res.sendStatus(404);
+    else res.send(reviews);
+  })
   .catch(next);
 });
 
 // Create a review
 router.post('/', (req, res, next) => {
   Review.create(req.body)
-  .then(review => res.status(201).send(review))
-  .catch(next);
+  .then(review => {
+    res.status(201).send(review);
+  })
+  .catch((errContent) => { // !Does not account for invalid data errors
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Update a review
@@ -39,10 +49,15 @@ router.put('/:id', (req, res, next) => {
     {
       where: { id: req.params.id },
       returning: true,
-      plain: true,
-    })
-  .then(([, review]) => res.status(201).send(review))
-  .catch(next);
+      plain: true
+    }
+  )
+  .then(review => res.status(201).send(review[1]))
+  .catch((errContent) => { // !Does not account for invalid data errors
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Delete a review
@@ -50,6 +65,9 @@ router.delete('/:id', (req, res, next) => {
   Review.destroy({
     where: { id: req.params.id },
   })
-  .then(() => res.status(204).send())
+  .then(wasDeleted => {
+    if(!wasDeleted) res.sendStatus(404);
+    else res.sendStatus(204);
+  })
   .catch(next);
 });
