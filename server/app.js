@@ -32,13 +32,12 @@ app.use(passport.session());
 
 app.use('/', routes);
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.send(err.message || 'Server Error');
+  res.status(err.status || 500).send(err.message || 'Server Error');
 });
 
 db.sync()
