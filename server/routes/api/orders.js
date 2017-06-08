@@ -16,7 +16,11 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Order.create(req.body)
   .then(order => res.status(201).send(order))
-  .catch(next);
+  .catch(errContent => {
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Update an order status
@@ -32,7 +36,11 @@ router.put('/:id', (req, res, next) => {
   .then(([, order]) => {
     res.status(201).send(order);
   })
-  .catch(next);
+  .catch(errContent => {
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Return a single order
