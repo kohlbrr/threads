@@ -18,11 +18,11 @@ describe('Category API routes', () => {
 
 //   before(() => Category.create([{ name: 'Category 1' }])
 //   .then((ret) => { category = ret; }));
-  beforeEach(function () {
+  beforeEach(() => {
     return Category.create({
       name: 'Category 1',
     })
-    .then(function (c) {
+    .then((c) => {
       category = c;
     });
   });

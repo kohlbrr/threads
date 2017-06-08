@@ -5,7 +5,7 @@ module.exports = router;
 
 router.get('/', (req, res, next) => {
   Categories.findAll()
-  .then(categories => res.json(categories))
+  .then(categories => res.send(categories))
   .catch(next);
 });
 
@@ -22,8 +22,7 @@ router.put('/:id', (req, res, next) => {
       where: { id: req.params.id },
       returning: true,
       plain: true,
-    },
-  )
+    })
   .then(category => res.status(201).send(category[1]))
   .catch(next);
 });
