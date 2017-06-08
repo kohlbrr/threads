@@ -37,7 +37,10 @@ describe('Review API routes', () => {
         agent.get('/api/reviews/1').expect((res) => {
           expect(res.body).to.be.an('array');
           expect(res.body[0].designId).to.be.equal(1);
-        }));
+        }
+      )
+    );
+    it('should 404 if no reviews are found', () => agent.put('/api/reviews/99999'));
   });
 
   describe('Get all reviews for a user', () => {
@@ -46,7 +49,10 @@ describe('Review API routes', () => {
         agent.get('/api/reviews/1').expect((res) => {
           expect(res.body).to.be.an('array');
           expect(res.body[0].userId).to.be.equal(1);
-        }));
+        }
+      )
+    );
+    it('should 404 if no reviews are found', () => agent.get('/api/reviews/user/99999'));
   });
 
   describe('Create review for a design as user', () => {
@@ -68,6 +74,7 @@ describe('Review API routes', () => {
         expect(res.body).to.have.a.property('id');
       });
     });
+    it('should 404 if nothing is created', () => agent.post('/api/reviews'));
   });
 
   describe('Update an existing review', () => {
@@ -81,6 +88,7 @@ describe('Review API routes', () => {
         expect(res.body.content).to.equal("I've been had!");
       });
     });
+    it('should 404 if nothing is updated', () => agent.put('/api/reviews/99999'));
   });
 
   describe('Delete a review', () => {
@@ -88,9 +96,11 @@ describe('Review API routes', () => {
     it('deletes a review', () => {
       agent.get('/api/reviews/1').expect(res => {
         expect(res.body).to.have.a.property('id');
-      })
+      });
       agent.delete('/api/reviews/1');
+      agent.get('/api/reviews/1').expect(404);
     });
+    it('should 404 if nothing is deleted', () => agent.delete('/api/reviews/99999').expect(404));
   });
 
 });

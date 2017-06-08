@@ -11,7 +11,8 @@ router.get('/:designId', (req, res, next) => {
     where: { designId: req.params.designId }
   })
   .then(reviews => {
-    res.send(reviews)
+    if(reviews.length === 0) res.sendStatus(404);
+    else res.send(reviews);
   })
   .catch(next);
 });
@@ -21,14 +22,19 @@ router.get('/user/:userId', (req, res, next) => {
   Review.findAll({
     where: { userId: req.params.userId }
   })
-  .then(reviews => res.send(reviews))
+  .then(reviews => {
+    if(reviews.length === 0) res.sendStatus(404);
+    else res.send(reviews);
+  })
   .catch(next);
 });
 
 // Create a review
 router.post('/', (req, res, next) => {
   Review.create(req.body)
-  .then(review => res.status(201).send(review))
+  .then(review => {
+    res.status(201).send(review);
+  })
   .catch(next);
 });
 
@@ -51,6 +57,9 @@ router.delete('/:id', (req, res, next) => {
   Review.destroy({
     where: { id: req.params.id }
   })
-  .then(() => res.send())
+  .then(wasDeleted => {
+    if(!wasDeleted) res.sendStatus(404);
+    else res.sendStatus(204);
+  })
   .catch(next);
 });
