@@ -35,7 +35,11 @@ router.post('/', (req, res, next) => {
   .then(review => {
     res.status(201).send(review);
   })
-  .catch(next);
+  .catch((errContent) => { // !Does not account for invalid data errors
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Update a review
@@ -49,7 +53,11 @@ router.put('/:id', (req, res, next) => {
     }
   )
   .then(review => res.status(201).send(review[1]))
-  .catch(next);
+  .catch((errContent) => { // !Does not account for invalid data errors
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Delete a review

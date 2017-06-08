@@ -40,7 +40,7 @@ describe('Review API routes', () => {
         }
       )
     );
-    it('should 404 if no reviews are found', () => agent.put('/api/reviews/99999'));
+    it('should 404 if no reviews are found', () => agent.get('/api/reviews/99999').expect(404));
   });
 
   describe('Get all reviews for a user', () => {
@@ -52,7 +52,7 @@ describe('Review API routes', () => {
         }
       )
     );
-    it('should 404 if no reviews are found', () => agent.get('/api/reviews/user/99999'));
+    it('should 404 if no reviews are found', () => agent.get('/api/reviews/user/99999').expect(404));
   });
 
   describe('Create review for a design as user', () => {
@@ -74,7 +74,7 @@ describe('Review API routes', () => {
         expect(res.body).to.have.a.property('id');
       });
     });
-    it('should 404 if nothing is created', () => agent.post('/api/reviews'));
+    it('should 400 if nothing is created', () => agent.post('/api/reviews').expect(400));
   });
 
   describe('Update an existing review', () => {
@@ -88,7 +88,7 @@ describe('Review API routes', () => {
         expect(res.body.content).to.equal("I've been had!");
       });
     });
-    it('should 404 if nothing is updated', () => agent.put('/api/reviews/99999'));
+    it('should 400 if nothing is updated', () => agent.put('/api/reviews/99999').expect(400));
   });
 
   describe('Delete a review', () => {
