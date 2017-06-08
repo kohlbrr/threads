@@ -19,15 +19,15 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   User.findOrCreate({
     where: {
-      email: req.body.email
+      email: req.body.email,
     },
     defaults: {
       name: req.body.name,
-      password: req.body.password // Should be salted/hashed by a db hook
-    }
+      password: req.body.password, // Should be salted/hashed by a db hook
+    },
   })
   .then((user, wasCreated) => {
-    if(!wasCreated) res.status(409).send('!A user already exists with the specified email address');
+    if (!wasCreated) res.status(409).send('!A user already exists with the specified email address');
     res.status(201).send(user); // There is too much information in `user` - truncate later for redux store
   })
   .catch(next);
@@ -41,17 +41,16 @@ router.put('/:id', (req, res, next) => { // ! this route needs validation
     {
       where: { id: req.params.id },
       returning: true,
-      plain:true
-    }
-  )
-  .then(user => res.send(user[1]))
+      plain: true,
+    })
+  .then(([, user]) => res.status(201).send(user))
   .catch(next);
 });
 
 // Return a single user
 router.get('/:id', (req, res, next) => {
   User.findById(req.params.id)
-  .then(user => {
+  .then((user) => {
     res.send(user); // !Too much info in `user`
   })
   .catch(next);
@@ -61,11 +60,11 @@ router.get('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
   User.destroy({
     where: {
-      id: req.params.id
-    }
+      id: req.params.id,
+    },
   })
   .then(() => {
-    res.send();
+    res.status(204).send();
   })
   .catch(next);
 });
@@ -74,10 +73,10 @@ router.delete('/:id', (req, res, next) => {
 router.get('/:id/orders', (req, res, next) => {
   Order.findAll({
     where: {
-      userId: req.params.id
-    }
+      userId: req.params.id,
+    },
   })
-  .then(orders => {
+  .then((orders) => {
     res.send(orders);
   })
   .catch(next);
@@ -88,8 +87,8 @@ router.get('/:id/orders/:orderId', (req, res, next) => {
   Order.findOne({
     where: {
       id: req.params.orderId,
-      userId: req.params.id
-    }
+      userId: req.params.id,
+    },
   })
   .then(req.send)
   .catch(next);

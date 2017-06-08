@@ -69,7 +69,7 @@ function createDesign() {
   return {
     name: faker.commerce.productName(),
     sex: faker.random.arrayElement(['F', 'M']),
-    price: Math.ceil(Math.random() * 9000) + 1000,
+    price: (Math.random() * 90) + 10,
     clothingId: 1,
     categoryId: Math.ceil(Math.random() * 3),
   };

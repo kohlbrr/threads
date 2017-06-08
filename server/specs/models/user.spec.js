@@ -34,8 +34,21 @@ describe('User Model', () => {
           expect(user.salt).to.not.equal('saltySalt');
         }));
     });
+    describe('Instance Method', () => {
+      describe('Valid Password', () => {
+        let user;
+        beforeEach(() =>
+          User.create({ email: 'guille@guille.com', password: 'guille' })
+          .then((createdUser) => { user = createdUser; }));
+        it('should return true if password is valid', () => {
+          expect(user.validPassword('guille')).to.equal(true);
+        });
+        it('should return false if password is not valid', () => {
+          expect(user.validPassword('hello')).to.equal(false);
+        });
+      });
+    });
   });
-    after(() => User.truncate());
-
+  after(() => User.truncate());
 });
 
