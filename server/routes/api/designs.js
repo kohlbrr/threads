@@ -52,13 +52,13 @@ router.post('/', (req, res, next) => {        // post one design
 
 router.put('/:id', (req, res, next) => {      // update one design
   Design.update(req.design)
-  .then(() => res.send(req.design))
+  .then(() => res.status(201).send(req.design))
   .catch(next);
 });
 
 router.delete('/:id', (req, res, next) => {   // delete one design
   req.design.destroy()
-  .then(() => res.send('deleted successfully'))
+  .then(() => res.status(204).send('deleted successfully'))
   .catch(next);
 });
 

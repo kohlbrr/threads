@@ -22,9 +22,13 @@
   "homepage": "https://github.com/kohlbrr/threads#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "connect-session-sequelize": "^4.1.0",
     "crypto": "0.0.3",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "pg-native": "^1.10.1",
@@ -51,6 +55,8 @@
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
     "sass-loader": "^6.0.5",
+    "sinon": "^2.3.2",
+    "sinon-chai": "^2.10.0",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
     "webpack": "^2.6.1"

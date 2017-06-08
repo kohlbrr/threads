@@ -39,8 +39,6 @@ router.get('/:id', (req, res, next) => {      // get one clothing
   next();
 });
 
-// post, put, delete:
-
 router.post('/', (req, res, next) => {        // post one clothing
   Clothing.create(req.body)
   .then((clothing) => {
@@ -52,13 +50,13 @@ router.post('/', (req, res, next) => {        // post one clothing
 
 router.put('/:id', (req, res, next) => {      // update one clothing
   Clothing.update(req.clothing)
-  .then(() => res.send(req.clothing))
+  .then(() => res.status(201).send(req.clothing))
   .catch(next);
 });
 
 router.delete('/:id', (req, res, next) => {   // delete one clothing
   req.clothing.destroy()
-  .then(() => res.send('deleted successfully'))
+  .then(() => res.status(204).send('deleted successfully'))
   .catch(next);
 });
 

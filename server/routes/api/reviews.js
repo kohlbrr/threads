@@ -8,7 +8,7 @@ module.exports = router;
 // Get all reviews for a design
 router.get('/:designId', (req, res, next) => {
   Review.findAll({
-    where: { designId: req.params.designId }
+    where: { designId: req.params.designId },
   })
   .then(reviews => {
     if(reviews.length === 0) res.sendStatus(404);
@@ -20,7 +20,7 @@ router.get('/:designId', (req, res, next) => {
 // Get all reviews for a user
 router.get('/user/:userId', (req, res, next) => {
   Review.findAll({
-    where: { userId: req.params.userId }
+    where: { userId: req.params.userId },
   })
   .then(reviews => {
     if(reviews.length === 0) res.sendStatus(404);
@@ -63,7 +63,7 @@ router.put('/:id', (req, res, next) => {
 // Delete a review
 router.delete('/:id', (req, res, next) => {
   Review.destroy({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
   })
   .then(wasDeleted => {
     if(!wasDeleted) res.sendStatus(404);
