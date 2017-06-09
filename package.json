@@ -7,6 +7,7 @@
     "test-server": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/**/*.spec.js",
     "test-routes": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/routes/*.spec.js",
     "test-models": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/models/*.spec.js",
+    "test-frontend": "mocha ./browser/specs/frontEnd/components/*.spec.js --watch --compilers js:babel-register",
     "test-middleware": "mocha ./server/specs/middleware/*.spec.js",
     "build": "webpack",
     "start-dev": "webpack -w & NODE_ENV='development' nodemon server/app.js",

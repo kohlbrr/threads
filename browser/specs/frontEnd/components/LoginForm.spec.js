@@ -2,7 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
-import LoginForm from '../../../browser/src/react/components/LoginForm';
+
+import LoginForm from '../../../src/react/components/LoginForm';
 
 describe('LoginForm component', () => {
   let login;
@@ -13,6 +14,9 @@ describe('LoginForm component', () => {
   });
   it('should be a <div>', () => {
     expect(login.is('div')).to.be.true;
+  });
+  it('should have props for handleSubmit', function () {
+    expect(login.props().onSubmit).to.be.defined;
   });
   it('should have email&password input fields', () => {
     expect(login.find('input').length).to.be.equal(2);

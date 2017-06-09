@@ -4,10 +4,12 @@ import Sidebar from './Sidebar';
 
 import NavbarContainer from '../containers/NavbarContainer';
 
+const dummyUser = { name: 'guest', email: 'guest@guest' };
+
 export default function App({ children }) {
   return (
     <div id="main" className="container-fluid">
-      <NavbarContainer currentUser={{ name: 'guest', email: 'guest@guest' }} logout={function () { console.log('Logout');}} />
+      <NavbarContainer currentUser={null} logout={function () { console.log('Logout');}} />
       <Sidebar categories={[{ id: 1, name: 'category 1' }]} />
 
       <div className="col-xs-2">

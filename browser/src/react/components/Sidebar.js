@@ -6,7 +6,7 @@ export default function Sidebar(props) {
 //   const clothings = props.clothings;
 
   return (
-    <sidebar>
+    <sidebar className="col-lg-2" >
       <ul className="list-unstyled">
         {
           categories.map((category) => {

@@ -9,14 +9,15 @@ const LoginForm = (props) => {
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text" />
+          <input id="email" name="email" type="text" />
         </div>
         <div>
           <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" />
+          <input id="password" name="password" type="password" />
         </div>
         <div>
           <button id="login" type="submit">{ displayName }</button>
+          <button id="cancel" >Cancel</button>
         </div>
         { error && <div> { error.response.data } </div> }
       </form>

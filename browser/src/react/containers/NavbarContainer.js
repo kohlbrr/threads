@@ -12,25 +12,6 @@ class NavbarContainer extends React.Component {
     this.renderLogout = this.renderLogout.bind(this);
   }
 
-  render() {
-    return (
-      <nav className="navbar navbar-default">
-        <div className="container">
-          <div className="navbar-header">
-            <button
-              type="button"
-              className="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target=".navbar-collapse">
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-            </button>
-          </div>
-        </div>
-      </nav>
-    );
-  }
 
   renderLoginSignup() {
     return (
@@ -50,13 +31,37 @@ class NavbarContainer extends React.Component {
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
-        <button
-          className="navbar-btn btn btn-default"
-          onClick={this.props.logout}>
-          logout {name}
-        </button>
+          <button
+            className="navbar-btn btn btn-default"
+            onClick={this.props.logout}>
+            logout {name}
+          </button>
         </li>
       </ul>
+    );
+  }
+
+  render() {
+    return (
+      <nav className="navbar navbar-default">
+        <div className="container">
+          <div className="navbar-header">
+            <button
+              type="button"
+              className="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+            >
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+            </button>
+          </div>
+          <div className="collapse navbar-collapse">
+            { this.props.currentUser ? this.renderLogout() : this.renderLoginSignup() }
+          </div>
+        </div>
+      </nav>
     );
   }
 }
