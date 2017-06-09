@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test-frontend": "mocha ./browser/src/specs/**/*.spec.js --compilers js:babel-register",
+    "test-redux": "mocha ./browser/src/specs/redux/**/*.spec.js --compilers js:babel-register",
     "test-server": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/**/*.spec.js",
     "test-routes": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/routes/*.spec.js",
     "test-models": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/models/*.spec.js",
