@@ -3,10 +3,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import DesignItem from '../../react/components/DesignItem';
-
-
 
 describe('<DesignItem, />', () => {
   const design = {
@@ -31,8 +29,8 @@ describe('<DesignItem, />', () => {
     expect(wrapper.find('p').text()).to.equal(`$${design.price}`);
   });
   it('has a Link tag to the design', () => {
-    console.log(Link)
     const wrapper = shallow(<DesignItem design={design} />);
+    expect(wrapper.find(Link)).to.have.length(1);
     expect(wrapper.find(Link).prop('to')).to.equal(`/designs/${design.id}`);
   });
 });
