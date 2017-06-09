@@ -20,6 +20,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, '../node_modules')));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'This is the development secret',

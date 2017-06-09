@@ -22,11 +22,16 @@
   "homepage": "https://github.com/kohlbrr/threads#readme",
   "dependencies": {
     "axios": "^0.16.2",
+    "babel": "^6.23.0",
     "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "bootstrap-social": "^5.1.1",
     "connect-session-sequelize": "^4.1.0",
     "crypto": "0.0.3",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
@@ -34,6 +39,7 @@
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "pg-native": "^1.10.1",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
@@ -60,6 +66,7 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "faker": "^4.1.0",
+    "file-loader": "^0.11.2",
     "jest": "^20.0.4",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
@@ -71,6 +78,7 @@
     "superagent": "^3.5.2",
     "supertest": "^3.0.0",
     "supertest-session": "^3.0.0",
+    "url-loader": "^0.5.8",
     "webpack": "^2.6.1"
   }
 }
