@@ -33,6 +33,8 @@ Review.belongsTo(Design);
 Order.belongsTo(User);
 Order.belongsToMany(Product, { through: OrderProducts });
 
+Cartcontents.belongsTo(Product);
+
 module.exports = {
   Product,
   User,
