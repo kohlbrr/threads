@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 
 import { createStore } from 'redux';
-import rootReducer from '../../../src/react/reducers/root-reducer';
-import { setCurrentUser } from '../../../src/react/action-creators/users';
-import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../src/react/action-creators/carts';
-import { setCurrentOrder, receiveOrders, addOrder } from '../../../src/react/action-creators/orders';
-import { setCurrentProduct } from '../../../src/react/action-creators/products';
-import { setCurrentDesign } from '../../../src/react/action-creators/designs';
-import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../src/react/action-creators/categorys';
+import rootReducer from '../../../react/reducers/root-reducer';
+import { setCurrentUser } from '../../../react/action-creators/users';
+import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../react/action-creators/carts';
+import { setCurrentOrder, receiveOrders, addOrder } from '../../../react/action-creators/orders';
+import { setCurrentProduct } from '../../../react/action-creators/products';
+import { setCurrentDesign } from '../../../react/action-creators/designs';
+import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../react/action-creators/categorys';
 
 describe('Root reducer', () => {
-  
+
   let testStore;
   beforeEach('Create a test store', () => {
     testStore = createStore(rootReducer);
@@ -141,7 +141,7 @@ describe('Root reducer', () => {
       expect(testStore.currentUser).to.be.deep.equal(order);
     });
   });
-  
+
   // currentProduct
   describe('SET_CURRENT_PRODUCT', () => {
     const product = {
@@ -157,7 +157,7 @@ describe('Root reducer', () => {
       expect(testStore.currentProduct).to.be.deep.equal(product);
     });
   });
-  
+
   // currentDesign
   describe('SET_CURRENT_DESIGN', () => {
     const design = {
