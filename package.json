@@ -4,6 +4,7 @@
   "description": "One badass clothing website - specializing in tee shirts",
   "main": "app.js",
   "scripts": {
+    "test-frontend": "mocha ./browser/src/specs/**/*.spec.js --compilers js:babel-register",
     "test-server": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/**/*.spec.js",
     "test-routes": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/routes/*.spec.js",
     "test-models": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/models/*.spec.js",
@@ -46,6 +47,7 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
+    "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
