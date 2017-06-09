@@ -1,18 +1,11 @@
 import { combineReducers } from 'redux';
 import categoriesReducer from './categories-reducer';
+import designsReducer from './designs-reducer';
+import productsReducer from './products-reducer';
 
-const initialState = {
-  currentUser: {},
-  cart: [{}],
-  orders: [{}],
-  currentOrder: {},
-  currentProduct: {},
-  currentDesign: {}, // contains reviews and products
-  categories: [{}],
-  currentCategory: {},
-};
 
 export default combineReducers({
   categories: categoriesReducer,
-  currentCategory:
+  designs: designsReducer,
+  products: productsReducer,
 });
