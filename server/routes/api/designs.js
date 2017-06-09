@@ -1,15 +1,16 @@
 const router = require('express').Router();
-const { isLoggedIn, isAdmin } = require('../../middleware');
-const { Design, Product, Review } = require('../../db/models');
+const { isAdmin } = require('../../middleware');
+const { Design, Product, Review, User } = require('../../db/models');
 const HttpError = require('../../http-error');
 
 router.param('id', (req, res, next, id) => {   // dries-up code
   Design.findById(id, {
-    include: [{
-      model: Product,
-    }, {
-      model: Review,
-    }],
+    include: [Product,
+      {
+        model: Review,
+        include: [User],
+      },
+    ],
   })
   .then((design) => {
     if (design) {

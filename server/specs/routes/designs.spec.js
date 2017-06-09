@@ -74,11 +74,16 @@ describe('Design API routes', () => {
         expect(res.body.products).to.be.an('array');
         expect(res.body.products[0].color).to.equal('Red');
       }));
-    it('the design has a products property with an array of reviews', () =>
+    it('the design has a reviews property with an array of reviews', () =>
       agent.get('/api/designs/1').expect((res) => {
         expect(res.body.reviews).to.be.an('array');
         expect(res.body.reviews[0].stars).to.equal(1);
       }));
+    it('the reviews inside reviews has the user information', () =>
+       agent.get('/api/designs/1').expect((res) => {
+         expect(res.body.reviews[0].user).to.be.an('object');
+         expect(res.body.reviews[0].user.name).to.equal('Guest');
+       }));
   });
   describe('POST /api/designs', () => {
     const design = {

@@ -25,6 +25,11 @@ describe('Review API routes', () => {
     stars: 1,
     userId: user.id,
     designId: 1,
+  }))
+  .then(() => Review.create({
+    content: 'This shirt sucks!',
+    stars: 1,
+    designId: 1,
   })));
 
   describe('POST /api/designs/:id/reviews', () => {
@@ -53,34 +58,61 @@ describe('Review API routes', () => {
           expect(res.body).to.have.a.property('id');
         });
       });
-      it('should 400 if nothing is created', () => loggedUser.post('/api/designs/1/reviews').expect(400));
+      it('should 400 if nothing is created', () => loggedUser.post('/api/designs/1/reviews/').expect(400));
     });
   });
 
-  describe('Update an existing review', () => {
-    it('should return a 201', () =>
-      agent.put('/api/reviews/1').send({ content: "I've been had!" }).expect(201)
-    );
-    it('should update (and return) an existing review', () => {
-      const req = agent.put('/api/reviews/1').send({content: "I've been had!"});
-      return req.expect(res => {
-        expect(res.body).to.be.an('object');
-        expect(res.body.content).to.equal("I've been had!");
+  describe('PUT /api/designs/:id/reviews/:reviewId', () => {
+    const review = {
+      stars: 5,
+    };
+    it('should return a 403 if it is not logged In', () =>
+      agent.put('/api/designs/1/reviews/1').send(review).expect(403));
+    describe('Logged in user', () => {
+      let loggedUser;
+      beforeEach(() => {
+        loggedUser = session(app);
+        return loggedUser.post('/auth/login')
+        .send({ email: 'i@dont.exist', password: 'pass123' });
       });
-    });
-    it('should 400 if nothing is updated', () => agent.put('/api/reviews/99999').expect(400));
-  });
-
-  describe('Delete a review', () => {
-    it('responds with 204', () => agent.delete('/api/reviews/1').expect(204));
-    it('deletes a review', () => {
-      agent.get('/api/reviews/1').expect(res => {
-        expect(res.body).to.have.a.property('id');
+      it('should return a 401 if user is not owner of the review', () => {
+        loggedUser.put('/api/designs/1/reviews/2').send(review).expect(401);
       });
-      agent.delete('/api/reviews/1');
-      agent.get('/api/reviews/1').expect(404);
+      it('should return a 201', () =>
+        loggedUser.put('/api/designs/1/reviews/1').send(review).expect(201));
+      it('should update (and return) the updated review', () => {
+        loggedUser.put('/api/designs/1/reviews/1')
+        .send(review)
+        .expect((res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body.userId).to.equal(1);
+          expect(res.body.designId).to.equal(1);
+          expect(res.body.stars).to.equal(5);
+          expect(res.body).to.have.a.property('id');
+        });
+      });
+      it('should 404 if there is no review found', () => loggedUser.put('/api/designs/1/reviews/5').expect(404));
+      it('should 404 if not valid id', () => loggedUser.put('/api/designs/1/reviews/5').expect(404));
     });
-    it('should 404 if nothing is deleted', () => agent.delete('/api/reviews/99999').expect(404));
   });
 
+  describe('DELETE /api/designs/:id/reviews/:reviewId', () => {
+    it('should return a 403 if it is not logged In', () =>
+      agent.delete('/api/designs/1/reviews/1').expect(403));
+    describe('Logged in user', () => {
+      let loggedUser;
+      beforeEach(() => {
+        loggedUser = session(app);
+        return loggedUser.post('/auth/login')
+        .send({ email: 'i@dont.exist', password: 'pass123' });
+      });
+      it('should return a 401 if user is not owner of the review', () => {
+        loggedUser.delete('/api/designs/1/reviews/2').expect(401);
+      });
+      it('should return a 203', () =>
+        loggedUser.delete('/api/designs/1/reviews/1').expect(203));
+      it('should 404 if there is no review found', () => loggedUser.delete('/api/designs/1/reviews/5').expect(404));
+      it('should 404 if not valid id', () => loggedUser.delete('/api/designs/1/reviews/5').expect(404));
+    });
+  });
 });

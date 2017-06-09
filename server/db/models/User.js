@@ -13,7 +13,6 @@ module.exports = db.define('user', {
 
   name: {
     type: Sequelize.STRING,
-    allowNull: true,
     defaultValue: 'Guest',
   },
   email: {
@@ -26,7 +25,7 @@ module.exports = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   address: Sequelize.STRING,
   salt: Sequelize.STRING,
