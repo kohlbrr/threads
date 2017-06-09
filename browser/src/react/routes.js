@@ -1,12 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, browserHistory, IndexRedirect, IndexRoute } from 'react-router-dom';
+import { BrowserRouter as Router, Route, browserHistory, IndexRedirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 // import axios from 'axios';
 
 import store from './store';
 
+<<<<<<< HEAD
 import App from './containers/App';
 // import  from './containers/';
+=======
+import App from './components/App';
+import CatalogueContainer from './containers/CatalogueContainer';
+>>>>>>> bffee499f6cb863db24dc0b4ad0fbd0c4f4b0fad
 
 // import { receiveClothings } from './action-creators/categories';
 // import { receiveClothings } from './action-creators/clothings';
@@ -32,7 +37,10 @@ export default function Root() {
   return (
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={App} onEnter={onAppEnter} />
+        <Route path="/" component={App} onEnter={onAppEnter}>
+          <Route path="/designs" component={CatalogueContainer} />
+          <IndexRedirect to="/designs" />
+        </Route>
       </Router>
     </Provider>
   );

@@ -11,6 +11,7 @@ export default class App (props) {
   }
   return (
     <div id="main" className="container-fluid">
+<<<<<<< HEAD:browser/src/react/containers/App.js
       <NavbarContainer currentUser={{ name: 'guest', email: 'guest@guest' }} 
         logout={function () { console.log('Logout');}} />
 
@@ -20,8 +21,10 @@ export default class App (props) {
         <h1> React is working !!! </h1>
       </div>
       <div className="col-xs-10">
+=======
+      <NavbarContainer currentUser={{ name: 'guest', email: 'guest@guest' }} logout={function () { console.log('Logout');}} />
+>>>>>>> bffee499f6cb863db24dc0b4ad0fbd0c4f4b0fad:browser/src/react/components/App.js
         { children }
-      </div>
     </div>
   );
 }
