@@ -7,7 +7,7 @@ import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '
 import { setCurrentOrder, receiveOrders, addOrder } from '../../../react/action-creators/orders';
 import { setCurrentProduct } from '../../../react/action-creators/products';
 import { setCurrentDesign } from '../../../react/action-creators/designs';
-import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../react/action-creators/categorys';
+import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../react/action-creators/categories';
 
 describe('Root reducer', () => {
 
@@ -81,7 +81,7 @@ describe('Root reducer', () => {
   });
 
   describe('UPDATE_QUANTITY', () => { //~~~~~
-    const updateObj = { cartId: 1, quantity: 10 }
+    const updateObj = { cartId: 1, quantity: 10 };
     it('updates a cartcontent in the cart', () => {
       testStore.dispatch(updateQuantity({ type: 'UPDATE_QUANTITY', updateObj: updateObj }));
       const newState = testStore.getState();
