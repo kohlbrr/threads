@@ -15,7 +15,7 @@ Product.belongsToMany(User, { through: Cartcontents });
 Design.hasMany(Product, { onDelete: 'cascade', hooks: 'true' });
 Design.belongsTo(Clothing);
 Design.belongsTo(Category);
-Design.hasMany(Review);
+Design.hasMany(Review, { onDelete: 'cascade', hooks: true });
 
 Clothing.hasMany(Category, { onDelete: 'cascade', hooks: true });
 Clothing.hasMany(Design);
@@ -32,6 +32,8 @@ Review.belongsTo(Design);
 
 Order.belongsTo(User);
 Order.belongsToMany(Product, { through: OrderProducts });
+
+Cartcontents.belongsTo(Product);
 
 module.exports = {
   Product,

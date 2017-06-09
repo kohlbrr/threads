@@ -3,11 +3,14 @@ const session = require('supertest-session');
 const app = require('../../app');
 const { User } = require('../../db/models');
 
-const agent = session(app);
-
-
 describe('Auth Routes', () => {
-  beforeEach(() => User.sync({ force: true }));
+  let agent;
+  before(() => {
+    agent = session(app);
+    return agent;
+  });
+  before(() => User.sync({ force: true }));
+  beforeEach(() => User.truncate());
   describe('Sign Up', () => {
     it('should return a 401 if not a valid user', () =>
       agent.post('/auth/signup')
@@ -17,7 +20,7 @@ describe('Auth Routes', () => {
       User.create({ email: 'guille@guille.com', password: 'guille' })
       .then(() =>
         agent.post('/auth/signup')
-        .send({ email: 'guille@guille.com' })
+        .send({ email: 'guille@guille.com', password: 'hello' })
         .expect(401)));
     describe('when succesfully sign up', () => {
       let loggedUser;

@@ -1,13 +1,16 @@
 const router = require('express').Router();
-const { isLoggedIn, isAdmin } = require('../../middleware');
-const { Design, Product } = require('../../db/models');
+const { isAdmin } = require('../../middleware');
+const { Design, Product, Review, User } = require('../../db/models');
 const HttpError = require('../../http-error');
 
 router.param('id', (req, res, next, id) => {   // dries-up code
   Design.findById(id, {
-    include: [{
-      model: Product,
-    }],
+    include: [Product,
+      {
+        model: Review,
+        include: [User],
+      },
+    ],
   })
   .then((design) => {
     if (design) {
@@ -57,5 +60,7 @@ router.delete('/:id', isAdmin, (req, res, next) => {   // delete one design
   .catch(() => next(new HttpError(400)));
 });
 
+
+router.use('/:id/reviews', require('./reviews'));
 
 module.exports = router;

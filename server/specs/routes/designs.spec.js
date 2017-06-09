@@ -1,12 +1,11 @@
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../app');
-const { Design, Product, User } = require('../../db/models');
+const { Design, Product, User, Review } = require('../../db/models');
 
 const agent = session(app);
 
 describe('Design API routes', () => {
-
   beforeEach(() => Design.sync({ force: true })
     .then(() => Product.sync({ force: true }))
     .then(() => User.sync({ force: true })));
@@ -47,13 +46,21 @@ describe('Design API routes', () => {
       sex: 'M',
       price: 19.00,
     })
-    .then(design => Product.create({
-      size: 'M',
-      color: 'Red',
-      stock: 4,
-      imageUrl: 'image',
-      designId: design.id,
-    })));
+    .then(design => Promise.all([
+      Product.create({
+        size: 'M',
+        color: 'Red',
+        stock: 4,
+        imageUrl: 'image',
+        designId: design.id,
+      }),
+      Review.create({
+        content: 'This shirt sucks!',
+        stars: 1,
+        userId: 1,
+        designId: design.id,
+      }),
+    ])));
     it('responds with 200', () => agent.get('/api/designs/1').expect(200));
     it('responds with a 404 if product does not exist', () =>
        agent.get('/api/designs/5').expect(404));
@@ -67,6 +74,16 @@ describe('Design API routes', () => {
         expect(res.body.products).to.be.an('array');
         expect(res.body.products[0].color).to.equal('Red');
       }));
+    it('the design has a reviews property with an array of reviews', () =>
+      agent.get('/api/designs/1').expect((res) => {
+        expect(res.body.reviews).to.be.an('array');
+        expect(res.body.reviews[0].stars).to.equal(1);
+      }));
+    it('the reviews inside reviews has the user information', () =>
+       agent.get('/api/designs/1').expect((res) => {
+         expect(res.body.reviews[0].user).to.be.an('object');
+         expect(res.body.reviews[0].user.name).to.equal('Guest');
+       }));
   });
   describe('POST /api/designs', () => {
     const design = {
@@ -89,7 +106,7 @@ describe('Design API routes', () => {
         adminUser = session(app);
         return adminUser
         .post('/auth/login')
-        .send({ email: 'admin@admin.com', password: 'pass123' })
+        .send({ email: 'admin@admin.com', password: 'pass123' });
       });
       it('should respond with a 400 if not a valid design', () =>
         adminUser.post('/api/designs').send({ name: 'T-Shirt' }).expect(400));
@@ -192,7 +209,7 @@ describe('Design API routes', () => {
     describe('Admin User', () => {
       let adminUser;
       beforeEach(() => {
-        adminUser = session(app)
+        adminUser = session(app);
         return adminUser.post('/auth/login')
         .send({ email: 'admin@admin.com', password: 'pass123' });
       });
@@ -207,6 +224,11 @@ describe('Design API routes', () => {
         .then(() =>
           Product.findAll({ where: { designId: id } })
           .then(products => expect(products).to.have.lengthOf(0))));
+      it('should delete also all the reviews associated to the design', () =>
+        adminUser.delete(route)
+        .then(() =>
+          Review.findAll({ where: { designId: id } })
+          .then(reviews => expect(reviews).to.have.lengthOf(0))));
     });
   });
 });
