@@ -12,8 +12,7 @@ export default function Sidebar(props) {
           categories.map((category) => {
             return (
               <li key={category.id} className="category-item menu-item">
-                  { // <Link to={`/categories/${category.id}`}>{category.name}</Link> 
-                  }
+                <p> testing </p>
               </li>
             );
           })

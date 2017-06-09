@@ -18,7 +18,7 @@ class NavbarContainer extends React.Component {
         <div className="container">
           <div className="navbar-header">
             <button
-              type="button"
+              type="submit"
               className="navbar-toggle collapsed"
               data-toggle="collapse"
               data-target=".navbar-collapse">
