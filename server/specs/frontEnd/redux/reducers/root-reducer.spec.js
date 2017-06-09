@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinoniChai from 'sinon-chai';
+import sinon from 'sinon';
 
 import { createStore } from 'redux';
 import rootReducer from '../../../../../browser/src/react/reducers/root-reducer';
@@ -56,6 +58,18 @@ describe('Root reducer', () => {
       testStore.dispatch({ type: 'ADD_CART_CONTENT', cartContent: cartContent });
       const newState = testStore.getState();
       expect(newState.cart[0]).to.be.deep.equal(cartContent);
+    });
+  });
+
+  describe('UPDATE_CART_CONTENT', () => {
+    const cartContent = {
+      quantity: 5,
+      userId: 2,
+      productId: 1,
+      id: 1
+    };
+    it('updates a cartcontent in the cart', () => {
+      testStore.dispatch({ type: 'UPDATE_CART_CONTENT', cartContent:  })
     });
   });
 
