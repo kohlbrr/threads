@@ -1,30 +1,31 @@
-import axios from 'axios';
-import { GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, DESTROY_CART } from '../constants';
+import {
+  GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, DESTROY_CART,
+} from '../constants';
 
+const initialCartState = {
+  products: [{}],
+};
 
-export const receiveCartContent = cartContent => ({
-  type: GET_CART_CONTENT,
-  cartContent,
-});
+export default function (state = initialCartState, action) {
+  const newState = Object.assign({}, state);
+  switch (action.type) {
 
+    case GET_CART_CONTENT:
+      newState.products = action.products;
+      break;
 
-export const fetchCart = () => dispatch =>
-  axios.get('/api/cart')
-  .then(res => res.data)
-  .then(cartContent => dispatch(receiveCartContent(cartContent)))
-  .catch(console.error);
+    case ADD_PRODUCT_TO_CART:
+      newState.products.push(action.product);
+      break;
 
+    case DESTROY_CART:
+      newState.products = [];
+      break;
 
-export const addToCart = product => dispatch =>
-  axios.post(`/api/cart/${product.id}`, product)
-  .then(res => res.data)
-  .then(newCart => dispatch(receiveCartContent(newCart)))
-  .catch(console.error);
+    default:
+      return state;
 
+  }
 
-export const removeFromCart = product => dispatch =>
-  axios.delete(`/api/cart/${product.id}`, product)
-  .then(res => res.data)
-  .then(newCart => dispatch(receiveCartContent(newCart)))
-  .catch(console.error);
-
+  return newState;
+}
