@@ -2,11 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
-<<<<<<< HEAD:browser/specs/frontEnd/components/LoginForm.spec.js
-import LoginForm from '../../../src/react/components/LoginForm';
-=======
 import LoginForm from '../../react/components/LoginForm';
->>>>>>> bffee499f6cb863db24dc0b4ad0fbd0c4f4b0fad:browser/src/specs/components/LoginForm.spec.js
+
 
 describe('LoginForm component', () => {
   let login;

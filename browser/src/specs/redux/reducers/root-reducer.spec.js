@@ -5,7 +5,7 @@ import rootReducer from '../../../react/reducers/root-reducer';
 import { setCurrentUser } from '../../../react/action-creators/users';
 import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../react/action-creators/carts';
 import { setCurrentOrder, receiveOrders, addOrder } from '../../../react/action-creators/orders';
-import { setCurrentProduct } from '../../../react/action-creators/products';
+import { setCurrentProduct } from '../../../react/action-creators/product';
 import { setCurrentDesign } from '../../../react/action-creators/designs';
 import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../react/action-creators/categories';
 
