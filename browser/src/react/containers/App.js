@@ -1,16 +1,22 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-
+import { connect } from 'react-redux';
+import { logout } from '../action-creators/users';
 // import SidebarContainer from '../containers/SidebarContainer';
 
-import NavbarContainer from './NavbarContainer';
+import Navbar from '../components/Navbar';
 
-export default function App({ children }) {
+function App({ children, currentUser, logout }) {
   return (
     <div id="main">
-      <NavbarContainer currentUser={{ name: 'guest', email: 'guest@guest' }} logout={function () { console.log('Logout');}} />
+      <Navbar currentUser={currentUser} logout={logout} />
       {children}
     </div>
   );
 }
+
+const mapStateToProps = ({ currentUser }) => ({
+  currentUser,
+});
+
+export default connect(mapStateToProps, { logout })(App);
 

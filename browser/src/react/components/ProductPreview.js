@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ProductPreview = ({ design, currentProduct }) => (
+const ProductPreview = ({ design, imageUrl }) => (
   <div>
     <h1>{design.name}</h1>
-    <img className="img-thumbnail" alt="Product" src={currentProduct.imageUrl || design.imageUrl} />
+    <img className="img-thumbnail" alt="Product" src={imageUrl || design.imageUrl} />
   </div>
 );
 

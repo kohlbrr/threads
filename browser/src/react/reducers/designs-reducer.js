@@ -1,8 +1,7 @@
 import { RECEIVE_DESIGNS, RECEIVE_DESIGN } from '../constants';
 
-const initialDesignsState = [];
 
-export default function (state = initialDesignsState, action){
+export default function (state = [], action){
 
   switch (action.type) {
 

@@ -13,7 +13,7 @@ const DesignView = ({ design,
       <div className="col-md-6">
         <ProductPreview
           design={design}
-          currentProduct={currentProduct}
+          imageUrl={design.products && selectedColor && design.products.find(({ color }) => color === selectedColor).imageUrl}
         />
       </div>
       <div className="col-md-6">

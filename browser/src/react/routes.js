@@ -6,10 +6,12 @@ import store from './store';
 import App from './containers/App';
 import CatalogueContainer from './containers/CatalogueContainer';
 import DesignViewContainer from './containers/DesignViewContainer';
+import LoginContainer from './containers/LoginContainer';
 
 import { fetchDesigns } from './action-creators/designs';
 import { fetchDesign } from './action-creators/currentDesign';
 import { fetchCatgories } from './action-creators/categories';
+import { fetchUser } from './action-creators/users';
 
 const loadDesigns = () => {
   store.dispatch(fetchDesigns());
@@ -20,14 +22,19 @@ const loadDesign = (router) => {
   store.dispatch(fetchDesign(router.params.id));
 };
 
+const loadUser = () => {
+  store.dispatch(fetchUser());
+};
+
 
 export default function Root() {
   return (
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={App}>
+        <Route path="/" component={App} onEnter={loadUser}>
           <Route path="designs" component={CatalogueContainer} onEnter={loadDesigns} />
           <Route path="designs/:id" component={DesignViewContainer} onEnter={loadDesign} />
+          <Route path="login" component={LoginContainer} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>

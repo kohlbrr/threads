@@ -15,18 +15,20 @@ describe('Catalogue Component', () => {
       price: 15,
       id: 1,
       imageUrl: 'http://placeholder.it/500x500',
+      categoryId: 1
     },
     {
       name: 'Pants',
       price: 10,
       id: 2,
       imageUrl: 'http://placeholder.it/500x500',
+      categoryId: 1
     },
   ];
 
-  const categories = [
+  const categories ={ selected:
     { name: "Shoes", id: 1 },
-  ];
+  };
   it('should render a DesignItem for each design', () => {
     const wrapper = shallow(<Catalogue designs={designs} categories={categories} />);
     expect(wrapper.find(DesignItem)).to.have.length(2);
