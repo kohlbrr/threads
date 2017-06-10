@@ -5,8 +5,6 @@ import rootReducer from '../../../react/reducers/root-reducer';
 import { setCurrentUser } from '../../../react/action-creators/users';
 import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../react/action-creators/cart';
 import { setCurrentOrder, receiveOrders, addOrder } from '../../../react/action-creators/orders';
-import { setCurrentProduct } from '../../../react/action-creators/product';
-import { setCurrentDesign } from '../../../react/action-creators/designs';
 import { setCurrentCategory, receiveCategories, addCategory, removeCategory } from '../../../react/action-creators/categories';
 
 describe('Root reducer', () => {
@@ -139,37 +137,6 @@ describe('Root reducer', () => {
       testStore.dispatch(setCurrentOrder(order));
       const newState = testStore.getState();
       expect(testStore.currentUser).to.be.deep.equal(order);
-    });
-  });
-
-  // currentProduct
-  describe('SET_CURRENT_PRODUCT', () => {
-    const product = {
-      size: 'M',
-      color: 'Red',
-      stock: 100,
-      imageUrl: 'http://fake.horse',
-      designId: 1
-    };
-    it('updates currentProduct on the store', () => {
-      testStore.dispatch(setCurrentProduct(product));
-      const newState = testStore.getState();
-      expect(testStore.currentProduct).to.be.deep.equal(product);
-    });
-  });
-
-  // currentDesign
-  describe('SET_CURRENT_DESIGN', () => {
-    const design = {
-      name: 'Geoff Shirt',
-      sex: 'M',
-      price: 20.00,
-      categoryId: 1
-    };
-    it('updates currentDesign on the store', () => {
-      testStore.dispatch(setCurrentDesign(design));
-      const newState = testStore.getState();
-      expect(testStore.currentDesign).to.be.deep.equal(design);
     });
   });
 
