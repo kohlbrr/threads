@@ -12,7 +12,7 @@
     "test-middleware": "mocha ./server/specs/middleware/*.spec.js",
     "build": "webpack",
     "start-dev": "webpack -w & NODE_ENV='development' nodemon server/app.js",
-    "start": "webpack -w & nodemon server/app.js",
+    "start": "node server/app.js",
     "seed": "DATABASE_URL='postgres://localhost:5432/threads' node server/seed.js"
   },
   "repository": {
