@@ -1,11 +1,9 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
-import CatalogueContainer from '../containers/CatalogueContainer';
 
 // import SidebarContainer from '../containers/SidebarContainer';
-import Sidebar from './Sidebar';
 
-import NavbarContainer from '../containers/NavbarContainer';
+import NavbarContainer from './NavbarContainer';
 
 export default function App({ children }) {
   return (
@@ -15,3 +13,4 @@ export default function App({ children }) {
     </div>
   );
 }
+

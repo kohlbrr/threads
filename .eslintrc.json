@@ -1,4 +1,4 @@
-git stat{
+{
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {

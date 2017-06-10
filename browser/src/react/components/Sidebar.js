@@ -14,6 +14,7 @@ export default function Sidebar({ categories }) {
               <li key={category.id} className="category-item menu-item">
                   { // <Link to={`/categories/${category.id}`}>{category.name}</Link>
                   }
+
               </li>
             );
           })

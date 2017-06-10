@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import App from './components/App';
+import App from './containers/App';
+// import  from './containers/';
 import Catalogue from './components/Catalogue';
 
 // import { receiveClothings } from './action-creators/categories';
