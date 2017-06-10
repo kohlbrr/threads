@@ -6,9 +6,11 @@ import store from './store';
 import App from './containers/App';
 import CatalogueContainer from './containers/CatalogueContainer';
 import { fetchDesigns } from './action-creators/designs';
+import { fetchCatgories } from './action-creators/categories';
 
 const loadDesigns = () => {
   store.dispatch(fetchDesigns());
+  store.dispatch(fetchCatgories());
 };
 
 
