@@ -81,7 +81,7 @@ describe('Root reducer', () => {
   });
 
   describe('UPDATE_QUANTITY', () => { //~~~~~
-    const updateObj = { cartId: 1, quantity: 10 };
+    const updateObj = { cartContentId: 1, quantity: 10 };
     it('updates a cartcontent in the cart', () => {
       testStore.dispatch(updateQuantity(updateObj));
       const newState = testStore.getState();
