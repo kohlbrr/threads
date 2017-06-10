@@ -11,6 +11,8 @@ const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
 
+const PORT = process.env.PORT || 8080;
+
 const store = new SequelizeStore({ db });
 
 const app = express();
@@ -44,7 +46,7 @@ app.use((err, req, res, next) => {
 
 db.sync()
 .then(() =>
-  app.listen(8080, () => console.log('Server running in PORT 8080')));
+  app.listen(PORT, () => console.log('Server running in PORT 8080')));
 
 
 module.exports = app;
