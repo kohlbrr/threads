@@ -3,7 +3,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import DesignItem from '../../react/components/DesignItem';
 
 describe('<DesignItem, />', () => {

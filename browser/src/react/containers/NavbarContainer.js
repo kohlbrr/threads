@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 // import { logout as logOutUser } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -13,19 +13,34 @@ class NavbarContainer extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
-      <nav className="navbar navbar-default">
-        <div className="container">
+     <nav className="navbar navbar-inverse">
+        <div className="container-fluid">
           <div className="navbar-header">
-            <button
-              type="button"
-              className="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target=".navbar-collapse">
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-              <span className="icon-bar" />
+            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span className="sr-only">Toggle navigation</span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
             </button>
+            <Link className="navbar-brand" to="/">Threads</Link>
+          </div>
+
+          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul className="nav navbar-nav navbar-right">
+
+              <li className="dropdown">
+                <Link to="/" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{(user && user.name) || 'Guest' }<span className="caret"></span></Link>
+                <ul className="dropdown-menu">
+                  <li><Link to="/cart">Cart</Link></li>
+                  <li><Link to="/orders">Orders</Link></li>
+                </ul>
+              </li>
+              <li><Link to="/">Logout</Link></li>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/signup">Sign Up</Link></li>
+            </ul>
           </div>
         </div>
       </nav>

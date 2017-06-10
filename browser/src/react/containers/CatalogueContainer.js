@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { Catalogue } from '../components/Catalogue';
+import Catalogue from '../components/Catalogue';
 
 
 const mapStateToProps = ({ designs, categories }) => ({ designs, categories });

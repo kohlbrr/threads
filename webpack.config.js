@@ -1,7 +1,12 @@
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './browser/src/index.js',
+  entry: [
+    'jquery/dist/jquery.min.js',
+    'bootstrap/dist/js/bootstrap.min.js',
+    'bootstrap/dist/css/bootstrap.css',
+    './browser/src/index.js',
+  ],
   output: {
     path: __dirname,
     filename: './server/public/js/bundle.js',
@@ -19,21 +24,23 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /(\.js|\.jsx)$/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-        },
+        exclude: /node_modules/,
+        query: { presets: ['es2015', 'react'] },
       },
       {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ]
-      }
-    ]
-  }
+        test: /\.css$/,
+        loader: 'style-loader!css-loader',
+      },
+      {
+        test: /\.ncss$/,
+        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000',
+      },
+    ],
+  },
 };
