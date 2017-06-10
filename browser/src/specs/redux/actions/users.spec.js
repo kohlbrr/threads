@@ -5,7 +5,6 @@ import { setCurrentUser } from '../../../react/action-creators/users';
 describe('User actions', () => {
   
   describe('setCurrentUser', () => {
-    // Maybe want to check if the axios request fired
     // Expect a properly formatted action to be sent
     it('returns a properly formatted action', () => {
       const user = {
@@ -19,5 +18,8 @@ describe('User actions', () => {
       });
     });
   });
+
+  // AXIOS STUFF_
+  // getUserById
 
 });

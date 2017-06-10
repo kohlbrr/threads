@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { createStore } from 'redux';
 import rootReducer from '../../../react/reducers/root-reducer';
 import { setCurrentUser } from '../../../react/action-creators/users';
-import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../react/action-creators/carts';
+import { receiveCart, addCartContent, removeCartContent, updateQuantity } from '../../../react/action-creators/cart';
 import { setCurrentOrder, receiveOrders, addOrder } from '../../../react/action-creators/orders';
 import { setCurrentProduct } from '../../../react/action-creators/product';
 import { setCurrentDesign } from '../../../react/action-creators/designs';
@@ -43,7 +43,7 @@ describe('Root reducer', () => {
       password: '2fo98t8j5otdm489tg'
     };
     it('updates currentUser on the store', () => {
-      testStore.dispatch(setCurrentUser({ type: 'SET_CURRENT_USER', user: user }));
+      testStore.dispatch(setCurrentUser(user));
       const newState = testStore.getState();
       expect(testStore.currentUser).to.be.deep.equal(user);
     });
@@ -61,7 +61,7 @@ describe('Root reducer', () => {
       productId: 34
     }];
     it('updates cart with a collection of cartContents', () => {
-      testStore.dispatch(receiveCart({ type: 'RECEIVE_CART', cartContents: cartContents }));
+      testStore.dispatch(receiveCart(cartContents));
       const newState = testStore.getState();
       expect(newState.cart).to.be.deep.equal(cartContents);
     });
@@ -74,16 +74,16 @@ describe('Root reducer', () => {
       productId: 2
     };
     it('adds a cartcontent to the store', () => {
-      testStore.dispatch(addCartContent({ type: 'ADD_CART_CONTENT', cartContent: cartContent }));
+      testStore.dispatch(addCartContent(cartContent));
       const newState = testStore.getState();
       expect(newState.cart[0]).to.be.deep.equal(cartContent); // may need to play with this validation
     });
   });
 
   describe('UPDATE_QUANTITY', () => { //~~~~~
-    const updateObj = { cartId: 1, quantity: 10 };
+    const updateObj = { cartContentId: 1, quantity: 10 };
     it('updates a cartcontent in the cart', () => {
-      testStore.dispatch(updateQuantity({ type: 'UPDATE_QUANTITY', updateObj: updateObj }));
+      testStore.dispatch(updateQuantity(updateObj));
       const newState = testStore.getState();
       expect(newState.cart); // cart id 1 quantity === 10
     });
@@ -91,7 +91,7 @@ describe('Root reducer', () => {
 
   describe('REMOVE_CART_CONTENT', () => { //~~~~~
     it('removes a cartcontent from the store cart', () => {
-      testStore.dispatch(removeCartContent({ type: 'REMOVE_CART_CONTENT', cartContentId: 1 }));
+      testStore.dispatch(removeCartContent(1));
       const newState = testStore.getState();
       expect(newState.cart); // to not include a cartContent with id === 1
     });
@@ -109,7 +109,7 @@ describe('Root reducer', () => {
       userId: 7
     }];
     it('updates orders with a collection of orders', () => {
-      testStore.dispatch(receiveOrders({ type: 'RECEIVE_ORDERS', orders: orders }));
+      testStore.dispatch(receiveOrders(orders));
       const newState = testStore.getState();
       expect(newState.orders).to.be.deep.equal(orders);
     });
@@ -122,7 +122,7 @@ describe('Root reducer', () => {
       userId: 7
     };
     it('adds an order to the store', () => {
-      testStore.dispatch(addOrder({ type: 'ADD_CART_CONTENT', order: order }));
+      testStore.dispatch(addOrder(order));
       const newState = testStore.getState();
       expect(newState.order[0]).to.be.deep.equal(order); // may need to play with this validation
     });
@@ -136,7 +136,7 @@ describe('Root reducer', () => {
       userId: 1
     };
     it('updates currentOrder on the store', () => {
-      testStore.dispatch(setCurrentOrder({ type: 'SET_CURRENT_ORDER', order: order }));
+      testStore.dispatch(setCurrentOrder(order));
       const newState = testStore.getState();
       expect(testStore.currentUser).to.be.deep.equal(order);
     });
@@ -152,7 +152,7 @@ describe('Root reducer', () => {
       designId: 1
     };
     it('updates currentProduct on the store', () => {
-      testStore.dispatch(setCurrentProduct({ type: 'SET_CURRENT_PRODUCT', product: product }));
+      testStore.dispatch(setCurrentProduct(product));
       const newState = testStore.getState();
       expect(testStore.currentProduct).to.be.deep.equal(product);
     });
@@ -167,7 +167,7 @@ describe('Root reducer', () => {
       categoryId: 1
     };
     it('updates currentDesign on the store', () => {
-      testStore.dispatch(setCurrentDesign({ type: 'SET_CURRENT_DESIGN', design: design }));
+      testStore.dispatch(setCurrentDesign(design));
       const newState = testStore.getState();
       expect(testStore.currentDesign).to.be.deep.equal(design);
     });
@@ -179,7 +179,7 @@ describe('Root reducer', () => {
       name: 'Tee Shirt'
     }];
     it('updates categories with a collection of categories', () => {
-      testStore.dispatch(receiveCategories({ type: 'RECEIVE_CATEGORIES', categories: categories }));
+      testStore.dispatch(receiveCategories(categories));
       const newState = testStore.getState();
       expect(newState.categories).to.be.deep.equal(categories);
     });
@@ -190,7 +190,7 @@ describe('Root reducer', () => {
       name: 'Sweatshirt'
     };
     it('adds a category to the store', () => {
-      testStore.dispatch(addCategory({ type: 'ADD_CART_CONTENT', category: category }));
+      testStore.dispatch(addCategory(category));
       const newState = testStore.getState();
       expect(newState.category[0]).to.be.deep.equal(category); // may need to play with this validation
     });
@@ -198,7 +198,7 @@ describe('Root reducer', () => {
 
   describe('REMOVE_CATEGORY', () => { //~~~~~
     it('removes a category from the store', () => {
-      testStore.dispatch(removeCategory({ type: 'REMOVE_CATEGORY', cartContentId: 1 }));
+      testStore.dispatch(removeCategory(1));
       const newState = testStore.getState();
       expect(newState.categories); // to not include a category with id === 1
     });
@@ -213,7 +213,7 @@ describe('Root reducer', () => {
       categoryId: 1
     };
     it('updates currentCategory on the store', () => {
-      testStore.dispatch(setCurrentCategory({ type: 'SET_CURRENT_Category', category: category }));
+      testStore.dispatch(setCurrentCategory(category));
       const newState = testStore.getState();
       expect(testStore.currentCategory).to.be.deep.equal(category);
     });

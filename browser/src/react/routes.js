@@ -9,9 +9,11 @@ import DesignViewContainer from './containers/DesignViewContainer';
 
 import { fetchDesigns } from './action-creators/designs';
 import { fetchDesign } from './action-creators/currentDesign';
+import { fetchCatgories } from './action-creators/categories';
 
 const loadDesigns = () => {
   store.dispatch(fetchDesigns());
+  store.dispatch(fetchCatgories());
 };
 
 const loadDesign = (router) => {

@@ -80,7 +80,7 @@ export default NavbarContainer;
 
 /* -----------------    CONTAINER     ------------------ */
 
-// const mapState = ({currentUser}) => ({currentUser});
+// const mapState = ({ currentUser }) => ({ currentUser });
 // // // equivalent to:
 // // const mapState = state => {
 // //   return {
@@ -95,4 +95,4 @@ export default NavbarContainer;
 //   }
 // });
 
-// export default connect(mapState, mapDispatch)(Navbar);
+// export default connect(mapState, mapDispatch)(NavbarContainer);
