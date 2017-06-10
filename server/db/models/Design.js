@@ -14,6 +14,9 @@ const Design = db.define('design', {
     type: Sequelize.DECIMAL(13, 2), // This will represent the price in cents
     allowNull: false,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+  }
   // clothing fk
   // category fk
 });

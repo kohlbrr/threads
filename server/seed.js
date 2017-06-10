@@ -72,6 +72,7 @@ function createDesign() {
     price: (Math.random() * 90) + 10,
     clothingId: 1,
     categoryId: Math.ceil(Math.random() * 3),
+    imageUrl: faker.image.fashion(),
   };
 }
 

@@ -12,7 +12,7 @@ const Catalogue = ({ designs, categories }) => (
         <h1>Catalogue</h1>
         <div className="row">
           {designs && designs.map(design => (
-            <div className="col-md-4">
+            <div className="col-md-4" key={design.id} >
               <DesignItem design={design} />
             </div>
           ))}

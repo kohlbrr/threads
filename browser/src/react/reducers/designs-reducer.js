@@ -2,7 +2,7 @@ import { RECEIVE_DESIGNS, RECEIVE_DESIGN } from '../constants';
 
 const initialDesignsState = [];
 
-export default function (state = initialDesignsState, action) {
+export default function (state = initialDesignsState, action){
 
   switch (action.type) {
 
@@ -10,7 +10,7 @@ export default function (state = initialDesignsState, action) {
       return action.designs;
 
     case RECEIVE_DESIGN:
-      return action.design;
+      return [...state, action.design];
 
     default:
       return state;
