@@ -11,7 +11,7 @@ const Catalogue = ({ designs, categories, selectCategory }) => (
       <div className="col-md-9">
         <h1>Catalogue</h1>
         <div className="row">
-          {designs && designs.filter(design => design.categoryId === categories.selected.id)
+          {designs && designs.filter(design => (!categories.selected.id ? true : (design.categoryId === categories.selected.id)))
             .map(design => (
               <div className="col-md-4" key={design.id} >
                 <DesignItem design={design} />
