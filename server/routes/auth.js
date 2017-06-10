@@ -25,8 +25,9 @@ passport.deserializeUser((id, done) => {
   .catch(done);
 });
 
-
-router.get('/me', (req, res) => res.json(req.user));
+router.get('/me', (req, res) => {
+  req.user ? res.json(req.user) : next(new HttpError(401));
+});
 
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
@@ -40,10 +41,15 @@ router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, mes) => {
     if (err && !user) next(new HttpError(401));
     req.login(user, (loginErr) => {
-      if (err) next(loginErr);
-      res.json(user || mes);
+      if (err) next(new HttpError(401, loginError));
+      user ? res.json(user) : next(new HttpError(401, mes));
     });
   })(req, res, next);
 });
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.sendStatus(201);
+})
 
 module.exports = router;

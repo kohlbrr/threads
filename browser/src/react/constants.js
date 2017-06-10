@@ -19,4 +19,4 @@ export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
 export const DESTROY_CART = 'DESTROY_CART';
 export const GET_CART_CONTENT = 'GET_CART_CONTENT';
 
-
+export const SET_USER = 'SET_USER';

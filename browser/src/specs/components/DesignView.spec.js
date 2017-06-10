@@ -8,7 +8,7 @@ import DesignDetail from '../../react/components/DesignDetail';
 
 describe('DesignView component', () => {
   it('should render the DesignDetail', () => {
-    const wrapper = shallow(<DesignView />);
+    const wrapper = shallow(<DesignView design={{}} />);
     expect(wrapper.find(DesignDetail).length).to.equal(1);
   });
   it('should pass through the DesignDetail the props design, selectedColor, changeColor, changeProduct', () => {
@@ -24,16 +24,14 @@ describe('DesignView component', () => {
     expect(wrapper.find(DesignDetail).props().changeProduct).to.equal('changeProduct');
   });
   it('should render the ProductPreview', () => {
-    const wrapper = shallow(<DesignView />);
+    const wrapper = shallow(<DesignView design={{}} />);
     expect(wrapper.find(ProductPreview).length).to.equal(1);
   });
-  it('should pass throught the ProductPreview the props design and selectedProduct', () =>{
+  it('should pass throught the ProductPreview the props design', () =>{
     const wrapper = shallow(<DesignView
       design="design"
-      selectedProduct="selectedProduct"
     />);
     expect(wrapper.find(ProductPreview).props().design).to.equal('design');
-    expect(wrapper.find(ProductPreview).props().selectedProduct).to.equal('selectedProduct');
   });
 });
 

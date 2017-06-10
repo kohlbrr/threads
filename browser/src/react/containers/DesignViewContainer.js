@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import DesignView from '../components/DesignView';
-import { setCurrentProduct } from '../action-creators/product';
+import { changeProduct } from '../action-creators/product';
 
 class DesignViewContainer extends React.Component {
   constructor(props) {
@@ -43,7 +43,7 @@ const mapStateToProps = ({ currentDesign, currentProduct }) => ({
 });
 
 const mapDispatchToProps = {
-  selectProduct: setCurrentProduct,
+  changeProduct,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DesignViewContainer);

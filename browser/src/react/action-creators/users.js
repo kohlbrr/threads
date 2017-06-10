@@ -1,30 +1,29 @@
 import axios from 'axios';
-import { RECEIVE_USERS, RECEIVE_USER, SET_SELECTED_USER } from '../constants';
+import { SET_USER } from '../constants';
 
-
-export const receiveUsers = users => ({
-  type: RECEIVE_USERS,
-  users,
-});
-
-export const createUser = user => ({
-  type: RECEIVE_USER,
+export const setUser = user => ({
+  type: SET_USER,
   user,
 });
 
-export const setSelectedUser = user => ({
-  type: SET_SELECTED_USER,
-  user,
-});
-
-export const fetchUsers = () => dispatch =>
-  axios.get('/api/users')
+export const fetchUser = () => dispatch =>
+  axios.get('/auth/me')
   .then(res => res.data)
-  .then(users => dispatch(receiveUsers(users)))
-  .catch(console.error);
+  .then(user => dispatch(setUser(user)))
+  .catch(() => dispatch(setUser(null)));
 
-export const receiveUser = user => dispatch =>
-  axios.post('/api/users/', user)
+export const login = (email, password) => dispatch =>
+  axios.post('/auth/login', { email, password })
   .then(res => res.data)
-  .then(addedUser => dispatch(createUser(addedUser)))
-  .catch(console.error);
+  .then(user => dispatch(setUser(user)));
+
+
+export const signup = (email, password) => dispatch =>
+  axios.post('/auth/signup', { email, password })
+  .then(res => res.data)
+  .then(user => dispatch(setUser(user)));
+
+export const logout = () => dispatch =>
+  axios.get('/auth/logout')
+  .then(res => res.data)
+  .then(() => dispatch(setUser(null)));

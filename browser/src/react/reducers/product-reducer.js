@@ -1,8 +1,6 @@
 import { CHANGE_PRODUCT } from '../constants';
 
-const initialProductsState = {};
-
-export default function (state = initialProductsState, action) {
+export default function (state = {}, action){
 
   switch (action.type) {
 

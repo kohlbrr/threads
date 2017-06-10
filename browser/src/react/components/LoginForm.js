@@ -1,36 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const LoginForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props;
-
+const LoginForm = ({ email, password, error, loading, handleSubmit, handleChange }) => {
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
+    <div className="container">
+      <form style={{ margin: '0 auto', width: 300 }} onSubmit={handleSubmit}>
+        <div className="form-group">
           <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text" />
+          <input
+            value={email}
+            className="email form-control"
+            onChange={e => handleChange(e.target)}
+            name="email"
+            type="text"
+          />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" />
+          <input
+            value={password}
+            className="password form-control"
+            onChange={e => handleChange(e.target)}
+            name="password"
+            type="password"
+          />
         </div>
         <div>
-          <button id="login" type="submit">{ displayName }</button>
+          <button
+            className="login btn btn-primary btn-lg"
+            type="submit"
+          >Login</button>
         </div>
-        { error && <div> { error.response.data } </div> }
+        { error && <div> { error.response.data.message } </div> }
+        { loading && <p>Loading...</p> }
       </form>
-      <a href="/auth/google">{ displayName } with Google</a>
-      <a href="/auth/facebook">{ displayName } with Facebook</a>
     </div>
   );
 };
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,  // eslint-disable-line react/forbid-prop-types
-};
