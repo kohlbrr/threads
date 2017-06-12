@@ -7,6 +7,7 @@ import App from './containers/App';
 import CatalogueContainer from './containers/CatalogueContainer';
 import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
+import SignupContainer from './containers/SignupContainer';
 
 import { fetchDesigns } from './action-creators/designs';
 import { fetchDesign } from './action-creators/currentDesign';
@@ -35,6 +36,7 @@ export default function Root() {
           <Route path="designs" component={CatalogueContainer} onEnter={loadDesigns} />
           <Route path="designs/:id" component={DesignViewContainer} onEnter={loadDesign} />
           <Route path="login" component={LoginContainer} />
+          <Route path="signup" component={SignupContainer} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>
