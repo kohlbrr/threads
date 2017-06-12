@@ -46,7 +46,7 @@ app.use((err, req, res, next) => {
 
 db.sync()
 .then(() =>
-  app.listen(PORT, () => console.log('Server running in PORT 8080')));
+  app.listen(PORT, () => console.log('Server running in PORT ${PORT}')));
 
 
 module.exports = app;
