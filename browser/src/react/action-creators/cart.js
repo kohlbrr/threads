@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from 'redux';
+import store from '../store';
 import { GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, UPDATE_QUANTITY } from '../constants';
 
 
