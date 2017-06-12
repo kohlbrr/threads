@@ -19,13 +19,13 @@ export const removeProductFromCart = product => ({
 });
 
 function fetchLocalCart() {
-  const locCart = localStorage.getItem(`cart${store.user.id}`);
+  const locCart = localStorage.getItem('cart');
   if (!locCart) return [];
   return JSON.parse(locCart);
 }
 
 function updateLocalCart(value) {
-  localStorage.setItem(`cart${store.user.id}`, JSON.stringify(value));
+  localStorage.setItem('cart', JSON.stringify(value));
 }
 
 export const fetchCart = () => (dispatch) => {
