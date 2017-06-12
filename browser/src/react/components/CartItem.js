@@ -20,7 +20,7 @@ const CartItem = ({ cartItem, updateQuantity, removeFromCart }) => {
           </Link>
         </div>
         <div className="col-md-9">
-          <h3 className='name'>{name}</h3>
+          <h3 className="name">{name}</h3>
           <p>
             Color:
             <span className="color">{color}</span>

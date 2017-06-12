@@ -12,7 +12,7 @@ class DesignViewContainer extends React.Component {
     this.changeColor = this.changeColor.bind(this);
   }
 
-  componentnWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.design !== nextProps.design) {
       this.setState({
         selectedColor: nextProps.design.products[0].color,

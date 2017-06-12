@@ -8,7 +8,11 @@ import CatalogueContainer from './containers/CatalogueContainer';
 import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
+<<<<<<< HEAD
 import CartViewContainer from './containers/CartViewContainer';
+=======
+import CheckoutView from './components/CheckoutView';
+>>>>>>> 5d5f31f8155141f5d6077a73bf5c99d628823dec
 
 import { fetchDesigns } from './action-creators/designs';
 import { fetchDesign } from './action-creators/currentDesign';
@@ -43,6 +47,7 @@ export default function Root() {
           <Route path="login" component={LoginContainer} />
           <Route path="signup" component={SignupContainer} />
           <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
+          <Route path="checkout" component={CheckoutView} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>
