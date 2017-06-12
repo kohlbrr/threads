@@ -5,12 +5,12 @@ function renderColors(products, changeColor) {
     .map(product => product.color)
     .filter((color, i, self) => self.indexOf(color) === i)
     .map(color => (
-      <div key={color} style={{ marginTop: 10 }} className="col-md-2">
+      <div key={color} style={{ marginTop: 10 }} className="col-md-1">
         <button
           className="btn btn-primary color"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color, height: 30, witdh: 50, borderRadius: 30 }}
           onClick={() => changeColor(color)}
-        >{color}</button>
+        ></button>
       </div>
   ));
 }
@@ -29,7 +29,7 @@ function renderSizes(products, selectedColor, changeProduct) {
 
 const DesignDetail = ({ design, selectedColor, changeColor, changeProduct }) => (
   <div style={{ marginTop: 50 }}>
-    <p className="price" style={{ fontSize: 40, fontWeight: '800' }}>{design.price}</p>
+    <p className="price" style={{ fontSize: 40, fontWeight: '800' }}>$ {design.price}</p>
 
     <div style={{ marginTop: 40 }}className="row">
       {design.products && renderColors(design.products, changeColor)}
