@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SET_USER } from '../constants';
+import { browserHistory } from 'react-router';
 
 export const setUser = user => ({
   type: SET_USER,
@@ -26,4 +27,7 @@ export const signup = (name, email, password) => dispatch =>
 export const logout = () => dispatch =>
   axios.get('/auth/logout')
   .then(res => res.data)
-  .then(() => dispatch(setUser(null)));
+  .then(() => {
+    dispatch(setUser(null))
+    browserHistory.push('/login')
+  });

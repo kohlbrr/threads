@@ -4,15 +4,20 @@ import CartList from './CartList';
 import CartDetails from './CartDetails';
 
 function handleCheckout() {
-  browserHistory.push('/chekout');
+  browserHistory.push('/checkout');
 }
 
-const CartView = ({ cart }) => {
-  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + cartItem.price, 0);
+const CartView = ({ cart, updateQuantity, removeFromCart }) => {
+  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + Number(cartItem.price), 0);
+  console.log('CART', cart);
   return (
     <div className="row">
       <div className="col-md-9">
-        <CartList cart={cart} />
+        <CartList
+          updateQuantity={updateQuantity}
+          removeFromCart={removeFromCart}
+          cart={cart}
+        />
       </div>
       <div className="col-md-3">
         <CartDetails totalPrice={totalPrice} handleCheckout={handleCheckout} />
