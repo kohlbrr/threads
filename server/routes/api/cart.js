@@ -63,8 +63,6 @@ router.post('/:productId', isLoggedIn, (req, res, next) => {
   .catch(next);
 });
 
-//TODO
-// need to add code when quatntity === 0  => remove product from cart
 router.put('/:productId', isLoggedIn, (req, res, next) => {
   Cartcontents.findOne({
     where: {
@@ -80,5 +78,15 @@ router.put('/:productId', isLoggedIn, (req, res, next) => {
   .catch(next);
 });
 
+router.delete('/:productId', isLoggedIn, (req, res, next) => {
+  Cartcontents.destroy({
+    where: {
+      userId: req.user.id,
+      productId: req.params.productId,
+    },
+  })
+  .then(res.sendStatus(200).end())
+  .catch(next);
+});
 
 module.exports = router;
