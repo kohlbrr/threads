@@ -8,7 +8,8 @@ function handleCheckout() {
 }
 
 const CartView = ({ cart, updateQuantity, removeFromCart }) => {
-  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + cartItem.price, 0);
+  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + Number(cartItem.price), 0);
+  console.log('CART', cart);
   return (
     <div className="row">
       <div className="col-md-9">

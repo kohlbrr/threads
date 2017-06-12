@@ -3,7 +3,7 @@ const { isLoggedIn } = require('../../middleware');
 const { Design, Product, Cartcontents } = require('../../db/models');
 const HttpError = require('../../http-error');
 
-const flattenCartcontents = contents => contents.map(content =>
+const flattenContent = content =>
   Object.assign({},
     {
       price: content.product.design.price,
@@ -19,7 +19,9 @@ const flattenCartcontents = contents => contents.map(content =>
       stock: content.product.stock,
     }, {
       quantity: content.quantity,
-    }));
+    });
+
+const flattenCartcontents = contents => contents.map(flattenContent);
 
 
 router.param('productId', (req, res, next, productId) => {
@@ -85,7 +87,7 @@ router.delete('/:productId', isLoggedIn, (req, res, next) => {
       productId: req.params.productId,
     },
   })
-  .then(res.sendStatus(200).end())
+  .then(res.sendStatus(203).end())
   .catch(next);
 });
 
