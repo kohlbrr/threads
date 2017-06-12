@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const CartItem = ({ cartItem }) => {
-  const { imageUrl, name, price, size, color, designId } = cartItem;
+function loadOptions(stock) {
+  const options = [];
+  for (let i = 1; i <= stock; i += 1) {
+    options.push(<option value={stock}>{stock}</option>);
+  }
+  return options;
+}
+
+const CartItem = ({ cartItem, updateQuantity, removeFromCart }) => {
+  const { imageUrl, name, price, size, color, designId, stock, quantity } = cartItem;
   return (
     <div className="row thumbnail">
       <Link to={`/designs/${designId}`} >
@@ -18,7 +26,11 @@ const CartItem = ({ cartItem }) => {
             <span className="size">{size}</span>
           </p>
           <div style={{ float: 'right' }}>
-            $ <span className="price">{price}</span>
+            <p>$ <span className="price">{price}</span></p>
+            <select value={quantity} onChange={e => updateQuantity(cartItem, e.target.value)}>
+              {loadOptions(stock)}
+            </select>
+            <button onClick={() => removeFromCart(cartItem)} className="btn btn-danger btn-sm delete">Delete Item</button>
           </div>
         </div>
       </Link>

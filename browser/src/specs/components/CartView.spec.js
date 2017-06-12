@@ -31,4 +31,13 @@ describe('CartView Component', () => {
     const wrapper = shallow(<CartView cart={cart} />);
     expect(wrapper.find(CartList).prop('cart')).to.equal(cart);
   });
+  it('should pass the function updateQuantity and removeFromCart to CartList', () => {
+    const wrapper = shallow(<CartView
+      cart={cart}
+      removeFromCart="remove"
+      updateQuantity="update"
+    />);
+    expect(wrapper.find(CartList).first().prop('removeFromCart')).to.equal('remove');
+    expect(wrapper.find(CartList).first().prop('updateQuantity')).to.equal('update');
+  });
 });

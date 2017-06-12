@@ -7,12 +7,16 @@ function handleCheckout() {
   browserHistory.push('/chekout');
 }
 
-const CartView = ({ cart }) => {
+const CartView = ({ cart, updateQuantity, removeFromCart }) => {
   const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + cartItem.price, 0);
   return (
     <div className="row">
       <div className="col-md-9">
-        <CartList cart={cart} />
+        <CartList
+          updateQuantity={updateQuantity}
+          removeFromCart={removeFromCart}
+          cart={cart}
+        />
       </div>
       <div className="col-md-3">
         <CartDetails totalPrice={totalPrice} handleCheckout={handleCheckout} />
