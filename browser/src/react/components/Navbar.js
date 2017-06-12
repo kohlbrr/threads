@@ -32,6 +32,7 @@ class Navbar extends React.Component {
               <li><Link to="/orders">Orders</Link></li>
             </ul>
           </li>
+          <li><Link to="/cart">Cart</Link></li>
           <li><Link onClick={this.props.logout}>Logout</Link></li>
         </ul>
       );

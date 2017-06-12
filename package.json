@@ -4,6 +4,7 @@
   "description": "One badass clothing website - specializing in tee shirts",
   "main": "app.js",
   "scripts": {
+    "test": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./**/*.spec.js --compilers js:babel-register",
     "test-frontend": "mocha ./browser/src/specs/**/*.spec.js --compilers js:babel-register",
     "test-redux": "mocha ./browser/src/specs/redux/**/*.spec.js --compilers js:babel-register",
     "test-server": "DATABASE_URL='postgres://localhost:5432/threads-test' mocha ./server/specs/**/*.spec.js",

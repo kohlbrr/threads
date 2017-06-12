@@ -4,14 +4,12 @@ import React from 'react';
 function getImage(imgUrl) {
   const img = document.images[0];
   const imageLoading = new Image();
-  if(img) {
-    img.src = 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif';
+  if (img) {
+    img.src = 'https://cdn.dribbble.com/users/8424/screenshots/1036999/dots_2.gif';
   }
   imageLoading.onload = function attachSourceToImage() {
     img.src = this.src;
-    console.log('image loaded');
   };
-  console.log('hello')
   imageLoading.src = imgUrl;
   return null;
 }
@@ -19,7 +17,7 @@ function getImage(imgUrl) {
 const ProductPreview = ({ design, imageUrl }) => (
   <div>
     <h1>{design.name}</h1>
-    <img className="img-thumbnail" alt="Product" src={''} />
+    <img className="img-thumbnail" alt="Product" src="" />
     {getImage(imageUrl || design.imageUrl)}
   </div>
 );
