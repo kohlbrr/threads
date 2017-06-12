@@ -13,13 +13,11 @@ describe('Orders API', () => {
   // That have OrderProducts
 
   beforeEach(() => OrderProducts.sync({ force: true })
-  .then(Order.sync({ force: true }))
+  .then(() => Order.sync({ force: true }))
   .then(() => User.sync({ force: true }))
   .then(() => Product.sync({ force: true }))
   .then(() => Design.sync({ force: true })));
  
-  console.log('DEAD LOCK')
-
   beforeEach(() => Design.create({
     name: 'Cold Geoff',
     price: 14.00,
@@ -56,17 +54,21 @@ describe('Orders API', () => {
   describe('GET /api/orders', () => {
     it('should 403 if there is no user or user is not an admin', () => {
       agent.get('/api/orders').expect(403);
+      let loggedInUser = session(app);
+      loggedInUser.post('/auth/login')
+      .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
+      loggedInUser.get('/api/orders').expect(403);
     });
     describe('Admin', () => {
-      let loggedInUser;
+      let loggedInAdmin;
       beforeEach(() => {
-        loggedInUser = session(app);
-        return loggedInUser.post('/auth/login')
-        .send({ email: 'think@krunk.dunk', password: '123456' });
+        loggedInAdmin = session(app);
+        return loggedInAdmin.post('/auth/login')
+        .send({ email: 'thunk@krunk.dunk', password: '123456' });
       });
-      it('should return a 200', () => loggedInUser.get('/api/orders').expect(200));
+      it('should return a 200', () => loggedInAdmin.get('/api/orders').expect(200));
       it('should return an array of orders', () => {
-        loggedInUser.get('/api/orders').expect(res => {
+        loggedInAdmin.get('/api/orders').expect(res => {
           expect(res.body).to.be.an('array');
           expect(res.body[0].color).to.equal('Blue');
         });
@@ -75,8 +77,47 @@ describe('Orders API', () => {
   });
 
   // Create an order || USER
+
   // Update order status || ADMIN
+  describe('PUT /api/orders/:id', () => {
+    it('should 403 if there is no user or user is not an admin', () => {
+      agent.put('/api/orders/1').expect(403);
+      let loggedInUser = session(app);
+      loggedInUser.post('/auth/login')
+      .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
+      loggedInUser.put('/api/orders/1').expect(403);
+    });
+    describe('Admin', () => {
+      let loggedInAdmin;
+      beforeEach(() => {
+        loggedInAdmin = session(app);
+        return loggedInAdmin.post('/auth/login')
+        .send({ email: 'thunk@krunk.dunk', password: '123456' });
+      });
+      it('should return a 201', () => loggedInAdmin.put('/api/orders/1').send({ status: 'Shipped' }).expect(201));
+      it('should return the updated order', () => {
+        loggedInAdmin.put('/api/orders/1').send({ status: 'Canceled'}).expect(res => {
+          expect(res.body).to.be.an('object');
+          expect(res.body.status).to.equal('Canceled');
+        });
+      });
+    });
+  });
+
   // Return one order || USER
+  describe('GET /api/orders/:id', () => {
+    it('should 403 if there is no user', () => agent.get('/api/orders/1').expect(403));
+    describe('User', () => {
+      let loggedInUser;
+      beforeEach(() => {
+        loggedInUser = session(app);
+        return loggedInUser.post('/auth/login')
+        .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
+      });
+    });
+  });
+
   // Return all order items || USER
+  
 
 });
