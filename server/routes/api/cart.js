@@ -16,6 +16,7 @@ const flattenCartcontents = contents => contents.map(content =>
       color: content.product.color,
       imageUrl: content.product.imageUrl,
       productId: content.product.id,
+      stock: content.product.stock,
     }, {
       quantity: content.quantity,
     }));
