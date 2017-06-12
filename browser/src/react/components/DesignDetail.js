@@ -29,8 +29,9 @@ function renderSizes(products, selectedColor, changeProduct) {
 
 const DesignDetail = ({ design, selectedColor, changeColor, changeProduct }) => (
   <div style={{ marginTop: 50 }}>
-    <p className="price" style={{ fontSize: 40, fontWeight: '800' }}>$ {design.price}</p>
-
+    <p style={{ fontSize: 40, fontWeight: '800' }}>
+      $ <span className="price">{design.price}</span>
+    </p>
     <div style={{ marginTop: 40 }}className="row">
       {design.products && renderColors(design.products, changeColor)}
     </div>
