@@ -18,4 +18,5 @@ describe('CartDetail Component', () => {
     wrapper.find('.checkout').simulate('click');
     expect(spy).to.have.been.called;
   });
+
 });

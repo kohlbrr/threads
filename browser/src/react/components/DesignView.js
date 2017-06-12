@@ -7,6 +7,7 @@ const DesignView = ({ design,
   changeColor,
   changeProduct,
   currentProduct,
+  addToCart,
 }) => (
   <div className="container">
     <div className="row">
@@ -23,6 +24,7 @@ const DesignView = ({ design,
           changeColor={changeColor}
           changeProduct={changeProduct}
         />
+        <button onClick={() => addToCart(currentProduct, design)}>Add to Cart</button>
       </div>
     </div>
   </div>

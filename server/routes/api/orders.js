@@ -24,14 +24,15 @@ router.post('/', isLoggedIn, (req, res, next) => {
   })
   // Create order items associated with order
   .then((order) => {
-    req.body.forEach((cartContent) => {
-      OrderProducts.create({
+    const orderProducts = req.body.map((cartContent) => {
+      OrderProducts.build({
         orderId: order.id,
         productId: cartContent.productId,
         price: cartContent.price,
         quantity: cartContent.quantity,
       });
     });
+    return OrderProducts.bulkCreate(orderProducts);
   })
   .then(() => res.sendStatus(201))
   .catch(next);
