@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../app');
-const { Product, User, Order, OrderProducts } = require('../../db/models');
+const { Product, User, Design, Order, OrderProducts } = require('../../db/models');
 
 const agent = session(app);
 
@@ -12,17 +12,25 @@ describe('Orders API', () => {
   // To have Orders
   // That have OrderProducts
 
-  beforeEach(() => Product.sync({ force: true }))
+  beforeEach(() => OrderProducts.sync({ force: true })
+  .then(Order.sync({ force: true }))
   .then(() => User.sync({ force: true }))
-  .then(() => Order.sync({ force: true }))
-  .then(() => OrderProducts.sync({ force: true }));
-  
-  beforeEach(() => Product.create({
+  .then(() => Product.sync({ force: true }))
+  .then(() => Design.sync({ force: true })));
+ 
+  console.log('DEAD LOCK')
+
+  beforeEach(() => Design.create({
+    name: 'Cold Geoff',
+    price: 14.00,
+    sex: 'F'
+  })
+  .then(design => Product.create({
     size: 'S',
     color: 'Blue',
-    designId: 1,
+    designId: design.id,
     stock: 30
-  }))
+  })
   .then(() => User.create({
     email: 'thunk@krunk.dunk',
     password: '123456',
@@ -43,7 +51,7 @@ describe('Orders API', () => {
     productId: 1,
     price: 19.95,
     quantity: 2
-  }));
+  }))));
 
   describe('GET /api/orders', () => {
     it('should 403 if there is no user or user is not an admin', () => {
