@@ -15,7 +15,6 @@ const db = require('./db');
 
 faker.seed(123);
 
-
 const amountOfUsers = 20;
 const amountOfDesigns = 40;
 const amountOfProducts = 300;
@@ -51,7 +50,7 @@ function createProduct() {
     size: faker.random.arrayElement(['XS', 'S', 'M', 'L', 'XL']),
     color: faker.commerce.color(),
     stock: Math.floor(Math.random() * 100),
-    imageUrl: faker.image.fashion(),
+    imageUrl: `https://unsplash.it/660/500?image=${Math.ceil(Math.random() * 1000)}`,
     designId: Math.ceil(Math.random() * amountOfDesigns),
   };
 }
@@ -72,7 +71,7 @@ function createDesign() {
     price: (Math.random() * 90) + 10,
     clothingId: 1,
     categoryId: Math.ceil(Math.random() * 3),
-    imageUrl: faker.image.fashion(),
+    imageUrl: `https://unsplash.it/660/500?image=${Math.ceil(Math.random() * 1000)}`,
   };
 }
 

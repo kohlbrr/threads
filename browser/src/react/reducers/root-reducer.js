@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux';
 import categoriesReducer from './categories-reducer';
 import designsReducer from './designs-reducer';
-import productsReducer from './products-reducer';
-
+import productReducer from './product-reducer';
+import currentDesignReducer from './currentDesign-reducer';
+import userReducer from './user-reducer';
 
 export default combineReducers({
   categories: categoriesReducer,
   designs: designsReducer,
-  products: productsReducer,
+  currentProduct: productReducer,
+  currentDesign: currentDesignReducer,
+  currentUser: userReducer,
 });
