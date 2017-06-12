@@ -4,7 +4,7 @@ import CartList from './CartList';
 import CartDetails from './CartDetails';
 
 function handleCheckout() {
-  browserHistory.push('/chekout');
+  browserHistory.push('/checkout');
 }
 
 const CartView = ({ cart }) => {

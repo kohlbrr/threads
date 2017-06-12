@@ -10,7 +10,7 @@ const CartItem = ({ cartItem }) => {
           <img alt="Product" className="img-responsive" src={imageUrl} />
         </div>
         <div className="col-md-9">
-          <h3 className='name'>{name}</h3>
+          <h3 className="name">{name}</h3>
           <p>
             Color:
             <span className="color">{color}</span>
