@@ -16,6 +16,10 @@ export default function (state = initialCartState, action) {
       newState.push(action.product);
       break;
 
+    case REMOVE_PRODUCT_FROM_CART:
+      newState = newState.filter(el => el.id !== action.product.id);
+      break;
+
     case DESTROY_CART:
       newState = [];
       break;

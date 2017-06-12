@@ -13,10 +13,10 @@ export const addProductToCart = product => ({
   product,
 });
 
-// export const removeProductFromCart = product => ({
-//   type: REMOVE_PRODUCT_FROM_CART,
-//   product,
-// });
+export const removeProductFromCart = product => ({
+  type: REMOVE_PRODUCT_FROM_CART,
+  product,
+});
 
 function fetchLocalCart() {
   const locCart = localStorage.getItem(`cart${store.user.id}`);
@@ -66,11 +66,11 @@ export const removeFromCart = product => (dispatch) => {
   if (store.user.id) {
     axios.delete(`/api/cart/${product.id}`, product)
     .then(res => res.data)
-    .then(newCart => dispatch(receiveCartContent(newCart)))
+    .then(newCart => dispatch(removeFromCart(newCart)))
     .catch(console.error);
   } else {
     removeProductFromLocalCart(product);
-    dispatch(receiveCartContent(product));
+    dispatch(removeFromCart(product));
   }
 };
 
