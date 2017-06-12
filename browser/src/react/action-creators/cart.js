@@ -30,10 +30,6 @@ function fetchLocalCart() {
   return JSON.parse(locCart);
 }
 
-function updateLocalCart(value) {
-  localStorage.setItem('cart', JSON.stringify(value));
-}
-
 export const fetchCart = () => (dispatch) => {
   if (store.getState().user) {
     axios.get('/api/cart')
@@ -44,6 +40,10 @@ export const fetchCart = () => (dispatch) => {
     dispatch(receiveCartContent(fetchLocalCart()));
   }
 };
+
+function updateLocalCart(value) {
+  localStorage.setItem('cart', JSON.stringify(value));
+}
 
 function addProductToLocalCart(product) {
   const cart = fetchLocalCart();
