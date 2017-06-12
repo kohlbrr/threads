@@ -36,8 +36,8 @@ describe('Design Detail component', () => {
   it('should render all possible colors not repeating', () => {
     const wrapper = shallow(<DesignDetail design={design} selectedColor={'red'} />);
     expect(wrapper.find('.color').length).to.equal(2);
-    expect(wrapper.find('.color').first().text()).to.equal('red');
-    expect(wrapper.find('.color').last().text()).to.equal('blue');
+    expect(wrapper.find('.color').first().prop('style').backgroundColor).to.equal('red');
+    expect(wrapper.find('.color').last().prop('style').backgroundColor).to.equal('blue');
   });
   it('should only render the sizes of the selected color', () => {
     const wrapper = shallow(<DesignDetail design={design} selectedColor={'red'} />);

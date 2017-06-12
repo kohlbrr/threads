@@ -9,12 +9,14 @@ const flattenCartcontents = contents => contents.map(content =>
       price: content.product.design.price,
       name: content.product.design.name,
       sex: content.product.design.sex,
+      designId: content.product.design.id,
     },
     {
       size: content.product.size,
       color: content.product.color,
       imageUrl: content.product.imageUrl,
       productId: content.product.id,
+      stock: content.product.stock,
     }, {
       quantity: content.quantity,
     }));
@@ -61,8 +63,6 @@ router.post('/:productId', isLoggedIn, (req, res, next) => {
   .catch(next);
 });
 
-//TODO
-// need to add code when quatntity === 0  => remove product from cart
 router.put('/:productId', isLoggedIn, (req, res, next) => {
   Cartcontents.findOne({
     where: {
@@ -78,5 +78,15 @@ router.put('/:productId', isLoggedIn, (req, res, next) => {
   .catch(next);
 });
 
+router.delete('/:productId', isLoggedIn, (req, res, next) => {
+  Cartcontents.destroy({
+    where: {
+      userId: req.user.id,
+      productId: req.params.productId,
+    },
+  })
+  .then(res.sendStatus(200).end())
+  .catch(next);
+});
 
 module.exports = router;

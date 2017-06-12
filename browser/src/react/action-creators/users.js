@@ -18,8 +18,8 @@ export const login = (email, password) => dispatch =>
   .then(user => dispatch(setUser(user)));
 
 
-export const signup = (email, password) => dispatch =>
-  axios.post('/auth/signup', { email, password })
+export const signup = (name, email, password) => dispatch =>
+  axios.post('/auth/signup', { name, email, password })
   .then(res => res.data)
   .then(user => dispatch(setUser(user)));
 
