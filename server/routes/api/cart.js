@@ -57,9 +57,8 @@ router.post('/:productId', isLoggedIn, (req, res, next) => {
     },
   })
   .spread((content) => {
-    const quantity = content.quantity + req.body.quantity;
-    if (quantity > req.product.stock) return next(new HttpError(404));
-    return content.update({ quantity });
+    if (req.body.quantity > req.product.stock) return next(new HttpError(404));
+    return content.update({ quantity: req.body.quantity });
   })
   .then(res.status(201).send.bind(res))
   .catch(next);
