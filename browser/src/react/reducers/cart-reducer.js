@@ -1,5 +1,5 @@
 import {
-  GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, DESTROY_CART,
+  GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, UPDATE_QUANTITY,
 } from '../constants';
 
 const initialCartState = [];
@@ -20,8 +20,8 @@ export default function (state = initialCartState, action) {
       newState = newState.filter(el => el.id !== action.product.id);
       break;
 
-    case DESTROY_CART:
-      newState = [];
+    case UPDATE_QUANTITY:
+      newState = newState.map((product) => { if (product.id === action.product.id) product.quantity = action.quantity; });
       break;
 
     default:
