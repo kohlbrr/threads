@@ -15624,18 +15624,14 @@ function renderColors(products, changeColor) {
   }).map(function (color) {
     return _react2.default.createElement(
       "div",
-      { key: color, style: { marginTop: 10 }, className: "col-md-2" },
-      _react2.default.createElement(
-        "button",
-        {
-          className: "btn btn-primary color",
-          style: { backgroundColor: color },
-          onClick: function onClick() {
-            return changeColor(color);
-          }
-        },
-        color
-      )
+      { key: color, style: { marginTop: 10 }, className: "col-md-1" },
+      _react2.default.createElement("button", {
+        className: "btn btn-primary color",
+        style: { backgroundColor: color, height: 30, witdh: 50, borderRadius: 30 },
+        onClick: function onClick() {
+          return changeColor(color);
+        }
+      })
     );
   });
 }
@@ -15671,6 +15667,7 @@ var DesignDetail = function DesignDetail(_ref) {
     _react2.default.createElement(
       "p",
       { className: "price", style: { fontSize: 40, fontWeight: '800' } },
+      "$ ",
       design.price
     ),
     _react2.default.createElement(
@@ -16015,6 +16012,15 @@ var Navbar = function (_React$Component) {
             null,
             _react2.default.createElement(
               _reactRouter.Link,
+              { to: '/cart' },
+              'Cart'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
               { onClick: this.props.logout },
               'Logout'
             )
@@ -16089,13 +16095,11 @@ function getImage(imgUrl) {
   var img = document.images[0];
   var imageLoading = new Image();
   if (img) {
-    img.src = 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif';
+    img.src = 'https://cdn.dribbble.com/users/8424/screenshots/1036999/dots_2.gif';
   }
   imageLoading.onload = function attachSourceToImage() {
     img.src = this.src;
-    console.log('image loaded');
   };
-  console.log('hello');
   imageLoading.src = imgUrl;
   return null;
 }
