@@ -50,10 +50,6 @@ function fetchLocalCart() {
   return locCart;
 }
 
-function updateLocalCart(value) {
-  localStorage.setItem('cart', JSON.stringify(value));
-}
-
 export const fetchCart = () => (dispatch) => {
   if (store.getState().currentUser) {
     axios.get('/api/cart')
@@ -65,6 +61,9 @@ export const fetchCart = () => (dispatch) => {
   }
 };
 
+function updateLocalCart(value) {
+  localStorage.setItem('cart', JSON.stringify(value));
+}
 
 function addProductToLocalCart(product, design) {
   const cart = fetchLocalCart();
@@ -72,7 +71,6 @@ function addProductToLocalCart(product, design) {
   cart.push(cartItem);
   updateLocalCart(cart);
 }
-
 
 export const addToCart = (product, design) => (dispatch) => {
   if (store.getState().currentUser) {
@@ -83,8 +81,7 @@ export const addToCart = (product, design) => (dispatch) => {
   } else {
     addProductToLocalCart(product, design);
     dispatch(addProductToCart(product, design));
-    browserHistory.push('/cart')
-
+    browserHistory.push('/cart');
   }
 };
 
@@ -92,7 +89,7 @@ function updateQuantityInLocalCart(product, quatity) {
   const cart = fetchLocalCart();
   updateLocalCart(cart.map((item) => {
     if (item.productId === product.productId) item.quantity = quatity;
-    return item
+    return item;
   }));
 }
 
