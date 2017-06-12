@@ -9,6 +9,7 @@ const flattenCartcontents = contents => contents.map(content =>
       price: content.product.design.price,
       name: content.product.design.name,
       sex: content.product.design.sex,
+      designId: content.product.design.id,
     },
     {
       size: content.product.size,
