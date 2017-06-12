@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect, spy } from 'chai';
 
 import { createStore } from 'redux';
 import rootReducer from '../../../react/reducers/root-reducer';
