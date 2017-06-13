@@ -3,9 +3,6 @@ import { browserHistory } from 'react-router';
 import CartList from './CartList';
 import CartDetails from './CartDetails';
 
-function handleCheckout() {
-  browserHistory.push('/checkout');
-}
 
 const CartView = ({ cart, updateQuantity, removeFromCart, handleCheckout }) => {
   const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + (cartItem.price * cartItem.quantity), 0).toFixed(2);
