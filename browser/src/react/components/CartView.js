@@ -7,7 +7,7 @@ function handleCheckout() {
   browserHistory.push('/checkout');
 }
 
-const CartView = ({ cart, updateQuantity, removeFromCart }) => {
+const CartView = ({ cart, updateQuantity, removeFromCart, handleCheckout }) => {
   const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + (cartItem.price * cartItem.quantity), 0).toFixed(2);
   return (
     <div className="row">
@@ -19,7 +19,7 @@ const CartView = ({ cart, updateQuantity, removeFromCart }) => {
         />
       </div>
       <div className="col-md-3">
-        <CartDetails totalPrice={totalPrice} handleCheckout={handleCheckout} />
+        <CartDetails totalPrice={totalPrice} handleCheckout={() => handleCheckout(cart)} />
       </div>
     </div>
   );

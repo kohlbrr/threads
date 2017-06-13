@@ -1,43 +1,39 @@
 import React from 'react';
-import { connect } from 'react-redux';
-// import { browserHistory } from 'react-router';
-import { fetchCart } from '../action-creators/cart';
-import store from '../store';
 import CheckoutTotals from './CheckoutTotals';
 import CheckoutCCForm from './CheckoutCCForm';
 
-//work in progress
-
-class CheckoutView extends React.Component {
-  constructor(props){
-    super(props);
-    this.handleEditCart = this.handleEditCart.bind(this);
-  }
-
-  handleEditCart(event){
-    console.log('hey');
-  }
-
-  render() {
-    const cart = store.getState().cart;
-    return (
-      <div className="container">
-        <div className="container col-sm-6">
-          <div className="col-sm-6">
-            <CheckoutTotals cart={cart} handleEditCart={this.handleEditCart} />
-          </div>
+const CheckoutView = ({
+  order,
+  placeOrder,
+  error,
+  handleEditCart,
+  currentUser,
+  totalPrice,
+  errorInPayment,
+  updateOrder,
+}) => (
+  <div className="container">
+    {order.orderPlaced ?
+      <h3>Your order will be shipped soon</h3> :
+      <div className="row">
+        <div className="col-sm-6">
+          <CheckoutTotals totalPrice={totalPrice} cart={order.cart} handleEditCart={handleEditCart} />
         </div>
-        <div className="container col-md-6">
-          <div className="col-md-6">
-            <CheckoutCCForm
-              currentUser={this.props.currentUser}
-              totalPrice={cart.reduce((total, item) => total + Number(item), 0)} />
-          </div>
+        <div className="col-md-6">
+          <CheckoutCCForm
+            order={order}
+            currentUser={currentUser}
+            totalPrice={totalPrice}
+            placeOrder={placeOrder}
+            error={error}
+            errorInPayment={errorInPayment}
+            updateOrder={updateOrder}
+          />
         </div>
       </div>
-    );
-  }
-}
-const mapStateToProps = state => state;
+    }
+  </div>
+);
 
-export default connect(mapStateToProps, { fetchCart })(CheckoutView);
+export default CheckoutView;
+

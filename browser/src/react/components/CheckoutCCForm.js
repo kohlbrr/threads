@@ -5,14 +5,18 @@ import axios from 'axios';
 export default class CCForm extends React.Component {
   constructor(props) {
     super(props);
-    this.message = ""
     this.onToken = this.onToken.bind(this);
   }
 
   onToken(token) {
-    axios.post('/payment', { token, amount: 5000 })
-    .then(console.log)
-    .catch(console.error);
+    axios.post('/payment', { token, amount: this.props.totalPrice * 100})
+    .then(res => res.data)
+    .then((charge) => {
+      this.props.updateOrder(charge.id);
+      this.props.placeOrder(this.props.order);
+      this.props.errorInPayment(false);
+    })
+    .catch(() => this.props.errorInPayment(true));
   }
 
   render() {
@@ -23,9 +27,10 @@ export default class CCForm extends React.Component {
           token={this.onToken}
           stripeKey="pk_test_sKvyZYLCMQfeFrX2f7eovmio"
           email={currentUser && currentUser.email}
-          amount={5000}
+          amount={totalPrice * 100}
         />
-        {this.message}
+        {this.props.error ?
+          <p style={{ color: 'red' }}>There has been an error with your payment </p> : null}
       </div>
     );
   }

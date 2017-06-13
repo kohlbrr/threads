@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER } from '../constants';
+import store from '../store';
 
 export const receiveOrders = orders => ({
   type: RECEIVE_ORDERS,
@@ -27,4 +28,3 @@ export const fetchOrder = orderId => dispatch =>
     .then(res => res.data)
     .then(retOrder => dispatch(receiveOrder(retOrder)))
     .catch(console.error);
-

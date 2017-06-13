@@ -17,7 +17,7 @@ module.exports = db.define('orderproducts', {
   hooks: {
     beforeCreate: (orderProduct) => {
       Product.decrement('stock', {
-        by: orderProduct.quantity
+        by: orderProduct.quantity,
       },{
         where: { id: orderProduct.productId }
       });

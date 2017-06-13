@@ -1,5 +1,5 @@
 import {
-  GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, UPDATE_QUANTITY,
+  GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, UPDATE_QUANTITY, DESTROY_CART
 } from '../constants';
 
 const initialCartState = [];
@@ -27,7 +27,8 @@ export default function (state = initialCartState, action) {
         Object.assign({}, item);
       });
       break;
-
+    case DESTROY_CART:
+      return [];
     default:
       return state;
 

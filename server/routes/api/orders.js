@@ -1,5 +1,9 @@
 const express = require('express');
 const router = new express.Router();
+
+const keySecret = process.env.SECRET_KEY;
+const stripe = require('stripe')(keySecret);
+
 const { isLoggedIn, isAdmin } = require('../../middleware');
 const { Order, OrderProducts } = require('../../db/models');
 
@@ -17,25 +21,25 @@ router.get('/', isAdmin, (req, res, next) => {
 // USER
 router.post('/', isLoggedIn, (req, res, next) => {
   // Create order
-  Order.create({
-    status: 'Pending',
-    timestamp: Date.now(),
-    userId: req.user && req.user.id,
-  })
+  stripe.charges.retrieve(req.body.chargeId)
+  .then(() =>
+    Order.create({
+      status: 'Pending',
+      timestamp: Date.now(),
+      userId: req.user && req.user.id,
+    }))
   // Create order items associated with order
   .then((order) => {
-    const orderProducts = req.body.map((cartContent) => {
-      OrderProducts.build({
-        orderId: order.id,
-        productId: cartContent.productId,
-        price: cartContent.price,
-        quantity: cartContent.quantity,
-      });
-    });
+    const orderProducts = req.body.cart.map(cartContent => ({
+      orderId: order.id,
+      productId: cartContent.productId,
+      price: Number(cartContent.price),
+      quantity: cartContent.quantity,
+    }));
     return OrderProducts.bulkCreate(orderProducts);
   })
   .then(() => res.sendStatus(201))
-  .catch(next);
+  .catch(console.log);
 });
 
 // Update an order status
