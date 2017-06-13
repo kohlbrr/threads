@@ -27,7 +27,7 @@ export default class CCForm extends React.Component {
           {this.props.promocode ?
             <p className="bg-success">PromoCode Valid!</p>
             : <div>
-              <p>Sumbmit Promo Code:</p>
+              <p>Submit Promo Code:</p>
               <input
                 value={this.props.promocodeInput}
                 onChange={this.props.handleInputChange}
