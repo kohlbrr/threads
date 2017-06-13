@@ -1,7 +1,7 @@
 import React from 'react';
 import DesignDetail from './DesignDetail';
 import ProductPreview from './ProductPreview';
-
+import ReviewsContainer from '../containers/ReviewsContainer';
 const DesignView = ({ design,
   selectedColor,
   changeColor,
@@ -30,6 +30,9 @@ const DesignView = ({ design,
             : <p>Please Select a Color and a Size</p>}
         </div>
       </div>
+    </div>
+    <div style={{ marginTop: 30}}>
+    <ReviewsContainer />
     </div>
   </div>
 );

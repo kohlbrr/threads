@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import LoginForm from '../components/LoginForm';
-import { login } from '../action-creators/users';
+import { login, setUser } from '../action-creators/users';
+
 
 class LoginContainer extends React.Component {
   constructor(props) {
@@ -42,6 +43,8 @@ class LoginContainer extends React.Component {
     }));
   }
 
+
+
   render() {
     return (
       <LoginForm
@@ -53,4 +56,4 @@ class LoginContainer extends React.Component {
   }
 }
 
-export default connect(null, { login })(LoginContainer);
+export default connect(null, { login, setUser })(LoginContainer);
