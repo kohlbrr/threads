@@ -4,6 +4,8 @@ import designsReducer from './designs-reducer';
 import productReducer from './product-reducer';
 import currentDesignReducer from './currentDesign-reducer';
 import userReducer from './user-reducer';
+import ordersReducer from './orders-reducer';
+import currentOrderReducer from './currentOrder-reducer';
 import cartReducer from './cart-reducer';
 
 export default combineReducers({
@@ -12,5 +14,7 @@ export default combineReducers({
   currentProduct: productReducer,
   currentDesign: currentDesignReducer,
   currentUser: userReducer,
+  orders: ordersReducer,
+  currentOrder: currentOrderReducer,
   cart: cartReducer,
 });

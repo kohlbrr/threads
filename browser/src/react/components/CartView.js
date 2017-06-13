@@ -8,8 +8,7 @@ function handleCheckout() {
 }
 
 const CartView = ({ cart, updateQuantity, removeFromCart }) => {
-  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + Number(cartItem.price), 0);
-  console.log('CART', cart);
+  const totalPrice = cart.reduce((subtotal, cartItem) => subtotal + (cartItem.price * cartItem.quantity), 0).toFixed(2);
   return (
     <div className="row">
       <div className="col-md-9">

@@ -19,26 +19,9 @@ class CheckoutView extends React.Component {
   }
 
   render() {
-    // const cart = store.getState().cart;
-    const cart = [{
-    productId: 3,
-    designId: 1,
-    imageUrl: '/pic',
-    name: 'T-Shirt',
-    color: 'red',
-    size: 'M',
-    price: 15,
-  }, {
-    productId: 2,
-    designId: 2,
-    imageUrl: '/pic2',
-    name: 'Tees',
-    color: 'blue',
-    size: 'S',
-    price: 10,
-  }]
+    const cart = store.getState().cart;
     return (
-      <div className="row">
+      <div className="container">
         <div className="container col-sm-6">
           <div className="col-sm-6">
             <CheckoutTotals cart={cart} handleEditCart={this.handleEditCart} />

@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const { isLoggedIn, isAdmin } = require('../../middleware');
 const { Order, OrderProducts } = require('../../db/models');
+
 module.exports = router;
 
 // Get al orders
@@ -19,16 +20,16 @@ router.post('/', isLoggedIn, (req, res, next) => {
   Order.create({
     status: 'Pending',
     timestamp: Date.now(),
-    userId: req.user && req.user.id
+    userId: req.user && req.user.id,
   })
   // Create order items associated with order
-  .then(order => {
-    const orderProducts = req.body.map(cartContent => {
+  .then((order) => {
+    const orderProducts = req.body.map((cartContent) => {
       OrderProducts.build({
         orderId: order.id,
         productId: cartContent.productId,
         price: cartContent.price,
-        quantity: cartContent.quantity
+        quantity: cartContent.quantity,
       });
     });
     return OrderProducts.bulkCreate(orderProducts);
@@ -56,7 +57,7 @@ router.put('/:id', isAdmin, (req, res, next) => {
 // Return a single order
 // USER (gated)
 router.get('/:id', isLoggedIn, (req, res, next) => {
-  if(req.user.isAdmin || req.user.id === req.params.id) {
+  if (req.user.isAdmin || req.user.id === req.params.id) {
     Order.findById(req.params.id)
     .then(order => res.send(order))
     .catch(next);
@@ -66,7 +67,7 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
 // Return all order items
 // USER (gated)
 router.get('/:id/items', isLoggedIn, (req, res, next) => {
-  if(req.user.isAdmin || req.user.id === req.params.id) {
+  if (req.user.isAdmin || req.user.id === req.params.id) {
     OrderProducts.findAll({
       where: { orderId: req.params.id },
     })
