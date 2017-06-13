@@ -52,3 +52,9 @@ export default function Root() {
     </Provider>
   );
 }
+
+          // <Route path="admin" component={AdminViewContainer}>
+          //   <Route path="/reports"> component={ReportsView} />
+          //   <Route path="/createdesign" component={CreateDesign} />
+          //   <Route path="/createproduct" component={CreateProduct} />
+          // </Route>
