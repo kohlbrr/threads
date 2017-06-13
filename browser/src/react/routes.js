@@ -11,6 +11,7 @@ import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import CartViewContainer from './containers/CartViewContainer';
 import CheckoutContainer from './containers/CheckoutContainer';
+import CreateDesignContainer from './containers/CreateDesignContainer';
 
 
 import { fetchDesigns } from './action-creators/designs';
@@ -65,15 +66,10 @@ export default function Root() {
           <Route path="signup" component={SignupContainer} />
           <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
           <Route path="checkout" component={CheckoutContainer} />
+          <Route path="/createdesign" component={CreateDesignContainer} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>
     </Provider>
   );
 }
-
-          // <Route path="admin" component={AdminViewContainer}>
-          //   <Route path="/reports"> component={ReportsView} />
-          //   <Route path="/createdesign" component={CreateDesign} />
-          //   <Route path="/createproduct" component={CreateProduct} />
-          // </Route>
