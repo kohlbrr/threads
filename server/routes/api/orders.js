@@ -80,4 +80,12 @@ router.get('/:id/items', isLoggedIn, (req, res, next) => {
   } else { res.sendStatus(403); }
 });
 
+router.post('/promocode', (req, res, next) => {
+  if (req.body.promocode === "HotGeoff"){
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 // We don't want to delete orders via API routes - can't forsee a reason to

@@ -11,6 +11,11 @@ const CheckoutView = ({
   totalPrice,
   errorInPayment,
   updateOrder,
+  validatePromoCode,
+  handleInputChange,
+  promocodeInput,
+  promocode,
+  promocodeError,
 }) => (
   <div className="container">
     {order.orderPlaced ?
@@ -28,6 +33,11 @@ const CheckoutView = ({
             error={error}
             errorInPayment={errorInPayment}
             updateOrder={updateOrder}
+            validatePromoCode={validatePromoCode}
+            handleInputChange={handleInputChange}
+            promocodeInput={promocodeInput}
+            promocode={promocode}
+            promocodeError={promocodeError}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store';
 import { browserHistory } from 'react-router';
 import { GET_CART_CONTENT, ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART, UPDATE_QUANTITY, DESTROY_CART } from '../constants';
-
+import { changeProduct } from './product';
 
 function formatCartItem(product, design) {
   return Object.assign({},
@@ -77,6 +77,7 @@ function addProductToLocalCart(product, design) {
 }
 
 export const addToCart = (product, design) => (dispatch) => {
+  dispatch(changeProduct(null))
   if (store.getState().currentUser) {
     axios.post(`/api/cart/${product.id}`, { quantity: 1 })
     .then(res => res.data)
