@@ -10,6 +10,7 @@ import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import CartViewContainer from './containers/CartViewContainer';
 import CheckoutView from './components/CheckoutView';
+// import AdminViewContainer from './containers/AdminViewContainer';
 
 
 import { fetchDesigns } from './action-creators/designs';
@@ -52,3 +53,9 @@ export default function Root() {
     </Provider>
   );
 }
+
+          // <Route path="admin" component={AdminViewContainer}>
+          //   <Route path="/reports"> component={ReportsView} />
+          //   <Route path="/createdesign" component={CreateDesign} />
+          //   <Route path="/createproduct" component={CreateProduct} />
+          // </Route>

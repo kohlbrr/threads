@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import store from '../store';
+
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -23,9 +25,22 @@ class Navbar extends React.Component {
   }
 
   renderLogout() {
+    const User = store.getState().currentUser;
     if (this.props.currentUser) {
       return (
         <ul className="nav navbar-nav navbar-right">
+          {
+            User.isAdmin ?
+              <li className="dropdown">
+                <Link to="/" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span className="caret" /></Link>
+                <ul className="dropdown-menu">
+                  <li><Link to="/admin/createdesign">Create Design</Link></li>
+                  <li><Link to="/admin/createproduct">Create Product</Link></li>
+                  <li><Link to="/admin/reports">Reports</Link></li>
+                </ul>
+              </li> :
+              null
+          }
           <li className="dropdown">
             <Link to="/" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.currentUser.name}<span className="caret" /></Link>
             <ul className="dropdown-menu">

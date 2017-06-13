@@ -6,16 +6,10 @@ import store from '../store';
 import CheckoutTotals from './CheckoutTotals';
 import CheckoutCCForm from './CheckoutCCForm';
 
-//work in progress
-
 class CheckoutView extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleEditCart = this.handleEditCart.bind(this);
-  }
-
-  handleEditCart(event){
-    console.log('hey');
   }
 
   render() {
