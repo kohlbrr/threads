@@ -7,6 +7,7 @@ const DesignView = ({ design,
   changeColor,
   changeProduct,
   currentProduct,
+  addToCart,
 }) => (
   <div className="container">
     <div className="row">
@@ -23,6 +24,11 @@ const DesignView = ({ design,
           changeColor={changeColor}
           changeProduct={changeProduct}
         />
+        <div style={{ marginTop: 20}}>
+          {currentProduct ?
+            <button className="btn btn-success btn-lg" onClick={() => addToCart(currentProduct, design)}>Add to Cart</button>
+            : <p>Please Select a Color and a Size</p>}
+        </div>
       </div>
     </div>
   </div>

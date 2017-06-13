@@ -15,8 +15,10 @@ module.exports = db.define('orderproducts', {
   },
 },{
   hooks: {
-    afterCreate: (orderProduct) => {
-      Product.findOne({
+    beforeCreate: (orderProduct) => {
+      Product.decrement('stock', {
+        by: orderProduct.quantity,
+      },{
         where: { id: orderProduct.productId }
       })
       .then(product => product.decrement('stock', { by: orderProduct.quantity }));

@@ -1,7 +1,12 @@
 const express = require('express');
 const router = new express.Router();
+
+const keySecret = process.env.SECRET_KEY;
+const stripe = require('stripe')(keySecret);
+
 const { isLoggedIn, isAdmin } = require('../../middleware');
 const { Order, OrderProducts } = require('../../db/models');
+
 module.exports = router;
 
 // Get al orders
@@ -24,25 +29,25 @@ router.get('/', isLoggedIn, (req, res, next) => { // TODO: REFACTOR FOR USER/ADM
 // USER
 router.post('/', isLoggedIn, (req, res, next) => {
   // Create order
-  Order.create({
-    status: 'Pending',
-    timestamp: Date.now(),
-    userId: req.user && req.user.id
-  })
+  stripe.charges.retrieve(req.body.chargeId)
+  .then(() =>
+    Order.create({
+      status: 'Pending',
+      timestamp: Date.now(),
+      userId: req.user && req.user.id,
+    }))
   // Create order items associated with order
-  .then(order => {
-    const orderProducts = req.body.map(cartContent => {
-      OrderProducts.build({
-        orderId: order.id,
-        productId: cartContent.productId,
-        price: cartContent.price,
-        quantity: cartContent.quantity
-      });
-    });
+  .then((order) => {
+    const orderProducts = req.body.cart.map(cartContent => ({
+      orderId: order.id,
+      productId: cartContent.productId,
+      price: Number(cartContent.price),
+      quantity: cartContent.quantity,
+    }));
     return OrderProducts.bulkCreate(orderProducts);
   })
   .then(() => res.sendStatus(201))
-  .catch(next);
+  .catch(console.log);
 });
 
 // Update an order status
@@ -64,7 +69,7 @@ router.put('/:id', isAdmin, (req, res, next) => {
 // Return a single order
 // USER (gated)
 router.get('/:id', isLoggedIn, (req, res, next) => {
-  if(req.user.isAdmin || req.user.id === req.params.id) {
+  if (req.user.isAdmin || req.user.id === req.params.id) {
     Order.findById(req.params.id)
     .then(order => res.send(order))
     .catch(next);
@@ -86,13 +91,21 @@ router.get('/user/:userId', isAdmin, (req, res, next) => {
 // Return all order items
 // USER (gated)
 router.get('/:id/items', isLoggedIn, (req, res, next) => {
-  if(req.user.isAdmin || req.user.id === req.params.id) {
+  if (req.user.isAdmin || req.user.id === req.params.id) {
     OrderProducts.findAll({
       where: { orderId: req.params.id },
     })
     .then(orderProducts => res.send(orderProducts))
     .catch(next);
   } else { res.sendStatus(403); }
+});
+
+router.post('/promocode', (req, res, next) => {
+  if (req.body.promocode === "HotGeoff"){
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 // We don't want to delete orders via API routes - can't forsee a reason to

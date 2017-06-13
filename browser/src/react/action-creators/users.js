@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { SET_USER } from '../constants';
+import { browserHistory } from 'react-router';
+import { addToCart } from './cart';
 
 export const setUser = user => ({
   type: SET_USER,
@@ -15,7 +17,10 @@ export const fetchUser = () => dispatch =>
 export const login = (email, password) => dispatch =>
   axios.post('/auth/login', { email, password })
   .then(res => res.data)
-  .then(user => dispatch(setUser(user)));
+  .then((user) => {
+    dispatch(setUser(user));
+    JSON.parse(localStorage.getItem('cart')).forEach(item => dispatch(addToCart({ id: item.productId })));
+  });
 
 
 export const signup = (name, email, password) => dispatch =>
@@ -26,4 +31,7 @@ export const signup = (name, email, password) => dispatch =>
 export const logout = () => dispatch =>
   axios.get('/auth/logout')
   .then(res => res.data)
-  .then(() => dispatch(setUser(null)));
+  .then(() => {
+    dispatch(setUser(null))
+    browserHistory.push('/login')
+  });

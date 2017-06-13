@@ -3,7 +3,7 @@ const { isLoggedIn } = require('../../middleware');
 const { Design, Product, Cartcontents } = require('../../db/models');
 const HttpError = require('../../http-error');
 
-const flattenCartcontents = contents => contents.map(content =>
+const flattenContent = content =>
   Object.assign({},
     {
       price: content.product.design.price,
@@ -16,9 +16,12 @@ const flattenCartcontents = contents => contents.map(content =>
       color: content.product.color,
       imageUrl: content.product.imageUrl,
       productId: content.product.id,
+      stock: content.product.stock,
     }, {
       quantity: content.quantity,
-    }));
+    });
+
+const flattenCartcontents = contents => contents.map(flattenContent);
 
 
 router.param('productId', (req, res, next, productId) => {
@@ -54,9 +57,8 @@ router.post('/:productId', isLoggedIn, (req, res, next) => {
     },
   })
   .spread((content) => {
-    const quantity = content.quantity + req.body.quantity;
-    if (quantity > req.product.stock) return next(new HttpError(404));
-    return content.update({ quantity });
+    if (req.body.quantity > req.product.stock) return next(new HttpError(404));
+    return content.update({ quantity: req.body.quantity });
   })
   .then(res.status(201).send.bind(res))
   .catch(next);
@@ -84,7 +86,18 @@ router.delete('/:productId', isLoggedIn, (req, res, next) => {
       productId: req.params.productId,
     },
   })
-  .then(res.sendStatus(200).end())
+  .then(res.sendStatus(203).end())
+  .catch(next);
+});
+
+
+router.delete('/', isLoggedIn, (req, res, next) => {
+  Cartcontents.destroy({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  .then(res.sendStatus(203).end())
   .catch(next);
 });
 

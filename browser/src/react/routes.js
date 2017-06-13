@@ -8,11 +8,15 @@ import CatalogueContainer from './containers/CatalogueContainer';
 import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
+import CartViewContainer from './containers/CartViewContainer';
+import CheckoutContainer from './containers/CheckoutContainer';
+
 
 import { fetchDesigns } from './action-creators/designs';
 import { fetchDesign } from './action-creators/currentDesign';
 import { fetchCatgories } from './action-creators/categories';
 import { fetchUser } from './action-creators/users';
+import { fetchCart } from './action-creators/cart';
 
 const loadDesigns = () => {
   store.dispatch(fetchDesigns());
@@ -23,8 +27,11 @@ const loadDesign = (router) => {
   store.dispatch(fetchDesign(router.params.id));
 };
 
+const loadCart = () => {
+  store.dispatch(fetchCart());
+};
 const loadUser = () => {
-  store.dispatch(fetchUser());
+  store.dispatch(fetchUser()).then(() => loadCart());
 };
 
 
@@ -37,6 +44,8 @@ export default function Root() {
           <Route path="designs/:id" component={DesignViewContainer} onEnter={loadDesign} />
           <Route path="login" component={LoginContainer} />
           <Route path="signup" component={SignupContainer} />
+          <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
+          <Route path="checkout" component={CheckoutContainer} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>
