@@ -16048,10 +16048,6 @@ var _CartDetails2 = _interopRequireDefault(_CartDetails);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function handleCheckout() {
-  _reactRouter.browserHistory.push('/checkout');
-}
-
 var CartView = function CartView(_ref) {
   var cart = _ref.cart,
       updateQuantity = _ref.updateQuantity,
@@ -16727,7 +16723,6 @@ var LoginForm = function LoginForm(_ref) {
       loading = _ref.loading,
       handleSubmit = _ref.handleSubmit,
       handleChange = _ref.handleChange;
-
   return _react2.default.createElement(
     'div',
     { className: 'container' },
@@ -16788,7 +16783,8 @@ var LoginForm = function LoginForm(_ref) {
             type: 'submit'
           },
           'Login'
-        )
+        ),
+        _react2.default.createElement('div', { className: 'fb-login-button', 'data-max-rows': '1', 'data-size': 'medium', 'data-button-type': 'login_with', 'data-show-faces': 'false', 'data-auto-logout-link': 'false', 'data-use-continue-as': 'false' })
       ),
       error && _react2.default.createElement(
         'div',
@@ -17339,8 +17335,12 @@ var mapStateToProps = function mapStateToProps(_ref) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    removeFromCart: _cart.removeFromCart,
-    updateQuantity: _cart.updateQuantity,
+    removeFromCart: function removeFromCart(item) {
+      dispatch((0, _cart.removeFromCart)(item));
+    },
+    updateQuantity: function updateQuantity(item, quantity) {
+      dispatch((0, _cart.updateQuantity)(item, quantity));
+    },
     handleCheckout: function handleCheckout(cart) {
       dispatch((0, _currentOrder.setCurrentOrder)(cart));
       _reactRouter.browserHistory.push('/checkout');
@@ -17488,9 +17488,9 @@ var CheckoutContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var totalPrice = (this.props.order.cart.reduce(function (total, item) {
-        return total + Number(item.price);
-      }, 0) * (this.state.promocode ? 0.30 : 1)).toFixed(2);
+      var totalPrice = (this.props.order.cart.reduce(function (subtotal, cartItem) {
+        return subtotal + cartItem.price * cartItem.quantity;
+      }, 0) * (this.state.promocode ? 0.70 : 1)).toFixed(2);
       return _react2.default.createElement(_CheckoutView2.default, _extends({
         totalPrice: totalPrice,
         handleEditCart: this.handleEditCart,
