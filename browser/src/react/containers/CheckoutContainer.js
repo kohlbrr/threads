@@ -52,8 +52,7 @@ class CheckoutContainer extends React.Component {
   }
 
   render() {
-    const totalPrice = (this.props.order.cart.reduce((total, item) =>
-      total + Number(item.price), 0) * (this.state.promocode ? 0.30 : 1)).toFixed(2);
+    const totalPrice = (this.props.order.cart.reduce((subtotal, cartItem) => subtotal + (cartItem.price * cartItem.quantity), 0) * (this.state.promocode ? 0.70 : 1)).toFixed(2);
     return (
       <CheckoutView
         totalPrice={totalPrice}

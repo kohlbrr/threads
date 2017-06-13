@@ -25,7 +25,6 @@ module.exports = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   address: Sequelize.STRING,
   salt: Sequelize.STRING,

@@ -7,8 +7,12 @@ import { setCurrentOrder } from '../action-creators/currentOrder';
 const mapStateToProps = ({ cart }) => ({ cart });
 
 const mapDispatchToProps = dispatch => ({
-  removeFromCart,
-  updateQuantity,
+  removeFromCart(item) {
+    dispatch(removeFromCart(item));
+  },
+  updateQuantity(item, quantity) {
+    dispatch(updateQuantity(item, quantity));
+  },
   handleCheckout(cart) {
     dispatch(setCurrentOrder(cart));
     browserHistory.push('/checkout');
