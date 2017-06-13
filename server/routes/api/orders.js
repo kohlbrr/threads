@@ -5,11 +5,19 @@ const { Order, OrderProducts } = require('../../db/models');
 module.exports = router;
 
 // Get al orders
-// ADMIN
-router.get('/', isAdmin, (req, res, next) => {
-  Order.findAll()
-  .then(orders => res.json(orders))
-  .catch(next);
+// USER / ADMIN
+router.get('/', isLoggedIn, (req, res, next) => { // TODO: REFACTOR FOR USER/ADMIN
+  if(req.user.isAdmin) {
+    Order.findAll()
+    .then(orders => res.json(orders))
+    .catch(next);
+  } else {
+    Order.findAll({
+      where: { userId: req.user.id }
+    })
+    .then(orders => res.json(orders))
+    .catch(next);
+  }
 });
 
 // Create an order
@@ -61,6 +69,18 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
     .then(order => res.send(order))
     .catch(next);
   } else { res.sendStatus(403); }
+});
+
+// Return all orders for a user
+// ADMIN
+router.get('/user/:userId', isAdmin, (req, res, next) => {
+  Order.findAll({
+    where: {
+      userId: req.params.userId
+    }
+  })
+  .then(orders => res.send(orders))
+  .catch(next);
 });
 
 // Return all order items

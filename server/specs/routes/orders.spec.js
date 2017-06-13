@@ -49,27 +49,47 @@ describe('Orders API', () => {
     productId: 1,
     price: 19.95,
     quantity: 2
+  }))
+  .then(() => Order.create({
+    status: 'Pending',
+    timestamp: 100000,
+    userId: 1
   }))));
 
+  let loggedInUser = session(app);
+  beforeEach(() => {
+    loggedInUser = session(app);
+    return loggedInUser.post('/auth/login')
+    .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
+  });
+
+  let loggedInAdmin;
+  beforeEach(() => {
+    loggedInAdmin = session(app);
+    return loggedInAdmin.post('/auth/login')
+    .send({ email: 'thunk@krunk.dunk', password: '123456' });
+  });
+
   describe('GET /api/orders', () => {
-    it('should 403 if there is no user or user is not an admin', () => {
+    it('should 403 if there is no user', () => {
       agent.get('/api/orders').expect(403);
-      let loggedInUser = session(app);
-      loggedInUser.post('/auth/login')
-      .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
-      loggedInUser.get('/api/orders').expect(403);
+    });
+    describe('User', () => {
+      it('should return a 200', () => loggedInUser.get('/api/orders').expect(200));
+      it('should return an array of orders', () => {
+        loggedInUser.get('/api/orders').expect(res => {
+          expect(res.body).to.be.an('array');
+          expect(res.body.length).to.equal(1);
+          expect(res.body[0].userId).to.equal(2);
+        });
+      });
     });
     describe('Admin', () => {
-      let loggedInAdmin;
-      beforeEach(() => {
-        loggedInAdmin = session(app);
-        return loggedInAdmin.post('/auth/login')
-        .send({ email: 'thunk@krunk.dunk', password: '123456' });
-      });
       it('should return a 200', () => loggedInAdmin.get('/api/orders').expect(200));
       it('should return an array of orders', () => {
         loggedInAdmin.get('/api/orders').expect(res => {
           expect(res.body).to.be.an('array');
+          expect(res.body.length).to.equal(2);
           expect(res.body[0].color).to.equal('Blue');
         });
       });
@@ -82,18 +102,9 @@ describe('Orders API', () => {
   describe('PUT /api/orders/:id', () => {
     it('should 403 if there is no user or user is not an admin', () => {
       agent.put('/api/orders/1').expect(403);
-      let loggedInUser = session(app);
-      loggedInUser.post('/auth/login')
-      .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
       loggedInUser.put('/api/orders/1').expect(403);
     });
     describe('Admin', () => {
-      let loggedInAdmin;
-      beforeEach(() => {
-        loggedInAdmin = session(app);
-        return loggedInAdmin.post('/auth/login')
-        .send({ email: 'thunk@krunk.dunk', password: '123456' });
-      });
       it('should return a 201', () => loggedInAdmin.put('/api/orders/1').send({ status: 'Shipped' }).expect(201));
       it('should return the updated order', () => {
         loggedInAdmin.put('/api/orders/1').send({ status: 'Canceled'}).expect(res => {
@@ -108,12 +119,6 @@ describe('Orders API', () => {
   describe('GET /api/orders/:id', () => {
     it('should 403 if there is no user', () => agent.get('/api/orders/1').expect(403));
     describe('User', () => {
-      let loggedInUser;
-      beforeEach(() => {
-        loggedInUser = session(app);
-        return loggedInUser.post('/auth/login')
-        .send({ email: 'normie@bland.toast', password: 'iWishIWasAnAdmin' });
-      });
     });
   });
 
