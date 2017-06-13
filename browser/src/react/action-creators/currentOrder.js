@@ -1,32 +1,26 @@
 import axios from 'axios';
-import { SET_CURRENT_ORDER, UPDATE_ORDER } from '../constants';
+import { SET_CURRENT_ORDER, UPDATE_ORDER, ORDER_PLACED } from '../constants';
+import { destroyCart } from './cart';
 
-
-export const setCurrentOrder = order => ({
+export const setCurrentOrder = cart => ({
   type: SET_CURRENT_ORDER,
-  order,
+  cart,
 });
 
-export const updateOrder = order => ({
+export const updateOrder = chargeId => ({
   type: UPDATE_ORDER,
-  order,
+  chargeId,
+});
+export const orderPlaced = () => ({
+  type: ORDER_PLACED,
 });
 
-export const fetchOrder = id => dispatch =>
-    axios.get(`/api/orders/${id}`)
-    .then(res => res.data)
-    .then(order => dispatch(setCurrentOrder(order)))
-    .catch(console.error);
-
-export const createOrder = () => dispatch =>
-    axios.post('/api/orders/')
-    .then(res => res.data)
-    .then(newOrder => dispatch(setCurrentOrder(newOrder)))
-    .catch(console.error);
-
-export const updateOrderById = id => dispatch =>
-    axios.put(`/api/orders/${id}`)
-    .then(res => res.data)
-    .then(order => dispatch(setCurrentOrder(order)))
-    .catch(console.error);
+export const placeOrder = order => (dispatch) => {
+  return axios.post('/api/orders', order)
+  .then((res) => {
+    console.log(res);
+    dispatch(orderPlaced());
+    dispatch(destroyCart());
+  });
+};
 

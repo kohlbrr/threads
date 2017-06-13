@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const session = require('express-session');
-const passport = require('passport');
+const passport = require('passport');;
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
 
@@ -23,6 +23,10 @@ app.use(bodyParser.json());
 
 app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, '../node_modules')));
+
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const keySecret = process.env.SECRET_KEY;
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'This is the development secret',

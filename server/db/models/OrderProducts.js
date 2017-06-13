@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../index');
-const { Product } = require('../../db/models');
+const Product = require('./Product');
 
 module.exports = db.define('orderproducts', {
 
@@ -17,10 +17,11 @@ module.exports = db.define('orderproducts', {
   hooks: {
     beforeCreate: (orderProduct) => {
       Product.decrement('stock', {
-        by: orderProduct.quantity
+        by: orderProduct.quantity,
       },{
         where: { id: orderProduct.productId }
-      });
+      })
+      .then(product => product.decrement('stock', { by: orderProduct.quantity }));
     }
   }
 });

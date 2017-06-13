@@ -9,8 +9,7 @@ import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import CartViewContainer from './containers/CartViewContainer';
-import CheckoutView from './components/CheckoutView';
-// import AdminViewContainer from './containers/AdminViewContainer';
+import CheckoutContainer from './containers/CheckoutContainer';
 
 
 import { fetchDesigns } from './action-creators/designs';
@@ -46,7 +45,7 @@ export default function Root() {
           <Route path="login" component={LoginContainer} />
           <Route path="signup" component={SignupContainer} />
           <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
-          <Route path="checkout" component={CheckoutView} />
+          <Route path="checkout" component={CheckoutContainer} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>

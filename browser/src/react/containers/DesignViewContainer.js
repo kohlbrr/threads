@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DesignView from '../components/DesignView';
 import { changeProduct } from '../action-creators/product';
-import { addToCart } from '../action-creators/cart'
+import { addToCart } from '../action-creators/cart';
+
 class DesignViewContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ class DesignViewContainer extends React.Component {
     this.setState({
       selectedColor: color,
     });
+    this.props.changeProduct(null);
   }
 
   render() {
@@ -44,7 +46,7 @@ const mapStateToProps = ({ currentDesign, currentProduct }) => ({
 
 const mapDispatchToProps = {
   changeProduct,
-  addToCart
+  addToCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DesignViewContainer);
