@@ -46,7 +46,9 @@ class CheckoutView extends React.Component {
         </div>
         <div className="container col-md-6">
           <div className="col-md-6">
-            <CheckoutCCForm />
+            <CheckoutCCForm
+              currentUser={this.props.currentUser}
+              totalPrice={cart.reduce((total, item) => total + Number(item), 0)} />
           </div>
         </div>
       </div>

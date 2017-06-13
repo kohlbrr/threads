@@ -1,44 +1,32 @@
 import React from 'react';
+import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios';
 
-const CCForm = ({ card, expiration, error, loading, handleSubmit, handleChange }) => {
-  return (
-    <div className="container">
-      <form style={{ padding: 1, width: 100}} onSubmit={handleSubmit}>
+export default class CCForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.message = ""
+    this.onToken = this.onToken.bind(this);
+  }
 
-        <div className="form-group">
-          <label htmlFor="CardNumber"><small>CardNumber</small></label>
-          <input
-            value={card}
-            className="expiration form-control"
-            onChange={e => handleChange(e.target)}
-            name="card"
-            type="text"
-          />
-        </div>
+  onToken(token) {
+    axios.post('/payment', { token, amount: 5000 })
+    .then(console.log)
+    .catch(console.error);
+  }
 
-        <div className="form-group">
-          <label htmlFor="expiration"><small>Expiration</small></label>
-          <input
-            value={expiration}
-            className="expiration form-control"
-            onChange={e => handleChange(e.target)}
-            name="expiration"
-            type="expiration"
-          />
-        </div>
-
-        <div>
-          <button
-            className="pay btn btn-primary btn-lg"
-            type="submit"
-          >Pay</button>
-        </div>
-
-        { error && <div> { error.response.data.message } </div> }
-        { loading && <p>Loading...</p> }
-      </form>
-    </div>
-  );
-};
-
-export default CCForm;
+  render() {
+    const { currentUser, totalPrice } = this.props;
+    return (
+      <div>
+        <StripeCheckout
+          token={this.onToken}
+          stripeKey="pk_test_sKvyZYLCMQfeFrX2f7eovmio"
+          email={currentUser && currentUser.email}
+          amount={5000}
+        />
+        {this.message}
+      </div>
+    );
+  }
+}
