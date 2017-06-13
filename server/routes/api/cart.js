@@ -57,9 +57,8 @@ router.post('/:productId', isLoggedIn, (req, res, next) => {
     },
   })
   .spread((content) => {
-    const quantity = content.quantity + req.body.quantity;
-    if (quantity > req.product.stock) return next(new HttpError(404));
-    return content.update({ quantity });
+    if (req.body.quantity > req.product.stock) return next(new HttpError(404));
+    return content.update({ quantity: req.body.quantity });
   })
   .then(res.status(201).send.bind(res))
   .catch(next);
@@ -85,6 +84,17 @@ router.delete('/:productId', isLoggedIn, (req, res, next) => {
     where: {
       userId: req.user.id,
       productId: req.params.productId,
+    },
+  })
+  .then(res.sendStatus(203).end())
+  .catch(next);
+});
+
+
+router.delete('/', isLoggedIn, (req, res, next) => {
+  Cartcontents.destroy({
+    where: {
+      userId: req.user.id,
     },
   })
   .then(res.sendStatus(203).end())

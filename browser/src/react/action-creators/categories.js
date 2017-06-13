@@ -17,7 +17,6 @@ export const setCategory = category => ({
   category,
 });
 
-
 export const fetchCatgories = () => dispatch =>
   axios.get('/api/categories')
   .then(res => res.data)

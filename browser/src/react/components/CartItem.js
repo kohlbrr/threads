@@ -23,8 +23,8 @@ const CartItem = ({ cartItem, updateQuantity, removeFromCart }) => {
           <h3 className="name">{name}</h3>
           <p>
             Color:
-            <span className="color">{color}</span>
-            | Price:
+            <span className="color">{color} </span>
+            | Size:
             <span className="size">{size}</span>
           </p>
           <div style={{ float: 'right' }}>
