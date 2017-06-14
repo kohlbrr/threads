@@ -5,7 +5,7 @@ const LocalStrategy = require('passport-local');
 const { User } = require('../db/models');
 const HttpError = require('../http-error');
 
-passport.use(new LocalStrategy((email, password, done) => {
+passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
   User.findOne({ where: { email } })
   .then((user) => {
     if (!user) return done(null, false, { message: 'Incorrect username.' });
@@ -16,6 +16,7 @@ passport.use(new LocalStrategy((email, password, done) => {
   }).catch(done);
 }));
 
+
 passport.serializeUser((user, done) => done(null, user.id));
 
 
@@ -25,28 +26,31 @@ passport.deserializeUser((id, done) => {
   .catch(done);
 });
 
-function loginCallback(req, res, next) {
-  return err => (err ? next(err) : req.session.save(() => res.json(req.user)));
-}
-
-router.get('/me', (req, res) => res.json(req.user));
+router.get('/me', (req, res, next) => {
+  req.user ? res.json(req.user) : next(new HttpError(401));
+});
 
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
   .then((user) => {
-    req.login(user, loginCallback(req, res, next));
+    req.login(user, err => (err ? next(err) : res.json(req.user)));
   })
   .catch(() => next(new HttpError(401)));
 });
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user) => {
+  passport.authenticate('local', (err, user, mes) => {
     if (err && !user) next(new HttpError(401));
     req.login(user, (loginErr) => {
-      if (err) next(loginErr);
-      res.json(user);
+      if (err) next(new HttpError(401, loginErr));
+      user ? res.json(user) : next(new HttpError(401, mes));
     });
   })(req, res, next);
 });
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.sendStatus(201);
+})
 
 module.exports = router;

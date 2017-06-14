@@ -1,73 +1,38 @@
 const express = require('express');
-const router = new express.Router();
 const { Review } = require('../../db/models');
+const HttpError = require('../../http-error');
+const { isLoggedIn, isOwnerOfReview } = require('../../middleware');
+
+const router = new express.Router({ mergeParams: true });
 module.exports = router;
 
-// !Needs to be validated and hardened for sec purposes
-
-// Get all reviews for a design
-router.get('/:designId', (req, res, next) => {
-  Review.findAll({
-    where: { designId: req.params.designId },
-  })
-  .then(reviews => {
-    if(reviews.length === 0) res.sendStatus(404);
-    else res.send(reviews);
-  })
-  .catch(next);
-});
-
-// Get all reviews for a user
-router.get('/user/:userId', (req, res, next) => {
-  Review.findAll({
-    where: { userId: req.params.userId },
-  })
-  .then(reviews => {
-    if(reviews.length === 0) res.sendStatus(404);
-    else res.send(reviews);
-  })
-  .catch(next);
+router.param('reviewId', (req, res, next, reviewId) => {
+  Review.findById(reviewId)
+  .then((review) => {
+    if (!review) return next(new HttpError(404));
+    req.review = review;
+    return next();
+  }).catch(() => next(new HttpError(404)));
 });
 
 // Create a review
-router.post('/', (req, res, next) => {
-  Review.create(req.body)
-  .then(review => {
-    res.status(201).send(review);
-  })
-  .catch((errContent) => { // !Does not account for invalid data errors
-    const err = new Error(errContent);
-    err.status = 400;
-    next(err);
-  });
+router.post('/', isLoggedIn, (req, res, next) => {
+  const review = Object.assign({}, req.body, { userId: req.user.id, designId: req.params.id });
+  Review.create(review)
+  .then(res.status(201).send.bind(res))
+  .catch(() => next(new HttpError(400)));
 });
 
 // Update a review
-router.put('/:id', (req, res, next) => {
-  Review.update(
-    req.body,
-    {
-      where: { id: req.params.id },
-      returning: true,
-      plain: true
-    }
-  )
-  .then(review => res.status(201).send(review[1]))
-  .catch((errContent) => { // !Does not account for invalid data errors
-    const err = new Error(errContent);
-    err.status = 400;
-    next(err);
-  });
+router.put('/:reviewId', isLoggedIn, isOwnerOfReview, (req, res, next) => {
+  req.review.update(req.body)
+  .then(res.status(201).send.bind(res))
+  .catch(() => next(new HttpError(400)));
 });
 
 // Delete a review
-router.delete('/:id', (req, res, next) => {
-  Review.destroy({
-    where: { id: req.params.id },
-  })
-  .then(wasDeleted => {
-    if(!wasDeleted) res.sendStatus(404);
-    else res.sendStatus(204);
-  })
+router.delete('/:reviewId', isLoggedIn, isOwnerOfReview, (req, res, next) => {
+  req.review.destroy()
+  .then(() => res.sendStatus(203))
   .catch(next);
 });

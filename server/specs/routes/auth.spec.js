@@ -1,13 +1,16 @@
 const { expect } = require('chai');
-const supertest = require('supertest');
+const session = require('supertest-session');
 const app = require('../../app');
 const { User } = require('../../db/models');
 
-const agent = supertest.agent(app);
-
-
 describe('Auth Routes', () => {
-  beforeEach(() => User.sync({ force: true }));
+  let agent;
+  before(() => {
+    agent = session(app);
+    return agent;
+  });
+  before(() => User.sync({ force: true }));
+  beforeEach(() => User.truncate());
   describe('Sign Up', () => {
     it('should return a 401 if not a valid user', () =>
       agent.post('/auth/signup')
@@ -17,31 +20,26 @@ describe('Auth Routes', () => {
       User.create({ email: 'guille@guille.com', password: 'guille' })
       .then(() =>
         agent.post('/auth/signup')
-        .send({ email: 'guille@guille.com' })
+        .send({ email: 'guille@guille.com', password: 'hello' })
         .expect(401)));
     describe('when succesfully sign up', () => {
       let loggedUser;
-      before(() => {
-        loggedUser = supertest.agent(app).post('/auth/signup')
+      let loginRequest;
+      beforeEach(() => {
+        loggedUser = session(app);
+        loginRequest = loggedUser.post('/auth/signup')
         .send({ email: 'guille@guille.com', password: 'guille' });
+        return loginRequest;
       });
       it('should return 200', () =>
-        loggedUser.expect(200));
-      it('should succesfully create a user when signup', () =>
-        loggedUser.expect(() =>
-          User.findOne({ where: { email: 'guille@guille.com' } })
-          .then(user => expect(user.email).to.equal('guille@guille.com'))));
-      it('should return a user', () => {
-        loggedUser
-        .expect((res) => {
-          expect(res.body.email).to.equal('guille@guille.com');
-        });
-      });
-      it('should persist the session', () => {
-        loggedUser.then(() =>
-          loggedUser.get('/auth/me')
-          .expect(res => expect(res.body.email).to.equal('guille@guille.com')));
-      });
+        loginRequest.expect(200));
+      it('should return a user', () =>
+        loginRequest
+        .expect(res =>
+          expect(res.body.email).to.equal('guille@guille.com')));
+      it('should persist the session', () =>
+        loggedUser.get('/auth/me')
+        .expect(res => expect(res.body.email).to.equal('guille@guille.com')));
     });
   });
   describe('Log In', () => {
@@ -59,23 +57,22 @@ describe('Auth Routes', () => {
       .expect(404));
     describe('when succesfully log in', () => {
       let loggedUser;
-      before(() => {
-        loggedUser = supertest.agent(app).post('/auth/login')
+      let loginRequest;
+      beforeEach(() => {
+        loggedUser = session(app);
+        loginRequest = loggedUser.post('/auth/login')
         .send({ email: 'guille@guille.com', password: 'guille' });
+        return loginRequest;
       });
       it('should return 200', () =>
-        loggedUser.expect(200));
-      it('should return a user', () => {
-        loggedUser
-        .expect((res) => {
-          expect(res.body.email).to.equal('guille@guille.com');
-        });
-      });
-      it('should persist the session', () => {
-        loggedUser.then(() =>
-          loggedUser.get('/auth/me')
-          .expect(res => expect(res.body.email).to.equal('guille@guille.com')));
-      });
+        loginRequest.expect(200));
+      it('should return a user', () =>
+        loginRequest
+        .expect(res =>
+          expect(res.body.email).to.equal('guille@guille.com')));
+      it('should persist the session', () =>
+        loggedUser.get('/auth/me')
+        .expect(res => expect(res.body.email).to.equal('guille@guille.com')));
     });
   });
 });

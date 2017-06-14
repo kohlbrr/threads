@@ -1,34 +1,27 @@
 const router = require('express').Router();
-
+const { isAdmin } = require('../../middleware');
 const { Clothing, Category } = require('../../db/models');
+const HttpError = require('../../http-error');
 
 router.param('id', (req, res, next, id) => {   // dries-up code
-  Clothing.findOne({
-    where: { id: id },
+  Clothing.findById(id, {
     include: [{
       model: Category,
-      where: { clothingId: id },
     }],
   })
   .then((clothing) => {
     if (clothing) {
       req.clothing = clothing;
-      next();
-    } else {
-      res.sendStatus(404);
+      return next();
     }
+    return next(new HttpError(404));
   })
-  .catch(() => {
-    const error = new Error();
-    error.status = 404;
-    next(error);
-  });
+  .catch(() => next(new HttpError(404)));
 });
 
 router.get('/', (req, res, next) => {         // get all clothings
   Clothing.findAll()
   .then((clothings) => {
-    console.log('this is running');
     res.json(clothings);
   })
   .catch(next);
@@ -39,22 +32,21 @@ router.get('/:id', (req, res, next) => {      // get one clothing
   next();
 });
 
-router.post('/', (req, res, next) => {        // post one clothing
+router.post('/', isAdmin, (req, res, next) => {        // post one clothing
   Clothing.create(req.body)
   .then((clothing) => {
-    console.log('created successfully');
     res.status(201).send(clothing);
   })
-  .catch(next);
+  .catch(() => next(new HttpError(400)));
 });
 
-router.put('/:id', (req, res, next) => {      // update one clothing
-  Clothing.update(req.clothing)
+router.put('/:id', isAdmin, (req, res, next) => {      // update one clothing
+  req.clothing.update(req.body)
   .then(() => res.status(201).send(req.clothing))
   .catch(next);
 });
 
-router.delete('/:id', (req, res, next) => {   // delete one clothing
+router.delete('/:id', isAdmin, (req, res, next) => {   // delete one clothing
   req.clothing.destroy()
   .then(() => res.status(204).send('deleted successfully'))
   .catch(next);

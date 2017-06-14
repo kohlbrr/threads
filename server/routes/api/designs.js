@@ -1,66 +1,66 @@
 const router = require('express').Router();
-
-const { Design, Product } = require('../../db/models');
+const { isAdmin } = require('../../middleware');
+const { Design, Product, Review, User } = require('../../db/models');
+const HttpError = require('../../http-error');
 
 router.param('id', (req, res, next, id) => {   // dries-up code
-  Design.findOne({
-    where: { id: id },
-    include: [{
-      model: Product,
-      where: { designId: id },
-    }],
+  Design.findById(id, {
+    include: [Product,
+      {
+        model: Review,
+        include: [User],
+      },
+    ],
   })
   .then((design) => {
     if (design) {
       req.design = design;
       next();
     } else {
-      res.sendStatus(404);
+      next(new HttpError(404));
     }
   })
   .catch(() => {
-    const error = new Error();
-    error.status = 404;
-    next(error);
+    next(new HttpError(404));
   });
 });
 
 router.get('/', (req, res, next) => {         // get all designs
   Design.findAll()
   .then((designs) => {
-    console.log('this is running');
     res.json(designs);
   })
   .catch(next);
 });
 
-router.get('/:id', (req, res, next) => {      // get one design
+router.get('/:id', (req, res) => {      // get one design
   res.send(req.design);
-  next();
 });
 
 // post, put, delete:
 
-router.post('/', (req, res, next) => {        // post one design
+router.post('/', (req, res, next) => {
   Design.create(req.body)
   .then((design) => {
-    console.log('created successfully');
     res.status(201).send(design);
   })
-  .catch(next);
+  .catch(() => next(new HttpError(400)));
 });
 
-router.put('/:id', (req, res, next) => {      // update one design
-  Design.update(req.design)
+router.put('/:id', isAdmin, (req, res, next) => {      // update one design
+  req.design
+  .update(req.body)
   .then(() => res.status(201).send(req.design))
-  .catch(next);
+  .catch(() => next(new HttpError(400)));
 });
 
-router.delete('/:id', (req, res, next) => {   // delete one design
+router.delete('/:id', isAdmin, (req, res, next) => {   // delete one design
   req.design.destroy()
   .then(() => res.status(204).send('deleted successfully'))
-  .catch(next);
+  .catch(() => next(new HttpError(400)));
 });
 
+
+router.use('/:id/reviews', require('./reviews'));
 
 module.exports = router;

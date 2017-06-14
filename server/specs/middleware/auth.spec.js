@@ -1,5 +1,5 @@
 const chai = require('chai');
-const { isLoggedIn, isAdmin } = require('../../middleware');
+const { isLoggedIn, isAdmin, isOwnerOfReview } = require('../../middleware');
 const sinonChai = require('sinon-chai');
 const sinon = require('sinon');
 
@@ -43,6 +43,22 @@ describe('Auth Middleware', () => {
       const req = { user: null };
       const next = sinon.spy();
       isAdmin(req, null, next);
+      expect(next).to.have.been.callCount(1);
+      expect(next.args.length).to.equal(1);
+    });
+  });
+  describe('isOwnerOfReview', () => {
+    it('executes next with no arguments if user is owner of review', () => {
+      const req = { review: { userId: 1 }, user: { id: 1 } };
+      const next = sinon.spy();
+      isOwnerOfReview(req, null, next);
+      expect(next).to.have.been.callCount(1);
+      expect(next).to.have.been.calledWithExactly();
+    });
+    it('executes next with an error if it isn\'t the owner of the review', () => {
+      const req = { review: { userId: 3 }, user: { id: 1 } };
+      const next = sinon.spy();
+      isOwnerOfReview(req, null, next);
       expect(next).to.have.been.callCount(1);
       expect(next.args.length).to.equal(1);
     });
