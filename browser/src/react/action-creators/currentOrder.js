@@ -7,10 +7,10 @@ export const setCurrentOrder = order => ({
   order,
 });
 
-export const updateOrder = order => ({
-  type: UPDATE_ORDER,
-  order,
-});
+// export const updateOrder = order => ({
+//   type: UPDATE_ORDER,
+//   order,
+// });
 
 export const fetchOrder = id => dispatch =>
     axios.get(`/api/orders/${id}`)
@@ -24,9 +24,9 @@ export const createOrder = () => dispatch =>
     .then(newOrder => dispatch(setCurrentOrder(newOrder)))
     .catch(console.error);
 
-export const updateOrderById = id => dispatch =>
-    axios.put(`/api/orders/${id}`)
-    .then(res => res.data)
-    .then(order => dispatch(setCurrentOrder(order)))
-    .catch(console.error);
+// export const updateOrderById = id => dispatch =>
+//     axios.put(`/api/orders/${id}`)
+//     .then(res => res.data)
+//     .then(order => dispatch(setCurrentOrder(order)))
+//     .catch(console.error);
 

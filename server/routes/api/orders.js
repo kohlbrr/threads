@@ -8,7 +8,10 @@ module.exports = router;
 // Get al orders
 // ADMIN
 router.get('/', isAdmin, (req, res, next) => {
-  Order.findAll()
+  Order.findAll({
+    include: [{ all: true }],
+    order: 'timestamp DESC',
+  })
   .then(orders => res.json(orders))
   .catch(next);
 });
