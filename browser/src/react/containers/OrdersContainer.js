@@ -29,7 +29,7 @@ class OrdersContainer extends Component {
       <div>
         <h3>Orders</h3>
         <FilterInput handleChange={this.handleChange} inputValue={inputValue} />
-        <Orders orders={filteredOrders} updateStatus={changeStatus} setSelectOrder={this.props.setSelectedOrder} />
+        <Orders orders={filteredOrders} updateStatus={this.props.changeStatus} setSelectOrder={this.props.setSelectedOrder} />
       </div>
     );
   }
