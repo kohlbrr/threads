@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 
 import store from './store';
 import App from './containers/App';
@@ -31,7 +32,25 @@ const loadDesign = (router) => {
 const loadCart = () => {
   store.dispatch(fetchCart());
 };
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 const loadUser = () => {
+  axios.defaults.headers.common['access_token'] = getCookie('access_token');
   store.dispatch(fetchUser()).then(() => loadCart());
 };
 
@@ -54,6 +73,3 @@ export default function Root() {
     </Provider>
   );
 }
-
-            // <Route path="/createproduct" component={CreateProduct} />
-            // <Route path="/reports"> component={ReportsView} />

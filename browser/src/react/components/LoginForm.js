@@ -1,7 +1,13 @@
 import React from 'react';
+import FacebookLogin from 'react-facebook-login';
 
-
-const LoginForm = ({ email, password, error, loading, handleSubmit, handleChange }) =>(
+const LoginForm = ({ email,
+  password,
+  error,
+  loading,
+  handleSubmit,
+  handleChange,
+}) => (
   <div className="container">
     <form style={{ margin: '0 auto', width: 300 }} onSubmit={handleSubmit}>
       <div className="form-group">
@@ -29,8 +35,7 @@ const LoginForm = ({ email, password, error, loading, handleSubmit, handleChange
           className="login btn btn-primary btn-lg"
           type="submit"
         >Login</button>
-        <div className="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-      </div>
+        </div>
       { error && <div> { error.response.data.message } </div> }
       { loading && <p>Loading...</p> }
     </form>
