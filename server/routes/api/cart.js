@@ -90,4 +90,15 @@ router.delete('/:productId', isLoggedIn, (req, res, next) => {
   .catch(next);
 });
 
+
+router.delete('/', isLoggedIn, (req, res, next) => {
+  Cartcontents.destroy({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  .then(res.sendStatus(203).end())
+  .catch(next);
+});
+
 module.exports = router;

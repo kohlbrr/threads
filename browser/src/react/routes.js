@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 
 import store from './store';
 import App from './containers/App';
@@ -9,11 +10,16 @@ import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import CartViewContainer from './containers/CartViewContainer';
+<<<<<<< HEAD
 import OrdersContainer from './containers/OrdersContainer';
 import CheckoutView from './components/CheckoutView';
 import OrderDetails from './components/OrderDetails';
 // import OrdersView from './components/OrdersView';
 // import UsersView from './components/UsersView';
+=======
+import CheckoutContainer from './containers/CheckoutContainer';
+import CreateDesignContainer from './containers/CreateDesignContainer';
+>>>>>>> 2de00f6d2c659619d3e1605c9cda9ea83610d527
 
 
 import { fetchDesigns } from './action-creators/designs';
@@ -36,7 +42,25 @@ const loadDesign = (router) => {
 const loadCart = () => {
   store.dispatch(fetchCart());
 };
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 const loadUser = () => {
+  axios.defaults.headers.common['access_token'] = getCookie('access_token');
   store.dispatch(fetchUser()).then(() => loadCart());
 };
 
@@ -57,7 +81,8 @@ export default function Root() {
           <Route path="login" component={LoginContainer} />
           <Route path="signup" component={SignupContainer} />
           <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
-          <Route path="checkout" component={CheckoutView} />
+          <Route path="checkout" component={CheckoutContainer} />
+          <Route path="/createdesign" component={CreateDesignContainer} />
           <Route path="admin/orders" component={OrdersContainer} onEnter={loadAdmin} />
           <IndexRedirect to="designs" />
         </Route>

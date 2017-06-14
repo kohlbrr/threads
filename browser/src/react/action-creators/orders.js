@@ -39,7 +39,7 @@ export const changeStatus = (orderId, status) => (dispatch) => {
     .then(res => res.data)
     .then(updatedOrder => dispatch(changeOrder(updatedOrder)))
     .catch(console.error);
-}
+};
 
 export const setSelectedOrder = order => dispatch =>
     dispatch(selectOrder(order));

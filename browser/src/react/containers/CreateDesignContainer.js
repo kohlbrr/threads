@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import LoginForm from '../components/LoginForm';
-import { login, setUser } from '../action-creators/users';
+import CreateDesignForm from '../components/CreateDesignForm';
+import { addDesign } from '../action-creators/designs';
 
-
-class LoginContainer extends React.Component {
+class CreateDesignContainer extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
-      email: '',
-      password: '',
-      loading: false,
+      name: '',
+      sex: '',
+      price: '',
+      imageUrl: '',
       error: null,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -26,28 +27,26 @@ class LoginContainer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { name, sex, price, imageUrl } = this.state;
     this.setState({
       loading: true,
     });
-    this.props.login(email, password)
+    this.props.addDesign({ name, sex, price, imageUrl })
     .then(() => {
       this.setState({
         loading: false,
         error: null,
       });
-      browserHistory.push('/');
+      browserHistory.push('/designs');
     }).catch(error => this.setState({
       error,
       loading: false,
     }));
   }
 
-
-
   render() {
     return (
-      <LoginForm
+      <CreateDesignForm
         {...this.state}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
@@ -56,4 +55,5 @@ class LoginContainer extends React.Component {
   }
 }
 
-export default connect(null, { login, setUser })(LoginContainer);
+
+export default connect(null, { addDesign })(CreateDesignContainer);

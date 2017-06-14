@@ -16,6 +16,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
   }).catch(done);
 }));
 
+
 passport.serializeUser((user, done) => done(null, user.id));
 
 
@@ -25,7 +26,7 @@ passport.deserializeUser((id, done) => {
   .catch(done);
 });
 
-router.get('/me', (req, res) => {
+router.get('/me', (req, res, next) => {
   req.user ? res.json(req.user) : next(new HttpError(401));
 });
 
@@ -41,7 +42,7 @@ router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, mes) => {
     if (err && !user) next(new HttpError(401));
     req.login(user, (loginErr) => {
-      if (err) next(new HttpError(401, loginError));
+      if (err) next(new HttpError(401, loginErr));
       user ? res.json(user) : next(new HttpError(401, mes));
     });
   })(req, res, next);
