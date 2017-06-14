@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {      // get one design
 
 // post, put, delete:
 
-router.post('/', isAdmin, (req, res, next) => {
+router.post('/', (req, res, next) => {
   Design.create(req.body)
   .then((design) => {
     res.status(201).send(design);
