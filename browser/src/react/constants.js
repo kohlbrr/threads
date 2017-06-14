@@ -25,6 +25,8 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_CURRENT_ORDER = 'SET_CURRENT_ORDER';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const SET_SELECTED_ORDER = 'SET_SELECTED_ORDER';
+export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
+
 export const ORDER_PLACED = 'ORDER_PLACED';
 
 export const SET_USER = 'SET_USER';

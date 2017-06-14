@@ -9,11 +9,13 @@ const { Order, OrderProducts } = require('../../db/models');
 
 module.exports = router;
 
-// Get al orders
 // USER / ADMIN
 router.get('/', isLoggedIn, (req, res, next) => { // TODO: REFACTOR FOR USER/ADMIN
-  if(req.user.isAdmin) {
-    Order.findAll()
+  if (req.user.isAdmin) {
+    Order.findAll({
+      include: [{ all: true }],
+      order: 'timestamp DESC',
+    })
     .then(orders => res.json(orders))
     .catch(next);
   } else {

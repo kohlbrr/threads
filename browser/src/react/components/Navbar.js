@@ -18,6 +18,7 @@ class Navbar extends React.Component {
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign Up</Link></li>
           <li><Link to="/cart">Cart</Link></li>
+          {console.log(this.props.currentUser)}
         </ul>
       );
     }
