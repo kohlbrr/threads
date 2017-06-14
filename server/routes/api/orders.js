@@ -67,7 +67,11 @@ router.put('/:id', isAdmin, (req, res, next) => {
   .then(([, order]) => {
     res.status(201).send(order);
   })
-  .catch(next);
+  .catch(errContent => {
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Return a single order
