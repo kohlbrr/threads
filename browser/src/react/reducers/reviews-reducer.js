@@ -1,24 +1,10 @@
-import { ADD_REVIEW, RECEIVE_REVIEWS } from '../constants';
+import { ADD_REVIEW } from '../constants';
 
-const initialReviewsState = {
-  list: [],
-};
-
-export default function (state = initialReviewsState, action) {
-  const newState = Object.assign({}, state);
+export default (state = {}, action) => {
   switch (action.type) {
-
-    case RECEIVE_REVIEWS:
-      newState.list = action.reviews;
-      break;
-
     case ADD_REVIEW:
-      newState.list.push(action.review);
-      break;
-
+      return action.review;
     default:
       return state;
-
   }
-  return newState;
-}
+};

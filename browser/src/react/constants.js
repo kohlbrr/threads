@@ -9,6 +9,7 @@ export const RECEIVE_DESIGN = 'RECEIVE_DESIGN';
 export const CHANGE_PRODUCT = 'CHANGE_PRODUCT';
 
 export const SET_CURRENT_DESIGN = 'SET_CURRENT_DESIGN';
+export const SET_DESIGN = 'SET_DESIGN';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const RECEIVE_USER = 'RECEIVE_USER';

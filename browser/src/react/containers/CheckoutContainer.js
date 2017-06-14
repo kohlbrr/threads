@@ -18,9 +18,10 @@ class CheckoutContainer extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validatePromoCode = this.validatePromoCode.bind(this);
   }
-  handleEditCart() {
-    browserHistory.push('/cart');
-  }
+
+  // handleEditCart() {
+  //   browserHistory.push('/cart');
+  // }
 
   handleInputChange(e) {
     this.setState({

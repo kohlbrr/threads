@@ -1,6 +1,7 @@
 import { RECEIVE_REVIEWS, ADD_REVIEW } from '../constants';
 import axios from 'axios';
-import { dispatch } from  '../store';
+import { ADD_REVIEW } from '../constants'
+import store from '../store';
 
 export const receiveReviews = reviews => ({
   type: RECEIVE_REVIEWS,
@@ -22,5 +23,14 @@ export const newReview = review => (
   axios.post('/api/reviews', review)
   .then(res => res.data)
   .then(addedReview => dispatch(addReview(addedReview)))
-  .catch(console.error));
+  
+export const addReviewAction = review => ({
+  type: ADD_REVIEW,
+  review,
+});
 
+export const addReview = (stars, content, designId) => (
+  axios.post('/api/reviews', { stars, content, designId })
+  .then(res => res.data)
+  .then(addedReview => store.dispatch(addReviewAction(addedReview)))
+  .catch(console.error));
