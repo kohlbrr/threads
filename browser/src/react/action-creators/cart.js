@@ -46,7 +46,7 @@ export const removeProductFromCart = product => ({
 
 export const destroyProductsFromCart = () => ({
   type: DESTROY_CART,
-})
+});
 
 function fetchLocalCart() {
   const locCart = JSON.parse(localStorage.getItem('cart'));

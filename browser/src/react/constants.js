@@ -28,3 +28,5 @@ export const SET_SELECTED_ORDER = 'SET_SELECTED_ORDER';
 export const ORDER_PLACED = 'ORDER_PLACED';
 
 export const SET_USER = 'SET_USER';
+
+export const ADD_REVIEW = 'ADD_REVIEW';
