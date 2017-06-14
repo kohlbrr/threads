@@ -23,7 +23,7 @@ const CreateDesignForm = ({
         </div>
         <div className="form-group">
           <label htmlFor="sex"><small>Gender</small></label>
-          <select onChange={e => handleChange(e.target)} name="sex">
+          <select onChange={e => handleChange(e.target)} name="sex" required>
             <option value={'M'}>M</option>
             <option value={'F'}>F</option>
           </select>

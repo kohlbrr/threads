@@ -5,7 +5,7 @@ import ReviewItem from './ReviewItem';
 const ReviewList = ({ reviews }) => (
   <div>
     {reviews && reviews.map(review => (
-      <ReviewItem review={review} />
+      <ReviewItem key={review.id} review={review} />
     ))}
   </div>
 );

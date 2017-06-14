@@ -7,10 +7,9 @@ import { addDesign } from '../action-creators/designs';
 class CreateDesignContainer extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       name: '',
-      sex: '',
+      sex: 'M',
       price: '',
       imageUrl: '',
       error: null,
@@ -31,7 +30,7 @@ class CreateDesignContainer extends React.Component {
     this.setState({
       loading: true,
     });
-    this.props.addDesign({ name, sex, price, imageUrl })
+    this.props.addDesign(name, sex, price, imageUrl)
     .then(() => {
       this.setState({
         loading: false,

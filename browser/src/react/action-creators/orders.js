@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER } from '../constants';
-import store from '../store';
+import { RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER, UPDATE_ORDER  } from '../constants';
 
 export const receiveOrders = orders => ({
   type: RECEIVE_ORDERS,
@@ -17,6 +16,11 @@ export const selectOrder = order => ({
   order,
 });
 
+export const changeOrder = order => ({
+  type: UPDATE_ORDER,
+  order,
+});
+
 export const fetchOrders = () => dispatch =>
     axios.get('/api/orders')
     .then(res => res.data)
@@ -28,3 +32,14 @@ export const fetchOrder = orderId => dispatch =>
     .then(res => res.data)
     .then(retOrder => dispatch(receiveOrder(retOrder)))
     .catch(console.error);
+
+export const changeStatus = (orderId, status) => (dispatch) => {
+    console.log('changeStatus called', orderId, status);
+    axios.put(`/api/orders/${orderId}`, { status })
+    .then(res => res.data)
+    .then(updatedOrder => dispatch(changeOrder(updatedOrder)))
+    .catch(console.error);
+};
+
+export const setSelectedOrder = order => dispatch =>
+    dispatch(selectOrder(order));
