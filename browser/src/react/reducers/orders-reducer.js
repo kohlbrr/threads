@@ -1,5 +1,5 @@
 import {
-  RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER, UPDATE_ORDER,
+  RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER, UPDATE_ORDERS,
 } from '../constants';
 
 const initialOrdersState = {
@@ -23,7 +23,7 @@ export default function (state = initialOrdersState, action) {
       newState.selected = action.order;
       break;
 
-    case UPDATE_ORDER:
+    case UPDATE_ORDERS:
       newState.list.map((order) => { if (order.id === action.order.id) order.status = action.order.status });
       break;
 

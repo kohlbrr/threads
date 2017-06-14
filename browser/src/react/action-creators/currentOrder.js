@@ -18,7 +18,6 @@ export const orderPlaced = () => ({
 export const placeOrder = order => (dispatch) => {
   return axios.post('/api/orders', order)
   .then((res) => {
-    console.log(res);
     dispatch(orderPlaced());
     dispatch(destroyCart());
   });

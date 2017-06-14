@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER, UPDATE_ORDER  } from '../constants';
+import { RECEIVE_ORDERS, RECEIVE_ORDER, SET_SELECTED_ORDER, UPDATE_ORDERS  } from '../constants';
 
 export const receiveOrders = orders => ({
   type: RECEIVE_ORDERS,
@@ -17,7 +17,7 @@ export const selectOrder = order => ({
 });
 
 export const changeOrder = order => ({
-  type: UPDATE_ORDER,
+  type: UPDATE_ORDERS,
   order,
 });
 
