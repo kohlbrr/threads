@@ -10,16 +10,11 @@ import DesignViewContainer from './containers/DesignViewContainer';
 import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import CartViewContainer from './containers/CartViewContainer';
-<<<<<<< HEAD
 import OrdersContainer from './containers/OrdersContainer';
-import CheckoutView from './components/CheckoutView';
-import OrderDetails from './components/OrderDetails';
 // import OrdersView from './components/OrdersView';
 // import UsersView from './components/UsersView';
-=======
 import CheckoutContainer from './containers/CheckoutContainer';
 import CreateDesignContainer from './containers/CreateDesignContainer';
->>>>>>> 2de00f6d2c659619d3e1605c9cda9ea83610d527
 
 
 import { fetchDesigns } from './action-creators/designs';
