@@ -7,10 +7,8 @@ import userReducer from './user-reducer';
 import ordersReducer from './orders-reducer';
 import currentOrderReducer from './currentOrder-reducer';
 import cartReducer from './cart-reducer';
-import reviewsReducer from './reviews-reducer';
 
 export default combineReducers({
-  reviews: reviewsReducer,
   categories: categoriesReducer,
   designs: designsReducer,
   currentProduct: productReducer,

@@ -41,7 +41,7 @@ export default function Orders(props) {
                       { loadStatuses(orderStatuses) }
                     </select>
                   </td>
-                  { props.currentUser ? '' :
+                  { !props.currentUser ? '' :
                   <td>
                     <Link id={`user${order.user.id}`} to={`/users/${order.user.id}`} >
                       {order.user.email}

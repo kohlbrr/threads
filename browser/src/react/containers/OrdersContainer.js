@@ -23,7 +23,8 @@ class OrdersContainer extends Component {
 
   render() {
     const inputValue = this.state.inputValue;
-    const filteredOrders = this.props.orders.list.filter(order => order.user.email.match(inputValue));
+    console.log(this.props.orders.list)
+    const filteredOrders = this.props.orders.list.filter(order => order.user && order.user.email.match(inputValue));
     return (
       <div>
         <h3>Orders</h3>

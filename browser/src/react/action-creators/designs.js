@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RECEIVE_DESIGNS, RECEIVE_DESIGN, SET_CURRENT_DESIGN } from '../constants';
+import { RECEIVE_DESIGNS, RECEIVE_DESIGN, SET_CURRENT_DESIGN, ADD_REVIEW } from '../constants';
 
 
 export const receiveDesigns = designs => ({

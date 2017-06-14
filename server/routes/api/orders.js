@@ -20,7 +20,9 @@ router.get('/', isLoggedIn, (req, res, next) => { // TODO: REFACTOR FOR USER/ADM
     .catch(next);
   } else {
     Order.findAll({
-      where: { userId: req.user.id }
+      where: { userId: req.user.id },
+      include: [{ all: true }],
+      order: 'timestamp DESC',
     })
     .then(orders => res.json(orders))
     .catch(next);

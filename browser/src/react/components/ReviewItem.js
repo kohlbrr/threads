@@ -3,7 +3,7 @@ import React from 'react';
 function createStars(num) {
   let stars = [];
   while (num) {
-    stars.push(<span style={{ fontSize: 20, color: '#e8d90b' }}>&#9733;</span>)
+    stars.push(<span key={num} style={{ fontSize: 20, color: '#e8d90b' }}>&#9733;</span>)
     num -= 1;
   }
   return stars;

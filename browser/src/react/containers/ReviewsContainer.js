@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react'
 import Reviews from '../components/Reviews';
-import { addReview } from '../action-creators/reviews';
-import { browserHistory } from 'react-router';
-import store from '../store'
+import { addReview } from '../action-creators/currentDesign';
 
 class ReviewsContainer extends React.Component {
   constructor(props) {
@@ -14,7 +12,6 @@ class ReviewsContainer extends React.Component {
       loading: false,
       error: null,
     };
-    console.log(props, 'HIHIHIHIHIHIHHIHIHI')
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -32,13 +29,12 @@ class ReviewsContainer extends React.Component {
     this.setState({
       loading: true,
     });
-    this.props.addReview(stars, content)
+    this.props.addReview(content, stars, this.props.id)
     .then(() => {
       this.setState({
         loading: false,
         error: null,
       });
-      browserHistory.push('/');
     }).catch(error => this.setState({
       error,
       loading: false,
@@ -51,6 +47,7 @@ class ReviewsContainer extends React.Component {
         {...this.state}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        {...this.props}
       />
     );
   }
@@ -58,6 +55,7 @@ class ReviewsContainer extends React.Component {
 
 const mapStateToProps = ({ currentDesign }) => ({
   reviews: currentDesign.reviews,
+  id: currentDesign.id,
 });
 
 

@@ -38,14 +38,19 @@ const loadCart = () => {
   store.dispatch(fetchCart());
 };
 
-const loadUser = () => {
-  store.dispatch(fetchUser()).then(() => loadCart());
-};
-
-const loadAdmin = () => {
+const loadOrders = () => {
   store.dispatch(fetchOrders());
   // store.dispatch(fetchUsers());
 };
+
+const loadUser = () => {
+  store.dispatch(fetchUser()).then(() => {
+    loadCart()
+    loadOrders()
+  });
+};
+
+
 
 
 export default function Root() {
@@ -55,13 +60,12 @@ export default function Root() {
         <Route path="/" component={App} onEnter={loadUser}>
           <Route path="designs" component={CatalogueContainer} onEnter={loadDesigns} />
           <Route path="designs/:id" component={DesignViewContainer} onEnter={loadDesign} />
-          <Route path="orders" component={OrdersContainer} onEnter={loadAdmin} />
+          <Route path="orders" component={OrdersContainer} onEnter={loadOrders} />
           <Route path="login" component={LoginContainer} />
           <Route path="signup" component={SignupContainer} />
           <Route path="cart" component={CartViewContainer} onEnter={loadCart} />
           <Route path="checkout" component={CheckoutContainer} />
           <Route path="/createdesign" component={CreateDesignContainer} />
-          <Route path="admin/orders" component={OrdersContainer} onEnter={loadAdmin} />
           <IndexRedirect to="designs" />
         </Route>
       </Router>
