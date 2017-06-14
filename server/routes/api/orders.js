@@ -9,16 +9,20 @@ const { Order, OrderProducts } = require('../../db/models');
 
 module.exports = router;
 
-// Get al orders
 // USER / ADMIN
 router.get('/', isLoggedIn, (req, res, next) => { // TODO: REFACTOR FOR USER/ADMIN
-  if(req.user.isAdmin) {
-    Order.findAll()
+  if (req.user.isAdmin) {
+    Order.findAll({
+      include: [{ all: true }],
+      order: 'timestamp DESC',
+    })
     .then(orders => res.json(orders))
     .catch(next);
   } else {
     Order.findAll({
-      where: { userId: req.user.id }
+      where: { userId: req.user.id },
+      include: [{ all: true }],
+      order: 'timestamp DESC',
     })
     .then(orders => res.json(orders))
     .catch(next);
@@ -63,7 +67,11 @@ router.put('/:id', isAdmin, (req, res, next) => {
   .then(([, order]) => {
     res.status(201).send(order);
   })
-  .catch(next);
+  .catch(errContent => {
+    const err = new Error(errContent);
+    err.status = 400;
+    next(err);
+  });
 });
 
 // Return a single order

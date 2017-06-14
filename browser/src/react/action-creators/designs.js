@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RECEIVE_DESIGNS, RECEIVE_DESIGN } from '../constants';
+import { RECEIVE_DESIGNS, RECEIVE_DESIGN, SET_CURRENT_DESIGN, ADD_REVIEW } from '../constants';
 
 
 export const receiveDesigns = designs => ({
@@ -12,6 +12,11 @@ export const receiveDesign = design => ({
   design,
 });
 
+export const setDesign = design => ({
+  type: SET_CURRENT_DESIGN,
+  design,
+});
+
 export const fetchDesigns = () => dispatch =>
   axios.get('/api/designs')
   .then(res => res.data)
@@ -19,8 +24,11 @@ export const fetchDesigns = () => dispatch =>
   .catch(console.error);
 
 
-export const addDesign = design => dispatch =>
-  axios.post('/api/designs', design)
+export const addDesign = (name, sex, price, imageUrl) => dispatch =>
+  axios.post('/api/designs', { name, sex, price, imageUrl })
   .then(res => res.data)
-  .then(addedDesign => dispatch(receiveDesign(addedDesign)))
+  .then((addedDesign) => {
+    dispatch(setDesign(addedDesign));
+  })
   .catch(console.error);
+

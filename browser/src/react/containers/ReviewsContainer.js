@@ -1,22 +1,21 @@
-import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import LoginForm from '../components/LoginForm';
-import { login, setUser } from '../action-creators/users';
+import React from 'react'
+import Reviews from '../components/Reviews';
+import { addReview } from '../action-creators/currentDesign';
 
-
-class LoginContainer extends React.Component {
+class ReviewsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      stars: 5,
+      content: '',
       loading: false,
       error: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
 
   handleChange({ name, value }) {
     this.setState({
@@ -26,17 +25,16 @@ class LoginContainer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { stars, content } = this.state;
     this.setState({
       loading: true,
     });
-    this.props.login(email, password)
+    this.props.addReview(content, stars, this.props.id)
     .then(() => {
       this.setState({
         loading: false,
         error: null,
       });
-      browserHistory.push('/');
     }).catch(error => this.setState({
       error,
       loading: false,
@@ -45,13 +43,20 @@ class LoginContainer extends React.Component {
 
   render() {
     return (
-      <LoginForm
+      <Reviews
         {...this.state}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        {...this.props}
       />
     );
   }
 }
 
-export default connect(null, { login, setUser })(LoginContainer);
+const mapStateToProps = ({ currentDesign }) => ({
+  reviews: currentDesign.reviews,
+  id: currentDesign.id,
+});
+
+
+export default connect(mapStateToProps, { addReview })(ReviewsContainer);

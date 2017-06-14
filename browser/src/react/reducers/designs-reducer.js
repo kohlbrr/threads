@@ -8,7 +8,6 @@ export default function (state = [], action) {
 
     case RECEIVE_DESIGN:
       return [...state, action.design];
-
     default:
       return state;
   }

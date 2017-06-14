@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { SET_CURRENT_DESIGN } from '../constants';
-
+import { SET_CURRENT_DESIGN, ADD_REVIEW } from '../constants';
+import store from '../store'
 
 export const setCurrentDesign = design => ({
   type: SET_CURRENT_DESIGN,
@@ -12,3 +12,17 @@ export const fetchDesign = id => dispatch =>
   .then(res => res.data)
   .then(design => dispatch(setCurrentDesign(design)))
   .catch(console.error);
+
+
+export const addReviewToDesign = (review) => ({
+  type: ADD_REVIEW,
+  review,
+});
+
+export const addReview = (content, stars, id) => dispatch =>
+  axios.post(`/api/designs/${id}/reviews`, { content, stars })
+  .then(res => res.data)
+  .then((review) => {
+    review.user = store.getState().currentUser
+    dispatch(addReviewToDesign(review));
+  });

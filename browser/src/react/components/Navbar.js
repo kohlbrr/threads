@@ -18,6 +18,7 @@ class Navbar extends React.Component {
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign Up</Link></li>
           <li><Link to="/cart">Cart</Link></li>
+          {console.log(this.props.currentUser)}
         </ul>
       );
     }
@@ -34,9 +35,9 @@ class Navbar extends React.Component {
               <li className="dropdown">
                 <Link to="/" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span className="caret" /></Link>
                 <ul className="dropdown-menu">
-                  <li><Link to="/admin/createdesign">Create Design</Link></li>
-                  <li><Link to="/admin/createproduct">Create Product</Link></li>
-                  <li><Link to="/admin/reports">Reports</Link></li>
+                  <li><Link to="/createdesign">Create Design</Link></li>
+                  <li><Link to="/createproduct">Create Product</Link></li>
+                  <li><Link to="/reports">Reports</Link></li>
                 </ul>
               </li> :
               null
