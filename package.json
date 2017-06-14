@@ -54,11 +54,8 @@
     "react-facebook-login": "^3.6.1",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.2",
-<<<<<<< HEAD
     "react-time": "^4.3.0",
-=======
     "react-stripe-checkout": "^2.4.0",
->>>>>>> 2de00f6d2c659619d3e1605c9cda9ea83610d527
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
