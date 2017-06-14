@@ -9507,7 +9507,9 @@ var login = exports.login = function login(email, password) {
       return res.data;
     }).then(function (user) {
       dispatch(setUser(user));
-      JSON.parse(localStorage.getItem('cart')).forEach(function (item) {
+      _reactRouter.browserHistory.push('/');
+      var localCart = JSON.parse(localStorage.getItem('cart'));
+      localCart.forEach(function (item) {
         return dispatch((0, _cart.addToCart)({ id: item.productId }));
       });
     });
@@ -33789,7 +33791,7 @@ var LoginForm = function LoginForm(_ref) {
           'Login'
         )
       ),
-      error && _react2.default.createElement(
+      error && error.response && error.response.data && _react2.default.createElement(
         'div',
         null,
         ' ',
