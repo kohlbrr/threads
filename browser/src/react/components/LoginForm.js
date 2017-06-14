@@ -36,7 +36,7 @@ const LoginForm = ({ email,
           type="submit"
         >Login</button>
         </div>
-      { error && <div> { error.response.data.message } </div> }
+      { error && error.response && error.response.data && <div> { error.response.data.message } </div> }
       { loading && <p>Loading...</p> }
     </form>
   </div>

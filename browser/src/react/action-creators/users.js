@@ -19,7 +19,9 @@ export const login = (email, password) => dispatch =>
   .then(res => res.data)
   .then((user) => {
     dispatch(setUser(user));
-    JSON.parse(localStorage.getItem('cart')).forEach(item => dispatch(addToCart({ id: item.productId })));
+    browserHistory.push('/')
+    const localCart = JSON.parse(localStorage.getItem('cart'))
+    localCart.forEach(item => dispatch(addToCart({ id: item.productId })));
   });
 
 
