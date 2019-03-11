@@ -54,3 +54,6 @@ db.sync()
 
 
 module.exports = app;
+
+
+console.log('no hice mas nada que esto')
